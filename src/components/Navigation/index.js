@@ -1,10 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import styled from 'styled-components';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+
+
+const Nav = styled.nav`
+  background: #C4C4C4;
+  height: 50px;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: space-around;
+  list-styel-type: none;
+  overflow:hidden;
+`;
+
+const NavItem = styled.li`
+list-style: none;
+`
+
+const NavLink = styled(Link)`
+  color: #000;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 10px;
+  height: 100%;
+  
+`;
 
 
 
@@ -24,38 +50,35 @@ const Navigation = () => (
 
 
 const NavigationAuth = ({ authUser }) => (
-    <ul>
-        <li>
-            <Link to={ROUTES.LANDING}>Landing</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.HOME}>Home</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.ACCOUNT}>Account</Link>
-        </li>
+    <Nav>
+        <NavItem>
+            <NavLink to={ROUTES.LANDING}>Landing</NavLink>
+        </NavItem>
+        <NavItem>
+            <NavLink to={ROUTES.HOME}>Home</NavLink>
+        </NavItem>
+        <NavItem>
+            <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
+        </NavItem>
 
         {!!authUser.roles[ROLES.ADMIN] && (
-            <li>
-                <Link to={ROUTES.ADMIN}>Admin</Link>
-            </li>
+            <NavItem>
+                <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
+            </NavItem>
         )}
         
-        <li>
+        <NavItem>
             <SignOutButton />
-        </li>
-    </ul>
+        </NavItem>
+    </Nav>
 );
 
 const NavigationNonAuth = () => (
-    <ul>
-        <li>
-            <Link to={ROUTES.LANDING}>Landing</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-        </li>
-    </ul>
+    <Nav>
+        <NavItem>
+            <NavLink to={ROUTES.LANDING}>Landing</NavLink>
+        </NavItem>
+    </Nav>
 );
 
 export default Navigation;
