@@ -23,6 +23,7 @@ const withAuthorization = condition => Component => {
             return () => {
                 listener()
             };
+// eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
         return (
             condition(authUser) ? <Component {...props} /> : null
