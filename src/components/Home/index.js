@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { AuthUserContext, withAuthorization } from '../Session';
-import { withFirebase } from '../Firebase';
+import {  withAuthorization } from '../Session';
+// import { withFirebase } from '../Firebase';
 
 import HomeSearch from '../FetchSearch';
+
+
 
 const HomePage = () => (
     <div>

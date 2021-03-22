@@ -1,131 +1,232 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
-class HomeSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: null,
-            keywordInput: "",
-            fromDateInput: "",
-            toDateInput: "",
-            showResults: false,
+import { AuthUserContext } from '../Session';
+import { withFirebase } from '../Firebase';
 
-        };
+import { Doughnut, Bar, Line } from 'react-chartjs-2';
 
-        this.handleClick = this.handleClick.bind(this);
-        this.handleKeywordChange = this.handleKeywordChange.bind(this);
-        this.handleFromDateChange = this.handleFromDateChange.bind(this);
-        this.handleToDateChange = this.handleToDateChange.bind(this);
+const HomeSearch = ({ firebase }) => {
+    const [W9Apple, setW9Apple] = useState(null)
+    const [W9Tesla, setW9Tesla] = useState(null)
+    const [W8Apple, setW8Apple] = useState(null)
+    const [W8Tesla, setW8Tesla] = useState(null)
+    const [W7Apple, setW7Apple] = useState(null)
+    const [W7Tesla, setW7Tesla] = useState(null)
+
+    let { settings, uid, username} = useContext(AuthUserContext);
+
+    const addSearchWord = (name) => {
+        firebase.user(uid).child('settings').child('searchWords')
+            .update({ [name]: true })
     }
 
-    handleKeywordChange(event) {
-        this.setState({ keywordInput: event.target.value})
-        console.log(this.state.keywordInput)
-        this.setState({ showResults: false })
-        this.setState({ data: null })
+    const removeSearchWord = (name) => {
+        firebase.user(uid).child('settings').child('searchWords')
+            .update({ [name]: null })
     }
 
-    handleFromDateChange(event) {
-        this.setState({ fromDateInput: event.target.value})
-        console.log(event.target.value)
+    const setSearchWords = (nameArr) => { // ['Tesla' , "Apple", "Saab"]
+        firebase.user(uid).child('settings').child('searchWords')
+            .set(Object.assign(...nameArr.map(item => ({ [item]: true }))));
     }
 
-    handleToDateChange(event) {
-        this.setState({ toDateInput: event.target.value})
-        console.log(event.target.value)
+    const userSearchWords = () => {
+        firebase.user(uid).child('settings').child('searchWords')
+            .once('value')
+            .then(snapshot => {
+                const searchWordsObject = snapshot.val();
+                console.log(searchWordsObject);
+
+                let searchWordArray = Object.keys(searchWordsObject)
+                console.log(searchWordArray)
+                console.log(username);
+
+            });
+
+        // Object.keys({ 'Tesla': true, 'Volvo': true }) --> ['Tesla', 'Volvo']
     }
-    
+    // addSearchWord('Saab')
+    // removeSearchWord('Tesla')
+    userSearchWords();
+    setSearchWords(['Tesla' , "Apple", "Saab"])
+    // console.log(searchWord1)
+    useEffect(() => {
+        
+        
 
-    handleClick() {
-
-        let fromDate = ""
-        let toDate = ""
-
-        if(this.state.keywordInput === "") {
-            return
-        }
-
-        if(this.state.fromDateInput === "") {
-            fromDate = ""
-        } else {
-            fromDate = "&from=" + this.state.fromDateInput + "T00:00:01Z"
-        }
-
-        if(this.state.toDateInput === "") {
-            toDate = ""
-        } else {
-            toDate = "&to=" + this.state.toDateInput + "T00:00:01Z"
-        }
-
-
-        const url = "https://gnews.io/api/v4/search?"
-        const keyword = 'q=' + this.state.keywordInput
-        const key = '&token=8bd8954322ec49530ab22e22c8a3b84f'
-        const fullUrl = url + keyword + fromDate + toDate + key;
-
-        fetch(fullUrl)
+        // console.log(user)
+        fetch("appleData/03-01To03-08.json")
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                this.setState({ data: data })
-                console.log(data);
-                console.log(fullUrl)
+                setW9Apple(data)
             })
-        this.setState({ showResults: true })
+
+        fetch("teslaData/03-01To03-08.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setW9Tesla(data)
+            })
+
+
+        fetch("appleData/02-22To03-01.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setW8Apple(data)
+            })
+
+        fetch("teslaData/02-22To03-01.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setW8Tesla(data)
+            })
+
+
+        fetch("appleData/02-15To02-22.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setW7Apple(data)
+            })
+
+        fetch("teslaData/02-15To02-22.json")
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setW7Tesla(data)
+
+            })
+    }, [])
+
+    const Week9 = W9Apple ? W9Apple.date : "Loading";
+    const resultAppleW9 = W9Apple ? W9Apple.totalArticles : "Loading";
+    const resultTeslaW9 = W9Tesla ? W9Tesla.totalArticles : "Loading";
+
+    const Week8 = W8Apple ? W8Apple.date : "Loading";
+    const resultAppleW8 = W8Apple ? W8Apple.totalArticles : "Loading";
+    const resultTeslaW8 = W8Tesla ? W8Tesla.totalArticles : "Loading";
+
+    const Week7 = W7Apple ? W7Apple.date : "Loading";
+    const resultAppleW7 = W7Apple ? W7Apple.totalArticles : "Loading";
+    const resultTeslaW7 = W7Tesla ? W7Tesla.totalArticles : "Loading";
+
+    let titels = {
+        Apple: "Apple",
+        Tesla: "Tesla"
     }
 
-    render() {
 
-        let fromDate = "";
-        let toDate = "";
+    let Week7Props = {
+        Week7: Week7,
 
-        if (this.state.fromDateInput === "") {
-            fromDate = "";
-        } else {
-            fromDate = "after " + this.state.fromDateInput;
-        }
+        resultAppleW7: resultAppleW7,
 
-        if (this.state.toDateInput === "") {
-            toDate = "";
-        } else {
-            toDate = "before " + this.state.toDateInput;
-        }
+        resultTeslaW7: resultTeslaW7
 
-        const keyword = this.state.keywordInput
-        const totalResult = this.state.data ? this.state.data.totalArticles : "Loading"
-
-        return(
-            <div>
-                <h3>Search for any keyword and get a total result of articles!</h3>
-                
-                <input type="text" placeholder="Keyword" onChange={this.handleKeywordChange}></input>
-
-                <br/>
-                <label htmlFor="fromDate">Start date</label>
-                <br />
-                <input type="date" name="fromDate" placeholder="From" onChange={this.handleFromDateChange}></input>
-               
-                <br/>
-                <label htmlFor="toDate">End date</label>
-                <br />
-                <input type="date" name="toDate" placeholder="To" onChange={this.handleToDateChange}></input>
-
-
-                <button onClick={this.handleClick}>Search</button>
-
-                {this.state.showResults && 
-                    <p>You have searched for {keyword}.
-                    <br/>
-                    Total results: {totalResult} 
-                    <br/>
-                    {fromDate} {toDate}
-                    </p>
-                }  
-                
-            </div>
-        )
     }
+
+    let Week8Props = {
+        Week8: Week8,
+
+        resultAppleW8: resultAppleW8,
+
+        resultTeslaW8: resultTeslaW8
+
+    }
+
+    let Week9Props = {
+        Week9: Week9,
+
+        resultAppleW9: resultAppleW9,
+
+        resultTeslaW9: resultTeslaW9
+
+    }
+
+    let props = {
+        titels,
+        Week7Props,
+        Week8Props,
+        Week9Props
+    }
+
+
+
+    return (
+        <div>
+            <SearchGraph data={props} />
+        </div>
+    )
+
+
 }
 
-export default HomeSearch;
+
+const SearchGraph = (props) => {
+
+    const data = {
+        //Labels indecate the different values below each "section" of bars
+        labels: [
+            props.data.Week7Props.Week7,
+            props.data.Week8Props.Week8,
+            props.data.Week9Props.Week9,
+        ],
+        datasets: [
+            {   //This label indecate what "dataset" or what the bars are refering to
+                // In this example, all Apple data goes in this data set
+                label: props.data.titels.Apple,
+                data: [
+                    props.data.Week7Props.resultAppleW7,
+                    props.data.Week8Props.resultAppleW8,
+                    props.data.Week9Props.resultAppleW9
+                ],
+                fill: false,
+                borderColor: 'red',
+                //Sets the color of each Apple bar
+                backgroundColor: 'red',
+                hoverBackgroundColor: 'darkred'
+
+            },
+
+            //When using several datasets to group bars, the syntax changes a little so that 
+            // all information about each data set are grouped togheter
+
+            {   //This label indecate what "dataset" or what the bars are refering to
+                // In this example, all Tesla data goes in this data set
+                label: props.data.titels.Tesla,
+                data: [
+                    props.data.Week7Props.resultTeslaW7,
+                    props.data.Week8Props.resultTeslaW8,
+                    props.data.Week9Props.resultTeslaW9
+                ],
+                fill: false,
+                borderColor: 'blue',
+                //Sets the color of each Tesla bar
+                backgroundColor: 'blue',
+                hoverBackgroundColor: 'darkblue'
+            }
+        ]
+    };
+
+    return (
+        <div>
+            <h3>A comparison between {props.data.titels.Apple} and {props.data.titels.Tesla} between week 7, 8 and 9.</h3>
+            <Bar data={data} />
+        </div>
+    );
+};
+
+
+
+
+
+export default withFirebase(HomeSearch);
