@@ -11,9 +11,13 @@ import { withAuthorization } from '../Session';
 
 const SearchWordForm = ({firebase}) => {
     const [userWordsArr, setUserWordsArr] = useState([])
+    const [inputValue, setInputValue] = useState("")
+
     let { settings, uid, username} = useContext(AuthUserContext);
+
     const userSearchWords = () => {
-        firebase.user(uid).child('settings').child('searchWords')
+
+            firebase.user(uid).child('settings').child('searchWords')
             .once('value')
             .then(snapshot => {
                 const searchWordsObject = snapshot.val();
@@ -25,11 +29,27 @@ const SearchWordForm = ({firebase}) => {
                 
                 
             });
-            
+       
     }
+    
     const removeSearchWord = (name) => {
         firebase.user(uid).child('settings').child('searchWords')
             .update({ [name]: null })
+    }
+
+    const addSearchWord = (name) => {
+        firebase.user(uid).child('settings').child('searchWords')
+            .update({ [name]: true })
+    }
+
+    const inputChange = (evt) => {
+        setInputValue(evt.target.value)
+        console.log(inputValue)
+    } 
+
+    const buttonClick = () => {
+        addSearchWord(inputValue)
+
     }
 
     const handleClick = (item) =>{
@@ -38,13 +58,25 @@ const SearchWordForm = ({firebase}) => {
         let filteredUserWordsArr = userWordsArr.filter (item=>item !== value)
         setUserWordsArr(filteredUserWordsArr)
     }
+
     console.log(userWordsArr);
+
     useEffect (() => {
         userSearchWords();
     }, []);
-    // Object.keys({ 'Tesla': true, 'Volvo': true }) --> 
+
+    
     return (
-        <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
+        <div>
+            <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
+            
+                <h2>
+                    add search words here
+                </h2>
+                <AddWordForm buttonClick={buttonClick} inputChange={inputChange}/>
+               
+        </div>
+    
 
     );
 }
@@ -63,6 +95,16 @@ const SearchWordItem = ({item, handleClick}) => (
         <button onClick={(event) => handleClick(item)}>Remove</button>
     </li>
 );
+
+const AddWordForm = ({inputChange, buttonClick}) => (
+    <form>
+
+
+        <input type="text" placeholder="add keyword" onChange={inputChange}></input>
+            <button onClick={buttonClick}> Add </button>
+    </form> 
+)
+
 
 
 export default (withFirebase(SearchWordForm));
