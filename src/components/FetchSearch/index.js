@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { AuthUserContext } from '../Session';
+// import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 
-import { Doughnut, Bar, Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 const HomeSearch = ({ firebase }) => {
     const [W9Apple, setW9Apple] = useState(null)
@@ -13,42 +13,43 @@ const HomeSearch = ({ firebase }) => {
     const [W7Apple, setW7Apple] = useState(null)
     const [W7Tesla, setW7Tesla] = useState(null)
 
-    let { settings, uid, username} = useContext(AuthUserContext);
+    // let { uid, username} = useContext(AuthUserContext);
 
-    const addSearchWord = (name) => {
-        firebase.user(uid).child('settings').child('searchWords')
-            .update({ [name]: true })
-    }
+    // const addSearchWord = (name) => {
+    //     firebase.user(uid).child('settings').child('searchWords')
+    //         .update({ [name]: true })
+    // }
 
-    const removeSearchWord = (name) => {
-        firebase.user(uid).child('settings').child('searchWords')
-            .update({ [name]: null })
-    }
+    // const removeSearchWord = (name) => {
+    //     firebase.user(uid).child('settings').child('searchWords')
+    //         .update({ [name]: null })
+    // }
 
-    const setSearchWords = (nameArr) => { // ['Tesla' , "Apple", "Saab"]
-        firebase.user(uid).child('settings').child('searchWords')
-            .set(Object.assign(...nameArr.map(item => ({ [item]: true }))));
-    }
+    // const setSearchWords = (nameArr) => { // ['Tesla' , "Apple", "Saab"]
+    //     firebase.user(uid).child('settings').child('searchWords')
+    //         .set(Object.assign(...nameArr.map(item => ({ [item]: true }))));
+    // }
 
-    const userSearchWords = () => {
-        firebase.user(uid).child('settings').child('searchWords')
-            .once('value')
-            .then(snapshot => {
-                const searchWordsObject = snapshot.val();
-                console.log(searchWordsObject);
+    // const userSearchWords = () => {
+    //     firebase.user(uid).child('settings').child('searchWords')
+    //         .once('value')
+    //         .then(snapshot => {
+    //             const searchWordsObject = snapshot.val();
+    //             if (searchWordsObject) {
+    //             console.log(searchWordsObject);
 
-                let searchWordArray = Object.keys(searchWordsObject)
-                console.log(searchWordArray)
-                console.log(username);
+    //             let searchWordArray = Object.keys(searchWordsObject)
+    //             console.log(searchWordArray)
+    //             console.log(username);
+    //         }
+    //         });
 
-            });
-
-        // Object.keys({ 'Tesla': true, 'Volvo': true }) --> ['Tesla', 'Volvo']
-    }
+    //     Object.keys({ 'Tesla': true, 'Volvo': true }) --> ['Tesla', 'Volvo']
+    // }
     // addSearchWord('Saab')
     // removeSearchWord('Tesla')
-    userSearchWords();
-    setSearchWords(['Tesla' , "Apple", "Saab"])
+    // userSearchWords();
+    // setSearchWords(['Tesla' , "Apple", "Saab"])
     // console.log(searchWord1)
     useEffect(() => {
         

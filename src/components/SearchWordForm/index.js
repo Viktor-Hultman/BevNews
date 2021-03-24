@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 import React, { useContext, useState, useEffect } from 'react';
 
 import { withFirebase } from '../Firebase';
 
 import { AuthUserContext } from '../Session';
 
-import { withAuthorization } from '../Session';
+// import { withAuthorization } from '../Session';
 // import { withFirebase } from '../Firebase';
 
 
@@ -13,24 +13,24 @@ const SearchWordForm = ({firebase}) => {
     const [userWordsArr, setUserWordsArr] = useState([])
     const [inputValue, setInputValue] = useState("")
 
-    let { settings, uid, username} = useContext(AuthUserContext);
+    let { uid } = useContext(AuthUserContext);
 
-    const userSearchWords = () => {
-
+    /*const userSearchWords = () => {
+    // https://stackoverflow.com/a/55370253/12683933
             firebase.user(uid).child('settings').child('searchWords')
             .once('value')
             .then(snapshot => {
                 const searchWordsObject = snapshot.val();
-                
-    
-                let searchWordArray = Object.keys(searchWordsObject)
-                setUserWordsArr(searchWordArray);
-                
-                
+                if (searchWordsObject) {
+                    let searchWordArray = Object.keys(searchWordsObject)
+                    setUserWordsArr(searchWordArray);
+                } else {
+                    setUserWordsArr([]);
+                }
                 
             });
        
-    }
+    }*/
     
     const removeSearchWord = (name) => {
         firebase.user(uid).child('settings').child('searchWords')
@@ -47,22 +47,38 @@ const SearchWordForm = ({firebase}) => {
         console.log(inputValue)
     } 
 
-    const buttonClick = () => {
-        addSearchWord(inputValue)
-
+    const buttonClick = (evt) => {
+        addSearchWord(inputValue);
+        setInputValue("");
+        evt.preventDefault();
     }
 
     const handleClick = (item) =>{
-        let value = item 
         removeSearchWord(item)
-        let filteredUserWordsArr = userWordsArr.filter (item=>item !== value)
-        setUserWordsArr(filteredUserWordsArr)
+        // let value = item 
+        //let filteredUserWordsArr = userWordsArr.filter (item=>item !== value)
+        //setUserWordsArr(filteredUserWordsArr)
     }
 
     console.log(userWordsArr);
 
     useEffect (() => {
-        userSearchWords();
+        const unsubscribe = firebase.user(uid).child('settings').child('searchWords')
+            .on('value', snapshot => {
+                if (snapshot) {
+                const searchWordsObject = snapshot.val();
+                if (searchWordsObject) {
+                    let searchWordArray = Object.keys(searchWordsObject)
+                    setUserWordsArr(searchWordArray);
+                } else {
+                    setUserWordsArr([]);
+                }
+            }
+            });
+            return () => {
+                unsubscribe();
+            }
+        //userSearchWords();
     }, []);
 
     
@@ -73,7 +89,7 @@ const SearchWordForm = ({firebase}) => {
                 <h2>
                     add search words here
                 </h2>
-                <AddWordForm buttonClick={buttonClick} inputChange={inputChange}/>
+                <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange}/>
                
         </div>
     
@@ -96,12 +112,10 @@ const SearchWordItem = ({item, handleClick}) => (
     </li>
 );
 
-const AddWordForm = ({inputChange, buttonClick}) => (
-    <form>
-
-
-        <input type="text" placeholder="add keyword" onChange={inputChange}></input>
-            <button onClick={buttonClick}> Add </button>
+const AddWordForm = ({inputChange, buttonClick, inputValue}) => (
+    <form onSubmit={buttonClick}>
+        <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
+        <button type="submit"> Add </button>
     </form> 
 )
 

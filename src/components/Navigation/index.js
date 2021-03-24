@@ -52,9 +52,6 @@ const Navigation = () => (
 const NavigationAuth = ({ authUser }) => (
     <Nav>
         <NavItem>
-            <NavLink to={ROUTES.LANDING}>Landing</NavLink>
-        </NavItem>
-        <NavItem>
             <NavLink to={ROUTES.HOME}>Home</NavLink>
         </NavItem>
         <NavItem>

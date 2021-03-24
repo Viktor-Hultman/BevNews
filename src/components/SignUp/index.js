@@ -18,6 +18,7 @@ const INITIAL_STATE = {
     passwordTwo: '',
     isAdmin: false,
     error: null,
+    searchWords: ''
 };
 
 class SignUpFormBase extends Component {
@@ -27,10 +28,22 @@ class SignUpFormBase extends Component {
     }
     
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin } = this.state;
+        const { username, email, passwordOne, isAdmin, searchWords } = this.state;
 
         const roles = {};
+        const settings = {};
 
+        if (searchWords) {
+        let searchWordList = searchWords.split(',');
+        // "hej,alla,glada".split(',') -> ['hej', 'alla', 'glada']
+        let searchWordsArr = searchWordList.map(item => ({ [item]: true })); 
+    
+        // [{google: true},{apple: true}] -> {apple: true, google: true}
+        let searchWordsObject = Object.assign(...searchWordsArr)
+        console.log(searchWordsObject)
+        settings.searchWords = searchWordsObject
+        } 
+        
         if (isAdmin) {
         roles[ROLES.ADMIN] = ROLES.ADMIN;
         }
@@ -45,6 +58,7 @@ class SignUpFormBase extends Component {
                     username,
                     email,
                     roles,
+                    settings
                 });
             })
             .then(() => {
@@ -73,6 +87,7 @@ class SignUpFormBase extends Component {
             passwordTwo,
             isAdmin,
             error,
+            searchWords
         } = this.state;
 
         const isInvalid =
@@ -110,6 +125,13 @@ class SignUpFormBase extends Component {
                     onChange={this.onChange}
                     type="password"
                     placeholder="Confirm Password"
+                />
+                <input
+                    name="searchWords"
+                    value={searchWords}
+                    onChange={this.onChange}
+                    type="text"
+                    placeholder="Enter one or more searchwords, separated by comma"
                 />
                 <label>
                     Admin:

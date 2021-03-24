@@ -1,7 +1,5 @@
-import { render } from '@testing-library/react';
-import React from 'react';
 
-import { withFirebase } from '../Firebase';
+import React from 'react';
 
 import { withAuthorization } from '../Session';
 // import { withFirebase } from '../Firebase';
