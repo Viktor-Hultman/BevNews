@@ -58,7 +58,7 @@ const NavigationAuth = ({ authUser }) => (
             <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
         </NavItem>
         <NavItem>
-            <NavLink to={ROUTES.SEARCHWORDS}>Searchwords</NavLink>
+            <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
         </NavItem>
 
         {!!authUser.roles[ROLES.ADMIN] && (

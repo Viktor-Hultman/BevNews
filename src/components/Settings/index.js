@@ -5,14 +5,14 @@ import { withAuthorization } from '../Session';
 // import { withFirebase } from '../Firebase';
 
 import SearchWordForm from '../SearchWordForm';
+import CountryLangDropdowns from '../Country-Lang';
 
 
-const SearchWordPage = () => (
+const SettingsPage = () => (
     <div>
-        <h1>SearchWord</h1>
+        <h1>Settings</h1>
         <SearchWordForm />
-
-
+        <CountryLangDropdowns />
     </div>
 );
 
@@ -20,4 +20,4 @@ const SearchWordPage = () => (
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(SearchWordPage);
+export default withAuthorization(condition)(SettingsPage);

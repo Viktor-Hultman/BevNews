@@ -9,7 +9,7 @@ import { AuthUserContext } from '../Session';
 // import { withFirebase } from '../Firebase';
 
 
-const SearchWordForm = ({firebase}) => {
+const SearchWordForm = ({ firebase }) => {
     const [userWordsArr, setUserWordsArr] = useState([])
     const [inputValue, setInputValue] = useState("")
 
@@ -31,7 +31,7 @@ const SearchWordForm = ({firebase}) => {
             });
        
     }*/
-    
+
     const removeSearchWord = (name) => {
         firebase.user(uid).child('settings').child('searchWords')
             .update({ [name]: null })
@@ -45,7 +45,7 @@ const SearchWordForm = ({firebase}) => {
     const inputChange = (evt) => {
         setInputValue(evt.target.value)
         console.log(inputValue)
-    } 
+    }
 
     const buttonClick = (evt) => {
         addSearchWord(inputValue);
@@ -53,7 +53,7 @@ const SearchWordForm = ({firebase}) => {
         evt.preventDefault();
     }
 
-    const handleClick = (item) =>{
+    const handleClick = (item) => {
         removeSearchWord(item)
         // let value = item 
         //let filteredUserWordsArr = userWordsArr.filter (item=>item !== value)
@@ -62,61 +62,59 @@ const SearchWordForm = ({firebase}) => {
 
     console.log(userWordsArr);
 
-    useEffect (() => {
+    useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('searchWords')
             .on('value', snapshot => {
                 if (snapshot) {
-                const searchWordsObject = snapshot.val();
-                if (searchWordsObject) {
-                    let searchWordArray = Object.keys(searchWordsObject)
-                    setUserWordsArr(searchWordArray);
-                } else {
-                    setUserWordsArr([]);
+                    const searchWordsObject = snapshot.val();
+                    if (searchWordsObject) {
+                        let searchWordArray = Object.keys(searchWordsObject)
+                        setUserWordsArr(searchWordArray);
+                    } else {
+                        setUserWordsArr([]);
+                    }
                 }
-            }
             });
-            return () => {
-                unsubscribe();
-            }
+        return () => {
+            unsubscribe();
+        }
         //userSearchWords();
     }, []);
 
-    
+
     return (
         <div>
+            <h2>Here are your searchwords you follow</h2>
             <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
-            
-                <h2>
-                    add search words here
-                </h2>
-                <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange}/>
-               
+            <h3>Add search words here</h3>
+            <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} />
+
         </div>
-    
+
 
     );
 }
 
 
-const SearchWordList = ({userWordsArr, handleClick}) => (
+const SearchWordList = ({ userWordsArr, handleClick }) => (
     <ul>
-        {userWordsArr.map((item,index) => (<SearchWordItem handleClick={handleClick} key={index} item={item} />))}
-        
+        {userWordsArr.map((item, index) => (<SearchWordItem handleClick={handleClick} key={index} item={item} />))}
+
     </ul>
 );
 
-const SearchWordItem = ({item, handleClick}) => (
+const SearchWordItem = ({ item, handleClick }) => (
     <li>
         {item}
         <button onClick={(event) => handleClick(item)}>Remove</button>
     </li>
 );
 
-const AddWordForm = ({inputChange, buttonClick, inputValue}) => (
+const AddWordForm = ({ inputChange, buttonClick, inputValue }) => (
     <form onSubmit={buttonClick}>
         <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
         <button type="submit"> Add </button>
-    </form> 
+    </form>
 )
 
 
