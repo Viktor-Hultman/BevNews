@@ -37,7 +37,9 @@ class UserListBase extends Component {
                 users: usersList,
                 loading: false,
             });
+            console.log(usersList)
         });
+        
     }
     componentWillUnmount() {
         this.props.firebase.users().off();
@@ -61,6 +63,9 @@ class UserListBase extends Component {
                             <span>
                                 <strong>Username:</strong> {user.username}
                             </span>
+                            {/* <span>
+                                <strong>{user.roles.ADMIN}</strong>
+                            </span> */}
                             <span>
                                 <Link
                                     to={{
@@ -88,7 +93,9 @@ class UserItemBase extends Component {
             user: null,
             ...props.location.state,
         };
+        this.handleClick = this.handleClick.bind (this);
     }
+
     componentDidMount() {
         if (this.state.user) {
             return;
@@ -112,6 +119,13 @@ class UserItemBase extends Component {
     onSendPasswordResetEmail = () => {
         this.props.firebase.doPasswordReset(this.state.user.email);
     };
+    //This function creates the selected user admin
+    handleClick(evt) {
+        console.log('made admin')
+        this.props.firebase.user(this.props.match.params.id)
+            .child('roles')
+            .set({ADMIN: 'ADMIN'})
+    }
 
     render() {
         const { user, loading } = this.state;
@@ -139,6 +153,9 @@ class UserItemBase extends Component {
                                 Send Password Reset
                             </button>
                         </span>
+                        <button onClick={this.handleClick}>
+                            Make admin
+                        </button>
                     </div>
                 )}
             </div>
