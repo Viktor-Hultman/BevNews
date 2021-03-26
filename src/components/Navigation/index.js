@@ -1,30 +1,29 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { AuthUserContext } from '../Session';
-// import SignOutButton from '../SignOut';
-import * as ROUTES from '../../constants/routes';
-// import * as ROLES from '../../constants/roles';
-import Burger from '../../components/Burger';
-import Menu from '../../components/BurgerMenu';
-import { useOnClickOutside } from '../ClosingMenu';
-
-
+import React, { useContext, useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { AuthUserContext } from "../Session";
+import SignOutButton from "../SignOut";
+import * as ROUTES from "../../constants/routes";
+import * as ROLES from "../../constants/roles";
+import Burger from "../../components/Burger";
+import Menu from "../../components/BurgerMenu";
+import { useOnClickOutside } from "../ClosingMenu";
 
 const Nav = styled.nav`
-  background: #C4C4C4;
+  background: #c4c4c4;
   height: 50px;
   display: flex;
   margin: 0px;
   padding: 0px;
   justify-content: space-around;
-  list-styel-type: none;
-  overflow:hidden;
+  list-style-type: none;
+  overflow: hidden;
 `;
 
 const NavItem = styled.li`
-list-style: none;
-`
+  list-style: none;
+  display: flex;
+`;
 
 const NavLink = styled(Link)`
   color: #000;
@@ -33,67 +32,135 @@ const NavLink = styled(Link)`
   text-decoration: none;
   padding: 0px;
   height: 100%;
-  
 `;
 
+const TextNavUl = styled.ul`
+  display: flex;
+  height: 50px;
+  justify-content: space-around;
 
+  @media (max-width: 600px){
+    display: none; 
+  }
+
+  @media (min-width: 600px){
+    width: 100%;
+  }
+`;
+
+const HamburgerDiv = styled.div`
+  @media (min-width: 600px){
+    display: none; 
+  }
+
+`;
+
+const NavContainer = styled.div`
+  background: #c4c4c4;
+  height: 50px;
+  display: flex;
+  text-align: center;
+`;
+
+const SignedInUserNameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 600px){
+    width: 100%; 
+  }
+
+  @media (min-width: 600px){
+    display: none; 
+  }
+`
 
 const Navigation = () => (
-    <div>
-        <AuthUserContext.Consumer>
-            {authUser =>
-                authUser ? (
-                    <NavigationAuth authUser={authUser} />
-                ) : (
-                        <NavigationNonAuth />
-                    )
-            }
-        </AuthUserContext.Consumer>
-    </div>
+  <div>
+    <AuthUserContext.Consumer>
+      {(authUser) =>
+        authUser ? (
+          <NavigationAuth authUser={authUser} />
+        ) : (
+          <NavigationNonAuth />
+        )
+      }
+    </AuthUserContext.Consumer>
+  </div>
 );
 
+const NavigationAuth = ({ authUser}) => {
+  const [open, setOpen] = useState(false);
+  const node = useRef();
+  useOnClickOutside(node, () => setOpen(false));
 
-const NavigationAuth = ({ authUser }) => {
+  let { username } = useContext(AuthUserContext);
 
-    const [open, setOpen] = useState(false);
-    const node = useRef(); 
-    useOnClickOutside(node, () => setOpen(false));
+  return (
+    <NavContainer>
+      <SignedInUserNameDiv>
+        <h3>{username}</h3>
+      </SignedInUserNameDiv>
 
-    return (
-    <div ref={node}>
-        <Burger open={open} setOpen={setOpen}/>
-        <Menu open={open} setOpen={setOpen} authUser={authUser} />
-    </div>
-//     <Nav>
-//         <NavItem>
-//             <NavLink to={ROUTES.HOME}>Home</NavLink>
-//         </NavItem>
-//         <NavItem>
-//             <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
-//         </NavItem>
-//         <NavItem>
-//             <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
-//         </NavItem>
+      <TextNavUl>
+        <NavItem>
+          <NavLink to={ROUTES.HOME}>Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
+        </NavItem>
 
-//         {!!authUser.roles[ROLES.ADMIN] && (
-//             <NavItem>
-//                 <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
-//             </NavItem>
-//         )}
-        
-//         <NavItem>
-//             <SignOutButton />
-//         </NavItem>
-//     </Nav>
-    );
-}
+        {!!authUser.roles[ROLES.ADMIN] && (
+          <NavItem>
+            <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
+          </NavItem>
+        )}
+        <NavItem>
+          <SignOutButton />
+        </NavItem>
+      </TextNavUl>
+
+      <HamburgerDiv>
+        <div ref={node}>
+          <Burger open={open} setOpen={setOpen} />
+          <Menu open={open} setOpen={setOpen} authUser={authUser} />
+        </div>
+      </HamburgerDiv>
+    </NavContainer>
+
+    //     <Nav>
+    //         <NavItem>
+    //             <NavLink to={ROUTES.HOME}>Home</NavLink>
+    //         </NavItem>
+    //         <NavItem>
+    //             <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
+    //         </NavItem>
+    //         <NavItem>
+    //             <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
+    //         </NavItem>
+
+    //         {!!authUser.roles[ROLES.ADMIN] && (
+    //             <NavItem>
+    //                 <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
+    //             </NavItem>
+    //         )}
+
+    //         <NavItem>
+    //             <SignOutButton />
+    //         </NavItem>
+    //     </Nav>
+  );
+};
 
 const NavigationNonAuth = () => (
-    <Nav>
-        <NavItem>
-            <NavLink to={ROUTES.LANDING}>Landing</NavLink>
-        </NavItem>
-    </Nav>
+  <Nav>
+    <NavItem>
+      <NavLink to={ROUTES.LANDING}>Landing</NavLink>
+    </NavItem>
+  </Nav>
 );
 
 export default Navigation;

@@ -5,8 +5,9 @@ export const StyledMenu = styled.nav`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  background: grey;
+  background: #C4C4C4;
   height: 350px;
+  
   
   text-align: left;
   padding: 2rem;
@@ -19,14 +20,16 @@ export const StyledMenu = styled.nav`
   @media (max-width: 500px) {
     width: 100%;
   }
-
+  @media (min-width: 600px){
+    display: none;
+  }
   a {
     font-size: 2rem;
     text-transform: uppercase;
     padding: 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: #b8b6b5;
+    color: #5c5c5c;
     text-decoration: none;
     transition: color 0.2s linear;
     
