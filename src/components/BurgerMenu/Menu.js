@@ -12,10 +12,14 @@ import { bool } from 'prop-types';
 const NavItem = styled.li`
 list-style: none;
 height: 90px;
+display: flex;
+align-items: center;
 `
 
 export const NavLink = styled(Link)`
   color: #000;
+  display: flex;
+  align-items: center;
 `;
 
 const Menu = ({ open, authUser }) => {

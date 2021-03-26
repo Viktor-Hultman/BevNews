@@ -6,14 +6,15 @@ export const StyledMenu = styled.nav`
   justify-content: start;
   align-items: center;
   background: grey;
-  height: 50vh;
+  height: 350px;
+  
   text-align: left;
   padding: 2rem;
   position: absolute;
   top: 0;
   right: 0;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ open }) => open ? 'translateY(0)' : 'translateY(-100%)'};
+  transform: ${({ open }) => open ? 'translateY(0)' : 'translateY(-130%)'};
   
   @media (max-width: 500px) {
     width: 100%;

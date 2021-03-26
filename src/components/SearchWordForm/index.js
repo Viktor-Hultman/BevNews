@@ -48,8 +48,11 @@ const SearchWordForm = ({ firebase }) => {
     }
 
     const buttonClick = (evt) => {
-        addSearchWord(inputValue);
-        setInputValue("");
+        if(!inputValue === "") {
+            addSearchWord(inputValue);
+            setInputValue("");
+        }
+
         evt.preventDefault();
     }
 
