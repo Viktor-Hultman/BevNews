@@ -1,11 +1,12 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
-
+import { NavLink } from '../BurgerMenu/Menu'
+import * as ROUTES from '../../constants/routes';
 
 const SignOutButton = ({ firebase }) => (
-    <button type="button" onClick={firebase.doSignOut}>
+    <NavLink to={ROUTES.SIGN_IN} onClick={firebase.doSignOut}>
         Sign Out
-    </button>
+    </NavLink>
 );
 
 export default withFirebase(SignOutButton);
