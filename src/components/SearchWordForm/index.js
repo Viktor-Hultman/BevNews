@@ -48,8 +48,9 @@ const SearchWordForm = ({ firebase }) => {
     }
 
     const buttonClick = (evt) => {
-        if(!inputValue === "") {
+        if(inputValue !== "") {
             addSearchWord(inputValue);
+            console.log(inputValue)
             setInputValue("");
         }
 
@@ -114,10 +115,10 @@ const SearchWordItem = ({ item, handleClick }) => (
 );
 
 const AddWordForm = ({ inputChange, buttonClick, inputValue }) => (
-    <form onSubmit={buttonClick}>
+     <>
         <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
-        <button type="submit"> Add </button>
-    </form>
+        <button type="submit" onClick={buttonClick} > Add </button>
+    </>
 )
 
 

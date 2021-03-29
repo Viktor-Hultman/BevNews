@@ -119,6 +119,7 @@ class UserItemBase extends Component {
     onSendPasswordResetEmail = () => {
         this.props.firebase.doPasswordReset(this.state.user.email);
     };
+    
     //This function creates the selected user admin
     handleClick(evt) {
         console.log('made admin')
