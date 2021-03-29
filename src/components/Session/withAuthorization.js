@@ -15,10 +15,10 @@ const withAuthorization = condition => Component => {
             const listener = firebase.onAuthUserListener(
                 authUser => {
                     if (!condition(authUser)) {
-                        history.push(ROUTES.SIGN_IN);
+                        history.push(ROUTES.HOME);
                     }
                 },
-                () => history.push(ROUTES.SIGN_IN),
+                () => history.push(ROUTES.LANDING),
             );
             return () => {
                 listener()

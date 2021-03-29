@@ -63,9 +63,9 @@ class UserListBase extends Component {
                             <span>
                                 <strong>Username:</strong> {user.username}
                             </span>
-                            {/* <span>
-                                <strong>{user.roles.ADMIN}</strong>
-                            </span> */}
+                            <span>
+                                <strong>{user.roles && user.roles[ROLES.ADMIN]}</strong>
+                            </span>
                             <span>
                                 <Link
                                     to={{
@@ -109,8 +109,11 @@ class UserItemBase extends Component {
                 this.setState({
                     user: snapshot.val(),
                     loading: false,
+                    
                 });
+                
             });
+            
     }
     componentWillUnmount() {
         this.props.firebase.user(this.props.match.params.id).off();
@@ -119,7 +122,7 @@ class UserItemBase extends Component {
     onSendPasswordResetEmail = () => {
         this.props.firebase.doPasswordReset(this.state.user.email);
     };
-    
+
     //This function creates the selected user admin
     handleClick(evt) {
         console.log('made admin')

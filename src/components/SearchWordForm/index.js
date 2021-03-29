@@ -48,20 +48,23 @@ const SearchWordForm = ({ firebase }) => {
     }
 
     const buttonClick = (evt) => {
-        if(inputValue !== "") {
+        //Checking if the input field has any value
+        if (inputValue !== "") {
+            //Checking if the user has 3 or more searchwords
+            if (userWordsArr.length > 2) {
+                //If the user has 3 or more searchwords, the add function will not run
+                return alert("You cant have more than 3 searchWords")
+            }
             addSearchWord(inputValue);
-            console.log(inputValue)
             setInputValue("");
         }
 
-        evt.preventDefault();
+        // evt.preventDefault();
     }
 
     const handleClick = (item) => {
         removeSearchWord(item)
-        // let value = item 
-        //let filteredUserWordsArr = userWordsArr.filter (item=>item !== value)
-        //setUserWordsArr(filteredUserWordsArr)
+
     }
 
     console.log(userWordsArr);
@@ -82,7 +85,7 @@ const SearchWordForm = ({ firebase }) => {
         return () => {
             unsubscribe();
         }
-        //userSearchWords();
+
     }, []);
 
 
@@ -110,12 +113,12 @@ const SearchWordList = ({ userWordsArr, handleClick }) => (
 const SearchWordItem = ({ item, handleClick }) => (
     <li>
         {item}
-        <button onClick={(event) => handleClick(item)}>Remove</button>
+        <button onClick={() => handleClick(item)}>Remove</button>
     </li>
 );
 
 const AddWordForm = ({ inputChange, buttonClick, inputValue }) => (
-     <>
+    <>
         <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
         <button type="submit" onClick={buttonClick} > Add </button>
     </>
