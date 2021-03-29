@@ -16,7 +16,6 @@ const INITIAL_STATE = {
     email: '',
     passwordOne: '',
     passwordTwo: '',
-    isAdmin: false,
     error: null,
     searchWords: ''
 };
@@ -28,7 +27,7 @@ class SignUpFormBase extends Component {
     }
     
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin, searchWords } = this.state;
+        const { username, email, passwordOne, searchWords } = this.state;
 
         const roles = {};
         const settings = {};
@@ -43,10 +42,6 @@ class SignUpFormBase extends Component {
         console.log(searchWordsObject)
         settings.searchWords = searchWordsObject
         } 
-        
-        if (isAdmin) {
-        roles[ROLES.ADMIN] = ROLES.ADMIN;
-        }
 
         this.props.firebase
             .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -85,7 +80,6 @@ class SignUpFormBase extends Component {
             email,
             passwordOne,
             passwordTwo,
-            isAdmin,
             error,
             searchWords
         } = this.state;
@@ -133,15 +127,7 @@ class SignUpFormBase extends Component {
                     type="text"
                     placeholder="Enter one or more searchwords, separated by comma"
                 />
-                <label>
-                    Admin:
-                    <input
-                        name="isAdmin"
-                        type="checkbox"
-                        checked={isAdmin}
-                        onChange={this.onChangeCheckbox}
-                    />
-                </label>
+               
                 <button disabled={isInvalid} type="submit">Sign Up</button>
                 {error && <p>{error.message}</p>}
             </form>);
