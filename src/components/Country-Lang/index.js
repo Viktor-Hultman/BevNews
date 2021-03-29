@@ -115,6 +115,33 @@ const CountryDropdown = ({ isInvalidCountry, CountryChange, CountrySaveButton}) 
             <option value="=">All</option>   
             <option value="=au">Australia</option>
             <option value="=br">Brazil</option>
+            <option value="=ca">Canada</option>   
+            <option value="=cn">China</option>
+            <option value="=eg">Egypt</option>
+            <option value="=fr">France</option>  
+            <option value="=gr">Greece</option> 
+            <option value="=de">Germany</option>  
+            <option value="=hk">Hong Kong</option>   
+            <option value="=ie">Ireland</option>
+            <option value="=il">Israel</option>
+            <option value="=in">India</option>   
+            <option value="=it">Italy</option>
+            <option value="=jp">Japan</option> 
+            <option value="=nl">Netherlands</option>  
+            <option value="=no">Norway</option>
+            <option value="=pk">Pakistan</option>
+            <option value="=pr">Peru</option>
+            <option value="=ph">Philippines</option>   
+            <option value="=pt">Portugal</option>
+            <option value="=ro">Romania</option>   
+            <option value="=ru">Russia</option>
+            <option value="=es">Spain</option>
+            <option value="=se">Sweden</option>
+            <option value="=ch">Switzerland</option>
+            <option value="=tw">Taiwan</option>   
+            <option value="=ua">Ukraine</option>
+            <option value="=gb">United Kingdom</option>
+            <option value="=us">United States</option>
         </select>
         <input type="submit" value="Save" disabled={isInvalidCountry}/>
     </form>
@@ -128,7 +155,27 @@ const LangDropdown = ({ isInvalidLanguage, LanguageChange, LanguageSaveButton}) 
             <option value="DEFAULT" disabled>Select an option</option> 
             <option value="=">All</option>   
             <option value="=ar">Arabic</option>
+            <option value="=zh">Chinese</option>
+            <option value="=nl">Dutch</option>
             <option value="=en">English</option>
+            <option value="=fr">French</option>
+            <option value="=de">German</option>   
+            <option value="=el">Greek</option>
+            <option value="=he">Hebrew</option>
+            <option value="=hi">Hindi</option>   
+            <option value="=it">Italian</option>
+            <option value="=jp">Japanese</option>
+            <option value="=ml">Malayalam</option>   
+            <option value="=mr">Marathi</option>
+            <option value="=no">Norwegian</option>   
+            <option value="=pt">Portuguese</option>
+            <option value="=ro">Romanian</option>
+            <option value="=ru">Russian</option>   
+            <option value="=es">Spanish</option>   
+            <option value="=sv">Swedish</option>
+            <option value="=ta">Tamil</option>
+            <option value="=te">Telugu</option>
+            <option value="=uk">Ukrainian</option>   
         </select>
         <input type="submit" value="Save" disabled={isInvalidLanguage}/>
     </form>
