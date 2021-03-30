@@ -17,7 +17,10 @@ const INITIAL_STATE = {
     passwordOne: '',
     passwordTwo: '',
     error: null,
-    searchWords: ''
+    searchWords: '',
+    searchWord1: '',
+    searchWord2: '',
+    searchWord3: '',
 };
 
 class SignUpFormBase extends Component {
@@ -74,6 +77,13 @@ class SignUpFormBase extends Component {
         this.setState({ [event.target.name]: event.target.checked });
     };
 
+    onClick = event => {
+        const {searchWords, searchWord1, searchWord2, searchWord3} = this.state;
+        this.setState({searchWords: searchWord1 + ',' + searchWord2 + ',' + searchWord3})
+        console.log(searchWords)
+    };
+
+
     render() {
         const {
             username,
@@ -81,14 +91,19 @@ class SignUpFormBase extends Component {
             passwordOne,
             passwordTwo,
             error,
-            searchWords
+            searchWord1,
+            searchWord2,
+            searchWord3
         } = this.state;
 
         const isInvalid =
             passwordOne !== passwordTwo ||
             passwordOne === '' ||
             email === '' ||
-            username === '';
+            username === '' ||
+            searchWord1 === '' ||
+            searchWord2 === '' ||
+            searchWord3 === '';
 
         return (
             <form onSubmit={this.onSubmit}>
@@ -121,14 +136,28 @@ class SignUpFormBase extends Component {
                     placeholder="Confirm Password"
                 />
                 <input
-                    name="searchWords"
-                    value={searchWords}
+                    name="searchWord1"
+                    value={searchWord1}
                     onChange={this.onChange}
                     type="text"
-                    placeholder="Enter one or more searchwords, separated by comma"
+                    placeholder="Enter a searchword"
+                />
+                <input
+                    name="searchWord2"
+                    value={searchWord2}
+                    onChange={this.onChange}
+                    type="text"
+                    placeholder="Enter a searchword"
+                />
+                <input
+                    name="searchWord3"
+                    value={searchWord3}
+                    onChange={this.onChange}
+                    type="text"
+                    placeholder="Enter a searchword"
                 />
                
-                <button disabled={isInvalid} type="submit">Sign Up</button>
+                <button disabled={isInvalid} type="submit" onClick={this.onClick}>Sign Up</button>
                 {error && <p>{error.message}</p>}
             </form>);
     }

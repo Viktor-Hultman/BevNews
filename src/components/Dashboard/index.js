@@ -4,10 +4,6 @@ import { withFirebase } from '../Firebase';
 
 import { AuthUserContext } from '../Session';
 
-import Moment from 'react-moment';
-import { ContinuousColorLegend } from 'react-vis';
-
-
 const Dashboard = ({ firebase }) => {
  
     const [userWord1, setUserWord1] = useState("")   
@@ -69,24 +65,24 @@ const Dashboard = ({ firebase }) => {
       }
 
     useEffect(() => {
-        if (todayDate.charAt(5) == 1){
+        if (todayDate.charAt(5) === 1){
             console.log("this date is correct")
         } else { 
             setFormattedTodayDate(addStr(todayDate, 5, zero))
         }
 
-        if (oneWeekAgoDate.charAt(5) == 1){
+        if (oneWeekAgoDate.charAt(5) === 1){
             console.log("this date is correct")
         } else { 
             setFormatted1WeekAgo(addStr(oneWeekAgoDate, 5, zero))
         }
 
-        if (twoWeeksAgoDate.charAt(5) == 1){
+        if (twoWeeksAgoDate.charAt(5) === 1){
             console.log("this date is correct")
         } else { 
             setFormatted2WeekAgo(addStr(twoWeeksAgoDate, 5, zero))
         }
-        if (threeWeeksAgoDate.charAt(5) == 1){
+        if (threeWeeksAgoDate.charAt(5) === 1){
             console.log("this date is correct")
         } else { 
             setFormatted3WeekAgo(addStr(threeWeeksAgoDate, 5, zero))

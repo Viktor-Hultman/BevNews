@@ -2,7 +2,7 @@ import ExampleGraph from '../Graphs/ExampleGraph'
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
+import HomeSearch from '../FetchSearch';
 import * as ROUTES from '../../constants/routes';
 
 
@@ -62,7 +62,7 @@ const Landing = () => (
         </p>
         <SignInButton><p><ButtonLink to={ROUTES.SIGN_IN}>Sign In</ButtonLink></p></SignInButton>
         <ExampleGraphDiv>
-            <ExampleGraph />
+            <HomeSearch />
         </ExampleGraphDiv>
     </LandingDiv>
 );
