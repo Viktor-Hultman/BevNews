@@ -4,6 +4,10 @@ import { withFirebase } from '../Firebase';
 
 import { AuthUserContext } from '../Session';
 
+import Moment from 'react-moment';
+import { ContinuousColorLegend } from 'react-vis';
+
+
 const Dashboard = ({ firebase }) => {
  
     const [userWord1, setUserWord1] = useState("")   
@@ -24,10 +28,35 @@ const Dashboard = ({ firebase }) => {
 
     let { uid } = useContext(AuthUserContext);
 
-
+    const timestamp = Date.now() 
+    const timeDate = new Date(timestamp)
+    console.log(timeDate)
+    console.log(timestamp)
     const getWords = () => {
         console.log(userWord1);
     }
+
+    let today = new Date(timestamp),
+    todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    console.log(todayDate)
+
+    let oneWeekAgoTimestamp = timestamp-604800000
+    let oneWeekAgo = new Date(oneWeekAgoTimestamp),
+    oneWeekAgoDate = oneWeekAgo.getFullYear() + '-' + (oneWeekAgo.getMonth() + 1) + '-' + oneWeekAgo.getDate();
+    console.log(oneWeekAgoDate)
+
+    let zero = 0
+
+    function addStr(str, index, stringToAdd){
+        return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+      }
+
+    if (todayDate.charAt(5) == 1){
+        console.log("this date is correct")
+    } else { 
+        console.log(addStr(todayDate, 5, zero))
+    }
+    
     console.log(userLanguage)
     console.log(userCountry)
     console.log(userWord1, userWord2, userWord3)
