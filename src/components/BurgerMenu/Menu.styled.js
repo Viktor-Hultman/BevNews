@@ -10,7 +10,6 @@ export const StyledMenu = styled.nav`
   
   
   text-align: left;
-  padding: 2rem;
   position: absolute;
   top: 0;
   right: 0;
@@ -26,7 +25,7 @@ export const StyledMenu = styled.nav`
   a {
     font-size: 2rem;
     text-transform: uppercase;
-    padding: 0;
+    padding: 2rem;
     font-weight: bold;
     letter-spacing: 0.5rem;
     color: #5c5c5c;

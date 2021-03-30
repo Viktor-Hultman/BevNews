@@ -1,17 +1,40 @@
 // import { render } from '@testing-library/react';
 import React, { useContext, useState, useEffect } from 'react';
-
+import styled from 'styled-components';
 import { withFirebase } from '../Firebase';
+import { FaTimes } from 'react-icons/fa';
 
 import { AuthUserContext } from '../Session';
 
 // import { withAuthorization } from '../Session';
 // import { withFirebase } from '../Firebase';
 
+const WarningMessage = styled.span`
+background-color: red;
+color: white;
+`
+const UserWordList = styled.ul`
+list-style:none;
+`
+const UserWords = styled.li`
+display: flex;
+justify-content: center;
+`
+const DelIcon = styled(FaTimes)`
+padding-top: 5px;
+`
+
+const RemoveBtn = styled.button`
+border:none;
+background:white;
+
+
+`
 
 const SearchWordForm = ({ firebase }) => {
     const [userWordsArr, setUserWordsArr] = useState([])
     const [inputValue, setInputValue] = useState("")
+    const [warningMsg, setWarningMsg] = useState("")
 
     let { uid } = useContext(AuthUserContext);
 
@@ -53,7 +76,8 @@ const SearchWordForm = ({ firebase }) => {
             //Checking if the user has 3 or more searchwords
             if (userWordsArr.length > 2) {
                 //If the user has 3 or more searchwords, the add function will not run
-                return alert("You cant have more than 3 searchWords")
+                setWarningMsg("You can have a maximum of three search words")
+                return
             }
             addSearchWord(inputValue);
             setInputValue("");
@@ -94,7 +118,7 @@ const SearchWordForm = ({ firebase }) => {
             <h2>Here are your searchwords you follow</h2>
             <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
             <h3>Add search words here</h3>
-            <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} />
+            <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} warningMsg={warningMsg}/>
 
         </div>
 
@@ -104,23 +128,24 @@ const SearchWordForm = ({ firebase }) => {
 
 
 const SearchWordList = ({ userWordsArr, handleClick }) => (
-    <ul>
+    <UserWordList>
         {userWordsArr.map((item, index) => (<SearchWordItem handleClick={handleClick} key={index} item={item} />))}
 
-    </ul>
+    </UserWordList>
 );
 
 const SearchWordItem = ({ item, handleClick }) => (
-    <li>
+    <UserWords>
         {item}
-        <button onClick={() => handleClick(item)}>Remove</button>
-    </li>
+        <RemoveBtn onClick={() => handleClick(item) }><DelIcon/></RemoveBtn>
+    </UserWords>
 );
 
-const AddWordForm = ({ inputChange, buttonClick, inputValue }) => (
+const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg}) => (
     <>
         <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
         <button type="submit" onClick={buttonClick} > Add </button>
+        <WarningMessage>{warningMsg}</WarningMessage>
     </>
 )
 
