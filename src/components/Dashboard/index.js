@@ -17,14 +17,22 @@ const Dashboard = ({ firebase }) => {
     const [userCountry, setUserCountry] = useState("")
 
     const [userLanguage, setUserLanguage] = useState("")
-    
+
+    const [formattedTodayDate, setFormattedTodayDate] = useState("")
+    const [formatted1WeekAgo, setFormatted1WeekAgo] = useState("")
+    const [formatted2WeekAgo, setFormatted2WeekAgo] = useState ("")
+    const [formatted3WeekAgo, setFormatted3WeekAgo] = useState ("")
+
     const Url = "https://gnews.io/api/v4/search?q="
     const Key = "&token=8bd8954322ec49530ab22e22c8a3b84f"
     const Country = "&country"
     const Lang = "&lang"
+    const From = "&from="
+    const Time = "T00:00:01Z"
+    const To = "&to="
 
     //Here we get the full URL from the user, it contains one search word, the selected country and language
-    console.log(Url + userWord1 + Country + userCountry + Lang + userLanguage + Key)
+    console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)
 
     let { uid } = useContext(AuthUserContext);
 
@@ -45,21 +53,53 @@ const Dashboard = ({ firebase }) => {
     oneWeekAgoDate = oneWeekAgo.getFullYear() + '-' + (oneWeekAgo.getMonth() + 1) + '-' + oneWeekAgo.getDate();
     console.log(oneWeekAgoDate)
 
+    let twoWeeksAgoTimestamp = timestamp-1209600000
+    let twoWeeksAgo = new Date(twoWeeksAgoTimestamp),
+    twoWeeksAgoDate = twoWeeksAgo.getFullYear() + '-' + (twoWeeksAgo.getMonth() + 1) + '-' + twoWeeksAgo.getDate();
+
+    let threeWeeksAgoTimestamp = timestamp-1814400000
+    let threeWeeksAgo = new Date(threeWeeksAgoTimestamp),
+    threeWeeksAgoDate = threeWeeksAgo.getFullYear() + '-' + (threeWeeksAgo.getMonth() + 1) + '-' + threeWeeksAgo.getDate();
+    
+
     let zero = 0
 
     function addStr(str, index, stringToAdd){
         return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
       }
 
-    if (todayDate.charAt(5) == 1){
-        console.log("this date is correct")
-    } else { 
-        console.log(addStr(todayDate, 5, zero))
-    }
-    
+    useEffect(() => {
+        if (todayDate.charAt(5) == 1){
+            console.log("this date is correct")
+        } else { 
+            setFormattedTodayDate(addStr(todayDate, 5, zero))
+        }
+
+        if (oneWeekAgoDate.charAt(5) == 1){
+            console.log("this date is correct")
+        } else { 
+            setFormatted1WeekAgo(addStr(oneWeekAgoDate, 5, zero))
+        }
+
+        if (twoWeeksAgoDate.charAt(5) == 1){
+            console.log("this date is correct")
+        } else { 
+            setFormatted2WeekAgo(addStr(twoWeeksAgoDate, 5, zero))
+        }
+        if (threeWeeksAgoDate.charAt(5) == 1){
+            console.log("this date is correct")
+        } else { 
+            setFormatted3WeekAgo(addStr(threeWeeksAgoDate, 5, zero))
+        }
+       
+    },[]);
+    console.log(formatted3WeekAgo)
+    console.log(formatted2WeekAgo)
+    console.log(formattedTodayDate)
     console.log(userLanguage)
     console.log(userCountry)
     console.log(userWord1, userWord2, userWord3)
+
     useEffect(() => { 
         const unsubscribe = firebase.user(uid).child('settings').child('searchWords')
         .on('value', snapshot => { 
