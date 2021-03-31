@@ -70,9 +70,6 @@ const SignedInUserNameDiv = styled.div`
     width: 100%; 
   }
 
-  @media (min-width: 600px){
-    display: none; 
-  }
 `
 
 const Navigation = () => (
@@ -101,7 +98,6 @@ const NavigationAuth = ({ authUser}) => {
       <SignedInUserNameDiv>
         <h3>{username}</h3>
       </SignedInUserNameDiv>
-
       <TextNavUl>
         <NavItem>
           <NavLink to={ROUTES.HOME}>Home</NavLink>

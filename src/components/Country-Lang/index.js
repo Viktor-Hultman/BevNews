@@ -4,6 +4,33 @@ import { withFirebase } from '../Firebase';
 
 import { AuthUserContext } from '../Session';
 
+import styled from 'styled-components';
+
+const CountryLangContainer = styled.div`
+
+`
+const CountrySettingsCard = styled.div`
+background-color: #C4C4C4;
+border-radius: 10px;
+padding: 10px;
+margin: 10px;
+`
+const SelectedCountryList = styled.div`
+list-style:none;
+`
+const CountryDropDwn = styled.select`
+padding: 5px 10px;
+border: none;
+border-radius: 4px;
+background-color: #f1f1f1;
+`
+const LangDropDwn = styled.select`
+padding: 5px 10px;
+border: none;
+border-radius: 4px;
+background-color: #f1f1f1;
+`
+
 
 const CountryLangDropdowns = ({ firebase }) => {
 
@@ -93,16 +120,18 @@ const CountryLangDropdowns = ({ firebase }) => {
     }, []);
 
     return(
-        <div>
-            <h2>Here are your selected language and country preference on the shown data</h2>
-            <ul>
-                <li>Your selected country: {selectedCountry}</li>
-                <li>Your selected language: {selectedLanguage}</li>
-            </ul>
-            <CountryDropdown isInvalidCountry={isInvalidCountry} CountryChange={CountryChange} CountrySaveButton={CountrySaveButton} />
-            <br/>
-            <LangDropdown isInvalidLanguage={isInvalidLanguage} LanguageChange={LanguageChange} LanguageSaveButton={LanguageSaveButton}/>
-        </div>
+        <CountryLangContainer>
+            <CountrySettingsCard>
+                <h3>Here are your selected language and country preference on the shown data</h3>
+                <SelectedCountryList>
+                    <li>Your selected country: {selectedCountry}</li>
+                    <li>Your selected language: {selectedLanguage}</li>
+                </SelectedCountryList>
+                <CountryDropdown isInvalidCountry={isInvalidCountry} CountryChange={CountryChange} CountrySaveButton={CountrySaveButton} />
+                <br/>
+                <LangDropdown isInvalidLanguage={isInvalidLanguage} LanguageChange={LanguageChange} LanguageSaveButton={LanguageSaveButton}/>
+            </CountrySettingsCard>
+        </CountryLangContainer>
     )
 }
 
@@ -110,7 +139,7 @@ const CountryDropdown = ({ isInvalidCountry, CountryChange, CountrySaveButton}) 
     <form onSubmit={CountrySaveButton} onChange={CountryChange}>  
         <label htmlFor="Countries">Select Country</label>
         <br/>
-        <select defaultValue={'DEFAULT'} name="Countries">
+        <CountryDropDwn defaultValue={'DEFAULT'} name="Countries">
             <option value="DEFAULT" disabled>Select an option</option> 
             <option value="=">All</option>   
             <option value="=au">Australia</option>
@@ -142,7 +171,7 @@ const CountryDropdown = ({ isInvalidCountry, CountryChange, CountrySaveButton}) 
             <option value="=ua">Ukraine</option>
             <option value="=gb">United Kingdom</option>
             <option value="=us">United States</option>
-        </select>
+        </CountryDropDwn>
         <input type="submit" value="Save" disabled={isInvalidCountry}/>
     </form>
 )
@@ -151,7 +180,7 @@ const LangDropdown = ({ isInvalidLanguage, LanguageChange, LanguageSaveButton}) 
     <form onSubmit={LanguageSaveButton} onChange={LanguageChange}> 
         <label htmlFor="Languages">Select Language</label>
         <br/>
-        <select defaultValue={'DEFAULT'} name="Languages">
+        <LangDropDwn defaultValue={'DEFAULT'} name="Languages">
             <option value="DEFAULT" disabled>Select an option</option> 
             <option value="=">All</option>   
             <option value="=ar">Arabic</option>
@@ -176,7 +205,7 @@ const LangDropdown = ({ isInvalidLanguage, LanguageChange, LanguageSaveButton}) 
             <option value="=ta">Tamil</option>
             <option value="=te">Telugu</option>
             <option value="=uk">Ukrainian</option>   
-        </select>
+        </LangDropDwn>
         <input type="submit" value="Save" disabled={isInvalidLanguage}/>
     </form>
 )
