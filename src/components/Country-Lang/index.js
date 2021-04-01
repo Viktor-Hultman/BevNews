@@ -6,9 +6,12 @@ import { AuthUserContext } from '../Session';
 
 import styled from 'styled-components';
 
+import { StyledButton } from '../SearchWordForm'
+
 const CountryLangContainer = styled.div`
 
 `
+
 const CountrySettingsCard = styled.div`
 background-color: #C4C4C4;
 border-radius: 10px;
@@ -23,13 +26,9 @@ padding: 5px 10px;
 border: none;
 border-radius: 4px;
 background-color: #f1f1f1;
+cursor: pointer;
 `
-const LangDropDwn = styled.select`
-padding: 5px 10px;
-border: none;
-border-radius: 4px;
-background-color: #f1f1f1;
-`
+const LangDropDwn = styled(CountryDropDwn)``
 
 
 const CountryLangDropdowns = ({ firebase }) => {
@@ -172,7 +171,7 @@ const CountryDropdown = ({ isInvalidCountry, CountryChange, CountrySaveButton}) 
             <option value="=gb">United Kingdom</option>
             <option value="=us">United States</option>
         </CountryDropDwn>
-        <input type="submit" value="Save" disabled={isInvalidCountry}/>
+        <StyledButton type="submit" value="Save" disabled={isInvalidCountry}>Save</StyledButton>
     </form>
 )
 
@@ -206,7 +205,7 @@ const LangDropdown = ({ isInvalidLanguage, LanguageChange, LanguageSaveButton}) 
             <option value="=te">Telugu</option>
             <option value="=uk">Ukrainian</option>   
         </LangDropDwn>
-        <input type="submit" value="Save" disabled={isInvalidLanguage}/>
+        <StyledButton type="submit" value="Save" disabled={isInvalidLanguage}>Save</StyledButton>
     </form>
 )
 

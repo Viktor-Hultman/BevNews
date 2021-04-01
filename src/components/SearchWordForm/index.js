@@ -39,6 +39,11 @@ resize: vertical;
 const RemoveBtn = styled.button`
 border:none;
 background:#C4C4C4;
+cursor: pointer;
+`
+
+export const StyledButton = styled.button`
+cursor: pointer;
 `
 
 const SearchWordForm = ({ firebase }) => {
@@ -155,7 +160,7 @@ const SearchWordItem = ({ item, handleClick }) => (
 const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg}) => (
     <>
         <AddWordInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></AddWordInput>
-        <button type="submit" onClick={buttonClick} > Add </button>
+        <StyledButton type="submit" onClick={buttonClick} > Add </StyledButton>
         <WarningMessage>{warningMsg}</WarningMessage>
     </>
 )
