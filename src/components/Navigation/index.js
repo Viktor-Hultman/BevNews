@@ -49,7 +49,7 @@ const TextNavUl = styled.ul`
 `;
 
 const HamburgerDiv = styled.div`
-  @media (min-width: 600px){
+  @media (min-width: 601px){
     display: none; 
   }
 
@@ -73,7 +73,7 @@ const SignedInUserNameDiv = styled.div`
 
 const SignedInUserNameDivSmallScreen = styled(SignedInUserNameDiv)`
 
-@media (min-width: 600px){
+@media (min-width: 601px){
   display: none; 
 }
 `

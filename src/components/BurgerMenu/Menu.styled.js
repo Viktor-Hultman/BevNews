@@ -19,7 +19,7 @@ export const StyledMenu = styled.nav`
   @media (max-width: 500px) {
     width: 100%;
   }
-  @media (min-width: 600px){
+  @media (min-width: 601px){
     display: none;
   }
   a {
