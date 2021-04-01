@@ -9,7 +9,7 @@ const Dashboard = ({ firebase }) => {
     const [userWord1, setUserWord1] = useState("")
     const [userWord2, setUserWord2] = useState("")
     const [userWord3, setUserWord3] = useState("")
-
+    const [userWordsArr, setUserWordsArr] = useState([])
     const [userCountry, setUserCountry] = useState("")
 
     const [userLanguage, setUserLanguage] = useState("")
@@ -18,6 +18,11 @@ const Dashboard = ({ firebase }) => {
     const [formatted1WeekAgo, setFormatted1WeekAgo] = useState("")
     const [formatted2WeekAgo, setFormatted2WeekAgo] = useState("")
     const [formatted3WeekAgo, setFormatted3WeekAgo] = useState("")
+
+    const [searchWord1DataCurrenWeek, setSearchWord1DataCurrentWeek] = useState("loading")
+
+
+
 
     //Setting some variables that we need for creating the full url we'll use in our api fetches
     const Url = "https://gnews.io/api/v4/search?q="
@@ -28,8 +33,19 @@ const Dashboard = ({ firebase }) => {
     const Time = "T00:00:01Z"
     const To = "&to="
 
+    let fullUrlSearchWord1CurrentWeek = Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord1OneWeekBack = Url + userWord1 + From + formatted2WeekAgo + Time + To + formatted1WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord1TwoWeeksBack = Url + userWord1 + From + formatted3WeekAgo + Time + To + formatted2WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
+
+    let fullUrlSearchWord2CurrentWeek = Url + userWord2 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord2OneWeekBack = Url + userWord2 + From + formatted2WeekAgo + Time + To + formatted1WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord2TwoWeeksBack = Url + userWord2 + From + formatted3WeekAgo + Time + To + formatted2WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
+
+    let fullUrlSearchWord3CurrentWeek = Url + userWord3 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord3OneWeekBack = Url + userWord3 + From + formatted2WeekAgo + Time + To + formatted1WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
+    let fullUrlSearchWord3TwoWeeksBack = Url + userWord3 + From + formatted3WeekAgo + Time + To + formatted2WeekAgo + Time + Country + userCountry + Lang + userLanguage + Key
     //Here we get the full URL from the user, it contains one search word, a from date, a to date, the selected country and language
-    console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)
+    // console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)
 
     //Getting the unique id of the signed in user from the context provider
     //so we can use it to link the user to their firebase data profile
@@ -101,12 +117,14 @@ const Dashboard = ({ firebase }) => {
                         setUserWord1(searchWordArray[0])
                         setUserWord2(searchWordArray[1])
                         setUserWord3(searchWordArray[2])
+                        setUserWordsArr(searchWordArray)
 
                     } else {
                         //Resets the useState variables if something happens to the users words
                         setUserWord1("");
                         setUserWord2("");
                         setUserWord3("");
+                        setUserWordsArr([]);
                     }
                 }
             });
@@ -114,7 +132,7 @@ const Dashboard = ({ firebase }) => {
             unsubscribe();
         }
 
-    }, []);
+    }, [formatted3WeekAgo]);
 
     //In the two useEffects below we do the same with the users selected country and language
     useEffect(() => {
@@ -135,7 +153,7 @@ const Dashboard = ({ firebase }) => {
             unsubscribe();
         }
 
-    }, []);
+    }, [userWord3]);
 
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('language')
@@ -145,6 +163,7 @@ const Dashboard = ({ firebase }) => {
                     if (languageObject) {
                         let userLanguageArr = Object.keys(languageObject)
                         setUserLanguage(userLanguageArr[0])
+                        let trigger = 1
 
                     } else {
                         setUserLanguage("")
@@ -155,17 +174,37 @@ const Dashboard = ({ firebase }) => {
             unsubscribe();
         }
 
-    }, []);
+    }, [userWord3]);
 
+
+    useEffect(() => {
+        
+      if (userWord3 === ""){
+          console.log("userword is an empty string")
+      } else {
+        fetch(fullUrlSearchWord1CurrentWeek)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            setSearchWord1DataCurrentWeek(data)
+        }) 
+        .catch((err)=>{
+            console.log("oops..something went wrong", err)
+
+        })
+      }
+        // console.log(searchWord1DataCurrenWeek.totalArticles) 
+    }, [userWord3]);
 
     return (
         <>
             <h1>Dashboard</h1>
+            <span>{userWord1}: {searchWord1DataCurrenWeek.totalArticles}</span>
         </>
     )
 
 }
-
 
 
 
