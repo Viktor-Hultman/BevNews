@@ -69,7 +69,13 @@ const SignedInUserNameDiv = styled.div`
   @media (max-width: 600px){
     width: 100%; 
   }
+`
 
+const SignedInUserNameDivSmallScreen = styled(SignedInUserNameDiv)`
+
+@media (min-width: 600px){
+  display: none; 
+}
 `
 
 const Navigation = () => (
@@ -86,7 +92,7 @@ const Navigation = () => (
   </div>
 );
 
-const NavigationAuth = ({ authUser}) => {
+const NavigationAuth = ({ authUser }) => {
   const [open, setOpen] = useState(false);
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));
@@ -95,10 +101,14 @@ const NavigationAuth = ({ authUser}) => {
 
   return (
     <NavContainer>
-      <SignedInUserNameDiv>
-        <h3>{username}</h3>
-      </SignedInUserNameDiv>
+        <SignedInUserNameDivSmallScreen>
+          <h3>{username}</h3>
+        </SignedInUserNameDivSmallScreen>
+
       <TextNavUl>
+        <SignedInUserNameDiv>
+          <h3>{username}</h3>
+        </SignedInUserNameDiv>
         <NavItem>
           <NavLink to={ROUTES.HOME}>Home</NavLink>
         </NavItem>
