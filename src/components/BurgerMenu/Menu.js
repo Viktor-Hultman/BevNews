@@ -11,9 +11,10 @@ import { bool } from 'prop-types';
 
 const NavItem = styled.li`
 list-style: none;
-height: 90px;
+height: 80px;
 display: flex;
 align-items: center;
+width: 
 `
 
 export const NavLink = styled(Link)`

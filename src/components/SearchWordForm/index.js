@@ -23,12 +23,22 @@ justify-content: center;
 const DelIcon = styled(FaTimes)`
 padding-top: 5px;
 `
+const ChoosenWordsCard = styled.div`
+background-color: #C4C4C4;
+border-radius: 10px;
+padding: 10px;
+margin: 10px;
+`
+const AddWordInput = styled.input`
+padding: 5px;
+border: 1px solid #ccc;
+border-radius: 5px;
+resize: vertical;
+`
 
 const RemoveBtn = styled.button`
 border:none;
-background:white;
-
-
+background:#C4C4C4;
 `
 
 const SearchWordForm = ({ firebase }) => {
@@ -115,11 +125,12 @@ const SearchWordForm = ({ firebase }) => {
 
     return (
         <div>
-            <h2>Here are your searchwords you follow</h2>
-            <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
-            <h3>Add search words here</h3>
-            <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} warningMsg={warningMsg}/>
-
+            <ChoosenWordsCard>
+                <h2>Here are your searchwords you follow</h2>
+                <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
+                <h3>Add search words here</h3>
+                <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} warningMsg={warningMsg}/>
+            </ChoosenWordsCard>
         </div>
 
 
@@ -143,7 +154,7 @@ const SearchWordItem = ({ item, handleClick }) => (
 
 const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg}) => (
     <>
-        <input name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></input>
+        <AddWordInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></AddWordInput>
         <button type="submit" onClick={buttonClick} > Add </button>
         <WarningMessage>{warningMsg}</WarningMessage>
     </>
