@@ -10,40 +10,49 @@ import { AuthUserContext } from '../Session';
 // import { withFirebase } from '../Firebase';
 
 const WarningMessage = styled.span`
-background-color: red;
-color: white;
+    background-color: red;
+    color: white;
 `
 const UserWordList = styled.ul`
-list-style:none;
+    list-style:none;
 `
 const UserWords = styled.li`
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 `
 const DelIcon = styled(FaTimes)`
-padding-top: 5px;
+    padding-top: 5px;
 `
 const ChoosenWordsCard = styled.div`
-background-color: #C4C4C4;
-border-radius: 10px;
-padding: 10px;
-margin: 10px;
+    background-color: #C4C4C4;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
 `
-const AddWordInput = styled.input`
-padding: 5px;
-border: 1px solid #ccc;
-border-radius: 5px;
-resize: vertical;
+export const StyledInput = styled.input`
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+    resize: vertical;
 `
 
 const RemoveBtn = styled.button`
-border:none;
-background:#C4C4C4;
-cursor: pointer;
+    border:none;
+    background:#C4C4C4;
+    cursor: pointer;
 `
 
 export const StyledButton = styled.button`
-cursor: pointer;
+    cursor: pointer;
+    background-color: lightgray;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 `
 
 const SearchWordForm = ({ firebase }) => {
@@ -159,7 +168,7 @@ const SearchWordItem = ({ item, handleClick }) => (
 
 const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg}) => (
     <>
-        <AddWordInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></AddWordInput>
+        <StyledInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></StyledInput>
         <StyledButton type="submit" onClick={buttonClick} > Add </StyledButton>
         <WarningMessage>{warningMsg}</WarningMessage>
     </>
