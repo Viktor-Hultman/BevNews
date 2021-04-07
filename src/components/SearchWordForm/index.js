@@ -19,6 +19,8 @@ const UserWordList = styled.ul`
 const UserWords = styled.li`
     display: flex;
     justify-content: center;
+    
+
 `
 const DelIcon = styled(FaTimes)`
     padding-top: 5px;
@@ -49,10 +51,13 @@ export const StyledButton = styled.button`
     border: none;
     color: black;
     padding: 5px;
-    text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
+
+    &:disabled {
+        background-color: red;
+      }
 `
 
 const SearchWordForm = ({ firebase }) => {
@@ -93,6 +98,9 @@ const SearchWordForm = ({ firebase }) => {
         setInputValue(evt.target.value)
         console.log(inputValue)
     }
+
+    const addWordInvalid = 
+        inputValue === '';
 
     const buttonClick = (evt) => {
         //Checking if the input field has any value
@@ -143,7 +151,7 @@ const SearchWordForm = ({ firebase }) => {
                 <h2>Here are your searchwords you follow</h2>
                 <SearchWordList handleClick={handleClick} userWordsArr={userWordsArr} />
                 <h3>Add search words here</h3>
-                <AddWordForm inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} warningMsg={warningMsg}/>
+                <AddWordForm addWordInvalid = {addWordInvalid} inputValue={inputValue} buttonClick={buttonClick} inputChange={inputChange} warningMsg={warningMsg}/>
             </ChoosenWordsCard>
         </div>
 
@@ -166,10 +174,10 @@ const SearchWordItem = ({ item, handleClick }) => (
     </UserWords>
 );
 
-const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg}) => (
+const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg, addWordInvalid}) => (
     <>
         <StyledInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></StyledInput>
-        <StyledButton type="submit" onClick={buttonClick} > Add </StyledButton>
+        <StyledButton disabled={addWordInvalid} type="submit" onClick={buttonClick} > Add </StyledButton>
         <WarningMessage>{warningMsg}</WarningMessage>
     </>
 )

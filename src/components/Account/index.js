@@ -3,6 +3,11 @@ import React, {useContext} from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
+import {SignUpContainter} from '../SignUp';
+import styled from 'styled-components';
+
+const AccountContainer = styled(SignUpContainter)`
+`
 
 
 // const OldAccountPage = () => (
@@ -24,11 +29,11 @@ const AccountPage = () => {
 
     return (
 
-        <div>
-            <h1>Account: {email}</h1>
+        <AccountContainer>
+            <h2>Account: {email}</h2>
             <PasswordForgetForm />
             <PasswordChangeForm />
-        </div>
+        </AccountContainer>
     );
 }
 

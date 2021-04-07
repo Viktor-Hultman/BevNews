@@ -24,6 +24,7 @@ list-style:none;
 const CountryDropDwn = styled.select`
 padding: 5px 10px;
 border: none;
+margin: 5px;
 border-radius: 4px;
 background-color: #f1f1f1;
 cursor: pointer;
