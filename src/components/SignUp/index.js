@@ -4,12 +4,29 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import styled from 'styled-components';
+import { StyledInput, StyledButton } from '../SearchWordForm';
 
-const SignUpPage = () => (<div>
+export const SignUpContainter = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+`
+export const SignUpFormContainer = styled.form `
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`
+
+const SignUpPage = () => (
+<SignUpContainter>
     <h1>SignUp</h1>
     <SignUpForm />
     
-</div>);
+</SignUpContainter>);
 
 const INITIAL_STATE = {
     username: '',
@@ -106,8 +123,8 @@ class SignUpFormBase extends Component {
             searchWord3 === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input
+            <SignUpFormContainer onSubmit={this.onSubmit}>
+                <StyledInput
                     name="username"
                     value={username}
                     onChange={this.onChange}
@@ -115,42 +132,42 @@ class SignUpFormBase extends Component {
                     placeholder="Full Name"
                     maxLength="20" 
                 />
-                <input
+                <StyledInput
                     name="email"
                     value={email}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Email Address"
                 /> 
-                <input
+                <StyledInput
                     name="passwordOne"
                     value={passwordOne}
                     onChange={this.onChange}
                     type="password"
                     placeholder="Password"
                 /> 
-                <input
+                <StyledInput
                     name="passwordTwo"
                     value={passwordTwo}
                     onChange={this.onChange}
                     type="password"
                     placeholder="Confirm Password"
                 />
-                <input
+                <StyledInput
                     name="searchWord1"
                     value={searchWord1}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Enter a searchword"
                 />
-                <input
+                <StyledInput
                     name="searchWord2"
                     value={searchWord2}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Enter a searchword"
                 />
-                <input
+                <StyledInput
                     name="searchWord3"
                     value={searchWord3}
                     onChange={this.onChange}
@@ -158,9 +175,10 @@ class SignUpFormBase extends Component {
                     placeholder="Enter a searchword"
                 />
                
-                <button disabled={isInvalid} type="submit" onClick={this.onClick}>Sign Up</button>
+                <StyledButton disabled={isInvalid} type="submit" onClick={this.onClick}>Sign Up</StyledButton>
                 {error && <p>{error.message}</p>}
-            </form>);
+                <p>Already have an account? <Link to={ROUTES.SIGN_IN}>Sign In</Link></p>
+            </SignUpFormContainer>);
     }
 }
 
