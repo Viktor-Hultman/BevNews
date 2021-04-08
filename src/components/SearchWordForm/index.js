@@ -25,8 +25,9 @@ const UserWords = styled.li`
 const DelIcon = styled(FaTimes)`
     padding-top: 5px;
 `
+// ${props => props.theme.bg}; use this syntax to link background color of the element to the theme
 const ChoosenWordsCard = styled.div`
-    background-color: #C4C4C4;
+    background-color:${props => props.theme.bg};
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -47,7 +48,7 @@ const RemoveBtn = styled.button`
 
 export const StyledButton = styled.button`
     cursor: pointer;
-    background-color: lightgray;
+    background-color: ${props => props.theme.btnbg};
     border: none;
     color: black;
     padding: 5px;
