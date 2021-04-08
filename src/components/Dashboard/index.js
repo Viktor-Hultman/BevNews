@@ -4,7 +4,7 @@ import { withFirebase } from '../Firebase';
 
 import { AuthUserContext } from '../Session';
 
-import { Line, Bar } from 'react-chartjs-2';
+import { Doughnut, Line, Bar } from 'react-chartjs-2';
 
 
 const DashboardGraph = ( {data} ) => {
@@ -442,7 +442,32 @@ const GraphData = ( {userWord1,
     let oneWeekAgoData3 = searchWord3DataOneWeekBack ? searchWord3DataOneWeekBack.response.total : null
     let twoWeeksAgoData3 = searchWord3DataTwoWeeksBack ? searchWord3DataTwoWeeksBack.response.total : null
 
-                        
+
+    let dataArr = 
+        [currentWeekData1,
+         oneWeekAgoData1, 
+         twoWeeksAgoData1, 
+         currentWeekData2, 
+         oneWeekAgoData2, 
+         twoWeeksAgoData2, 
+         currentWeekData3, 
+         oneWeekAgoData3, 
+         twoWeeksAgoData3]
+
+    
+
+    console.log(dataArr[2])
+        
+
+   
+        for (let i = 0; i < dataArr.length; i++){
+            if (dataArr[i] == 0){
+                dataArr[i] = dataArr[i]+1
+            }
+            console.log(dataArr[i])
+        }
+        
+        console.log(dataArr)
 
     let titles = {
         searchWord1:userWord1,
@@ -453,7 +478,7 @@ const GraphData = ( {userWord1,
     let searchWord1Data = {
         currentWeekData1,
         oneWeekAgoData1,
-        twoWeeksAgoData1,
+        twoWeeksAgoData1
     }
     let searchWord2Data = {
         currentWeekData2,
@@ -483,28 +508,20 @@ const GraphData = ( {userWord1,
     console.log(userWord1,
         userWord2, 
         userWord3, 
-        searchWord1DataCurrenWeek.response.total, 
-        searchWord1DataOneWeekBack.response.total, 
-        searchWord1DataTwoWeeksBack.response.total, 
-        searchWord2DataCurrenWeek.response.total, 
-        searchWord2DataOneWeekBack.response.total, 
-        searchWord2DataTwoWeeksBack.response.total, 
-        searchWord3DataCurrenWeek.response.total, 
-        searchWord3DataOneWeekBack.response.total, 
-        searchWord3DataTwoWeeksBack.response.total)
+        currentWeekData1,
+         oneWeekAgoData1, 
+         twoWeeksAgoData1, 
+         currentWeekData2, 
+         oneWeekAgoData2, 
+         twoWeeksAgoData2, 
+         currentWeekData3, 
+         oneWeekAgoData3, 
+         twoWeeksAgoData3)
         return (
             <div>
                 <h1>skickar data till dashboard</h1>
 
-                {   currentWeekData1 &&
-                    oneWeekAgoData1 &&
-                    twoWeeksAgoData1 &&
-                    currentWeekData2 &&
-                    oneWeekAgoData2 &&
-                    twoWeeksAgoData2 &&
-                    currentWeekData3 &&
-                    oneWeekAgoData3 &&
-                    twoWeeksAgoData3 &&
+                {   dataArr && 
                     <DashboardGraph data={dataObj}/>
 
                 }
