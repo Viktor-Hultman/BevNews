@@ -8,6 +8,7 @@ import * as ROLES from "../../constants/roles";
 import Burger from "../../components/Burger";
 import Menu from "../../components/BurgerMenu";
 import { useOnClickOutside } from "../ClosingMenu";
+import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 
 const Nav = styled.nav`
   background: #c4c4c4;
@@ -83,7 +84,11 @@ const Navigation = () => (
     <AuthUserContext.Consumer>
       {(authUser) =>
         authUser ? (
-          <NavigationAuth authUser={authUser} />
+          <>
+            <NavigationAuth authUser={authUser} />
+            {/* The ThemeHook is placed here to be able to take in the authUser prop */}
+            <ThemeProviderHook authUser={authUser} />
+          </>
         ) : (
           <NavigationNonAuth />
         )

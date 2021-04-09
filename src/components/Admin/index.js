@@ -12,15 +12,12 @@ const AdminPage = () => (
     <div>
         <h1>Admin</h1>
         <p>The Admin Page is accessible by every signed in admin user.</p>
-        {/* The themeprovider links themes to all components inside of it */}
-        {/* Both the ThemeProviderHook and the ThemeProvider is needed */}
-        <ThemeProviderHook />
-        <ThemeProvider theme={OuterColorTheme}>
+
             <Switch>
                 <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
                 <Route exact path={ROUTES.ADMIN} component={UserList} />
             </Switch>
-        </ThemeProvider>
+
     </div>
 );
 

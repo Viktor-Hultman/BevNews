@@ -27,16 +27,11 @@ const SettingsPage = () => {
 
     return (
         <>
-            {/* The themeprovider links themes to all components inside of it */}
-            {/* Both the ThemeProviderHook and the ThemeProvider is needed */}
-            <ThemeProviderHook />
-            <ThemeProvider theme={OuterColorTheme}>
-                <SettingsContainer>
-                    <h1>Settings</h1>
-                    <SearchWordForm />
-                    <ColorPresets />
-                </SettingsContainer>
-            </ThemeProvider>
+            <SettingsContainer>
+                <h1>Settings</h1>
+                <SearchWordForm />
+                <ColorPresets />
+            </SettingsContainer>
         </>
     )
 };

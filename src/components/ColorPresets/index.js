@@ -31,7 +31,6 @@ border-radius: 4px;
 background-color: #f1f1f1;
 cursor: pointer;
 `
-const LangDropDwn = styled(ColorDropDwn)``
 
 
 const ColorPresets = ({ firebase }) => {
@@ -55,6 +54,7 @@ const ColorPresets = ({ firebase }) => {
 
     const ColorSaveButton = (evt) => {
         setColor(colorValue, colorName)
+        evt.preventDefault()
     }
 
 

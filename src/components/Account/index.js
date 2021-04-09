@@ -30,17 +30,14 @@ const AccountPage = () => {
 
     return (
         <>
-            {/* The themeprovider links themes to all components inside of it */}
-            {/* Both the ThemeProviderHook and the ThemeProvider is needed */}
-            <ThemeProviderHook />
-            <ThemeProvider theme={OuterColorTheme}>
 
-                <AccountContainer>
-                    <h2>Account: {email}</h2>
-                    <PasswordForgetForm />
-                    <PasswordChangeForm />
-                </AccountContainer>
-            </ThemeProvider>
+
+            <AccountContainer>
+                <h2>Account: {email}</h2>
+                <PasswordForgetForm />
+                <PasswordChangeForm />
+            </AccountContainer>
+
         </>
     );
 }

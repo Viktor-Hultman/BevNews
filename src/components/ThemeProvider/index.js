@@ -1,8 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
 
+import { withAuthentication } from '../Session';
 import { withFirebase} from '../Firebase';
 import { AuthUserContext } from '../Session';
-import styled, { ThemeProvider } from 'styled-components';
+import * as ROUTES from '../../constants/routes';
+
+import HomePage from '../Home';
+import AccountPage from '../Account';
+import AdminPage from '../Admin';
+import SettingsPage from '../Settings';
 
 
 // Color themes for the website
@@ -26,13 +34,12 @@ export const Tesla = {
     btnbg:"blue",
     btndis: "red"
 }
-export let OuterColorTheme = Standard
 
-const ThemeProviderHook = ({firebase}) => {
 
-    // const [colorTheme, setColorTheme] = useState(Standard)
-    
-    let { uid } = useContext(AuthUserContext);
+const ThemeProviderHook = ({firebase, authUser }) => {
+
+    const [colorTheme, setColorTheme] = useState(Standard)
+    let uid = authUser.uid;
     
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('colorPreset')
@@ -43,19 +50,19 @@ const ThemeProviderHook = ({firebase}) => {
                         let colorArray = Object.values(colorObject)
                         // This sets the firebase user values into object themename
                         if (colorArray == "Amazon") {
-                            OuterColorTheme = Amazon
+                            setColorTheme(Amazon);
                         } else if (colorArray == "Tesla") {
-                            OuterColorTheme = Tesla
+                            setColorTheme(Tesla);
                         } else if (colorArray == "Standard") {
-                            OuterColorTheme = Standard
+                            setColorTheme(Standard);
                         }
-                        // setColorTheme(colorArray)
+                        
                     } else {
-                        OuterColorTheme = Standard;
+                        setColorTheme(Standard);
                     }
-                    return OuterColorTheme
+                    
                 }
-                console.log(OuterColorTheme)
+                console.log(colorTheme)
             });
         return () => {
             unsubscribe();
@@ -64,10 +71,15 @@ const ThemeProviderHook = ({firebase}) => {
     }, []);
 
     return (
-        <>
-        </>
+        //The theme provider is surounding the route pages it shhould affect
+        <ThemeProvider theme={colorTheme}>
+            <Route exact path={ROUTES.HOME} component={HomePage} />
+            <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+            <Route path={ROUTES.ADMIN} component={AdminPage} />
+            <Route path={ROUTES.SETTINGS} component={SettingsPage} />
+        </ThemeProvider>
     )
 
 }
 
-export default withFirebase(ThemeProviderHook);
+export default withAuthentication(withFirebase(ThemeProviderHook));
