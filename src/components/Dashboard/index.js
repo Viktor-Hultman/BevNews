@@ -118,6 +118,7 @@ const Dashboard = ({ firebase }) => {
     //Getting the unique id of the signed in user from the context provider
     //so we can use it to link the user to their firebase data profile
     let { uid } = useContext(AuthUserContext);
+    console.log(useContext(AuthUserContext).uid)
 
     //Here we gather the timestap of when the page loads 
     const timestamp = Date.now()

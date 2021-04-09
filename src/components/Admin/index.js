@@ -5,15 +5,22 @@ import { withFirebase } from '../Firebase';
 import { withAuthorization } from '../Session';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
+import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
+import styled, { ThemeProvider } from 'styled-components';
 
 const AdminPage = () => (
     <div>
         <h1>Admin</h1>
         <p>The Admin Page is accessible by every signed in admin user.</p>
-        <Switch>
-            <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
-            <Route exact path={ROUTES.ADMIN} component={UserList} />
-        </Switch>
+        {/* The themeprovider links themes to all components inside of it */}
+        {/* Both the ThemeProviderHook and the ThemeProvider is needed */}
+        <ThemeProviderHook />
+        <ThemeProvider theme={OuterColorTheme}>
+            <Switch>
+                <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+                <Route exact path={ROUTES.ADMIN} component={UserList} />
+            </Switch>
+        </ThemeProvider>
     </div>
 );
 
@@ -39,7 +46,7 @@ class UserListBase extends Component {
             });
             console.log(usersList)
         });
-        
+
     }
     componentWillUnmount() {
         this.props.firebase.users().off();
@@ -93,7 +100,7 @@ class UserItemBase extends Component {
             user: null,
             ...props.location.state,
         };
-        this.handleClick = this.handleClick.bind (this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -109,11 +116,11 @@ class UserItemBase extends Component {
                 this.setState({
                     user: snapshot.val(),
                     loading: false,
-                    
+
                 });
-                
+
             });
-            
+
     }
     componentWillUnmount() {
         this.props.firebase.user(this.props.match.params.id).off();
@@ -128,7 +135,7 @@ class UserItemBase extends Component {
         console.log('made admin')
         this.props.firebase.user(this.props.match.params.id)
             .child('roles')
-            .set({ADMIN: 'ADMIN'})
+            .set({ ADMIN: 'ADMIN' })
     }
 
     render() {

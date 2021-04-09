@@ -23,6 +23,9 @@ const StyledSignInForm = styled.form`
     align-items: center;
 
 `
+const SignInButton = styled(StyledButton)`
+background-color: #c4c4c4;
+`
 
 const SignInPage = () => (
     <SignInContainer>
@@ -83,9 +86,9 @@ class SignInFormBase extends Component {
                         placeholder="Password"
                     />
 
-                    <StyledButton disabled={isInvalid} type="submit">
+                    <SignInButton disabled={isInvalid} type="submit">
                         Sign In
-                    </StyledButton>
+                    </SignInButton>
                     {error && <p>{error.message}</p>}
                 </StyledSignInForm>
         );

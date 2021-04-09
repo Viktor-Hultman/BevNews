@@ -55,7 +55,6 @@ const ColorPresets = ({ firebase }) => {
 
     const ColorSaveButton = (evt) => {
         setColor(colorValue, colorName)
-        evt.preventDefault();
     }
 
 

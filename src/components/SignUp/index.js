@@ -21,12 +21,16 @@ export const SignUpFormContainer = styled.form `
     align-items: center;
 `
 
+const SignUpButton = styled(StyledButton)`
+background-color: #c4c4c4;
+`
+
 const SignUpPage = () => (
-<SignUpContainter>
-    <h1>SignUp</h1>
-    <SignUpForm />
-    
-</SignUpContainter>);
+    <SignUpContainter>
+        <h1>SignUp</h1>
+        <SignUpForm />
+    </SignUpContainter>
+);
 
 const INITIAL_STATE = {
     username: '',
@@ -175,7 +179,7 @@ class SignUpFormBase extends Component {
                     placeholder="Enter a searchword"
                 />
                
-                <StyledButton disabled={isInvalid} type="submit" onClick={this.onClick}>Sign Up</StyledButton>
+                <SignUpButton disabled={isInvalid} type="submit" onClick={this.onClick}>Sign Up</SignUpButton>
                 {error && <p>{error.message}</p>}
                 <p>Already have an account? <Link to={ROUTES.SIGN_IN}>Sign In</Link></p>
             </SignUpFormContainer>);

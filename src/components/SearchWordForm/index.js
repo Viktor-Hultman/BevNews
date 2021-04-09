@@ -57,7 +57,7 @@ export const StyledButton = styled.button`
     border-radius: 5px;
 
     &:disabled {
-        background-color: red;
+        background-color: ${props => props.theme.btndis};
       }
 `
 
@@ -121,7 +121,7 @@ const SearchWordForm = ({ firebase }) => {
 
     const handleClick = (item) => {
         removeSearchWord(item)
-
+        
     }
 
     console.log(userWordsArr);

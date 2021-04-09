@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
 import { AuthUserContext, withAuthorization } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import {SignUpContainter} from '../SignUp';
-import styled from 'styled-components';
+import { SignUpContainter } from '../SignUp';
+import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
+import styled, { ThemeProvider } from 'styled-components';
 
 const AccountContainer = styled(SignUpContainter)`
 `
@@ -28,12 +29,19 @@ const AccountPage = () => {
     const { email } = useContext(AuthUserContext);
 
     return (
+        <>
+            {/* The themeprovider links themes to all components inside of it */}
+            {/* Both the ThemeProviderHook and the ThemeProvider is needed */}
+            <ThemeProviderHook />
+            <ThemeProvider theme={OuterColorTheme}>
 
-        <AccountContainer>
-            <h2>Account: {email}</h2>
-            <PasswordForgetForm />
-            <PasswordChangeForm />
-        </AccountContainer>
+                <AccountContainer>
+                    <h2>Account: {email}</h2>
+                    <PasswordForgetForm />
+                    <PasswordChangeForm />
+                </AccountContainer>
+            </ThemeProvider>
+        </>
     );
 }
 
