@@ -12,9 +12,9 @@ const DashboardGraph = ( {data} ) => {
     const dataSetsData = {
         labels: [ 
             // props.dataObj.titles.searchWord1
-            1,
-            2,
-            3
+            "Two weeks ago",
+            "Last week",
+            "This week"
         ],
         datasets: [
             
@@ -37,7 +37,7 @@ const DashboardGraph = ( {data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord1Data.currentWeekData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.twoWeeksAgoData1]
+            data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
         },
         {
             label: data.titles.searchWord2,
@@ -58,7 +58,7 @@ const DashboardGraph = ( {data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord2Data.currentWeekData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.twoWeeksAgoData2]
+            data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
         },
         {
             label: data.titles.searchWord3,
@@ -79,7 +79,7 @@ const DashboardGraph = ( {data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord3Data.currentWeekData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.twoWeeksAgoData3]
+            data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
         },
     ]
     }
@@ -260,16 +260,15 @@ const Dashboard = ({ firebase }) => {
     return (
         <>
             <h1>Dashboard</h1>
-            {/* <span>{userWord1}: {searchWord1DataCurrenWeek.totalArticles}</span> */}
-            {/*state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
-            {       userWord1 &&
-                    userWord2 && 
-                    userWord3 && 
-                    formatted1WeekAgo && 
-                    formatted2WeekAgo &&
-                    formatted3WeekAgo && 
-                    formattedTodayDate && 
-                    
+            {/* syntax for conditional rendering: state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
+
+            {userWord1 &&
+            userWord2 && 
+            userWord3 && 
+            formatted1WeekAgo && 
+            formatted2WeekAgo &&
+            formatted3WeekAgo && 
+            formattedTodayDate && 
             <FetchComp 
                 userWord1={userWord1}
                 userWord2={userWord2}
@@ -386,31 +385,33 @@ const FetchComp = ( {userWord1,
     
     return ( 
         <>
-            {       userWord1 &&
-                    userWord2 && 
-                    userWord3 &&
-                    searchWord1DataCurrenWeek && 
-                    searchWord1DataOneWeekBack &&
-                    searchWord1DataTwoWeeksBack&&
-                    searchWord2DataCurrenWeek&&
-                    searchWord2DataOneWeekBack&& 
-                    searchWord2DataTwoWeeksBack&& 
-                    searchWord3DataCurrenWeek&& 
-                    searchWord3DataOneWeekBack&& 
-                    searchWord3DataTwoWeeksBack&&
-                < GraphData    userWord1={userWord1}
-                            userWord2={userWord2} 
-                            userWord3={userWord3} 
-                            searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
-                            searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
-                            searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack} 
-                            searchWord2DataCurrenWeek={searchWord2DataCurrenWeek}
-                            searchWord2DataOneWeekBack={searchWord2DataOneWeekBack}
-                            searchWord2DataTwoWeeksBack={searchWord2DataTwoWeeksBack} 
-                            searchWord3DataCurrenWeek={searchWord3DataCurrenWeek} 
-                            searchWord3DataOneWeekBack={searchWord3DataOneWeekBack}
-                            searchWord3DataTwoWeeksBack={searchWord3DataTwoWeeksBack}
-          />}
+            {userWord1 &&
+            userWord2 && 
+            userWord3 &&
+            searchWord1DataCurrenWeek && 
+            searchWord1DataOneWeekBack &&
+            searchWord1DataTwoWeeksBack&&
+            searchWord2DataCurrenWeek&&
+            searchWord2DataOneWeekBack&& 
+            searchWord2DataTwoWeeksBack&& 
+            searchWord3DataCurrenWeek&& 
+            searchWord3DataOneWeekBack&& 
+            searchWord3DataTwoWeeksBack&&
+            <GraphData  
+                userWord1={userWord1}
+                userWord2={userWord2} 
+                userWord3={userWord3} 
+                searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
+                searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
+                searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack} 
+                searchWord2DataCurrenWeek={searchWord2DataCurrenWeek}
+                searchWord2DataOneWeekBack={searchWord2DataOneWeekBack}
+                searchWord2DataTwoWeeksBack={searchWord2DataTwoWeeksBack} 
+                searchWord3DataCurrenWeek={searchWord3DataCurrenWeek} 
+                searchWord3DataOneWeekBack={searchWord3DataOneWeekBack}
+                searchWord3DataTwoWeeksBack={searchWord3DataTwoWeeksBack}
+            />
+            }
         </>
     )
 }
@@ -520,12 +521,12 @@ const GraphData = ( {userWord1,
          twoWeeksAgoData3)
         return (
             <div>
-                <h1>skickar data till dashboard</h1>
+                <h1>Skickar data till dashboard</h1>
 
-                {   dataArr && 
+                {dataArr && 
                     <DashboardGraph data={dataObj}/>
-
                 }
+
             </div>
         )
     }

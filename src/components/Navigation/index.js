@@ -85,12 +85,16 @@ const Navigation = () => (
       {(authUser) =>
         authUser ? (
           <>
+            {/* Everything that is placed here will launch if the user is signed in */}
             <NavigationAuth authUser={authUser} />
             {/* The ThemeHook is placed here to be able to take in the authUser prop */}
             <ThemeProviderHook authUser={authUser} />
           </>
         ) : (
-          <NavigationNonAuth />
+          <>
+            {/* Everything that is placed here will launch if the user is not signed in */}
+            <NavigationNonAuth />
+          </>
         )
       }
     </AuthUserContext.Consumer>

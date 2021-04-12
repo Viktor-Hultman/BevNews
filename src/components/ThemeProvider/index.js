@@ -15,6 +15,24 @@ import SettingsPage from '../Settings';
 
 // Color themes for the website
 // All themes need to have the same keys to change how the entire site looks
+/*const colorsObj = {
+    Standard: {
+        fg:"green",
+        bg:"pink",
+        btnbg:"gray",
+        btndis: "red"
+    },
+    Amazon: {
+        fg: "palevioletred",
+        bg: "purple",
+        btnbg: "orange",
+        btndis: "yellow"
+     }
+};*/
+// Object.keys(colorsObj) -> ['Standard', 'Amazon']
+// let selected = 'Amazon'
+// console.log(colorsObj[selected]) -> {fg: ..., bg: ...}
+
 export const Standard = {
     fg:"green",
     bg:"pink",

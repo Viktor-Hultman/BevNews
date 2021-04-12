@@ -10,7 +10,7 @@ import { StyledButton } from '../SearchWordForm'
 
 
 
-const ColorLangContainer = styled.div`
+const ColorContainer = styled.div`
 
 `
 
@@ -83,7 +83,7 @@ const ColorPresets = ({ firebase }) => {
 
 
     return(
-        <ColorLangContainer>
+        <ColorContainer>
             <ColorSettingsCard>
                 <h3> Here you can select prefered color preset</h3>
                 <SelectedColorList>
@@ -92,7 +92,7 @@ const ColorPresets = ({ firebase }) => {
                 <ColorDropdown isInvalidColor={isInvalidColor} ColorChange={ColorChange} ColorSaveButton={ColorSaveButton} />
                 <br/>
             </ColorSettingsCard>
-        </ColorLangContainer>
+        </ColorContainer>
     )
 }
 
