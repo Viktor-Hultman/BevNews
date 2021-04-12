@@ -11,6 +11,7 @@ import { useOnClickOutside } from "../ClosingMenu";
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 
 const Nav = styled.nav`
+  background: gray;
   height: 50px;
   display: flex;
   margin: 0px;
@@ -105,7 +106,7 @@ export const NavigationAuth = ({ authUser }) => {
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));
 
-  let { username } = useContext(AuthUserContext);
+  let username = authUser.username;
 
   return (
     <NavContainer>

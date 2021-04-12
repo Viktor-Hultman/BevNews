@@ -5,7 +5,25 @@ import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 
 import { Doughnut, Line, Bar } from 'react-chartjs-2';
+/*
+let dataObj = {
+    Amazon: {"Two weeks ago": 45,
+ "Last week": 30,
+ "This week": 3},
+  Tesla: 
 
+
+ Object.keys(dataObj) -> ["Amazon", "...", "..."]
+ Object.values(dataObj) -> [{"Two weeks ago": 45,
+ "Last week": 30,
+ "This week": 3}, {...}]
+
+ let dataArr = Object.keys(dataObj).map(searchWord => ({...dataObj[searchWord], searchWord: searchWord})
+    [{"Two weeks ago": 45,
+ "Last week": 30,
+ "This week": 3,
+searchWord: "Amazon"}
+ */
 
 const DashboardGraph = ( {data} ) => {
     console.log(data.searchWord1Data.currentWeekData1)

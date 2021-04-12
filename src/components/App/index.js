@@ -18,7 +18,7 @@ const App = () => {
 
 
     return (
-
+        
         <Router>
             <Navigation />
             <Route path={ROUTES.LANDING} component={LandingPage} />

@@ -4,6 +4,7 @@ import { withAuthorization } from '../Session';
 // import { withFirebase } from '../Firebase';
 
 import Dashboard from '../Dashboard';
+// import Dashboard from '../ArrayAttempt-dashboard';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
 
