@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 const StyledGoSignOut = styled(GoSignOut)`
     padding-top: 6px;
+    color:${props => props.theme.txt};
 `
 
 const SignOutButton = ({ firebase }) => (

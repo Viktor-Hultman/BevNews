@@ -18,7 +18,7 @@ width:
 `
 
 export const NavLink = styled(Link)`
-  color: #000;
+  color:${props => props.theme.txt};
   display: flex;
   align-items: center;
 `;

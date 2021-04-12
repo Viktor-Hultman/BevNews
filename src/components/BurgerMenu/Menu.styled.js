@@ -5,8 +5,8 @@ export const StyledMenu = styled.nav`
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  background: #C4C4C4;
-  height: 350px;
+  background: ${props => props.theme.bg};
+  height: 400px;
   
   
   text-align: left;
@@ -28,7 +28,7 @@ export const StyledMenu = styled.nav`
     padding: 2rem;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: #5c5c5c;
+    color: ${props => props.theme.txt};
     text-decoration: none;
     transition: color 0.2s linear;
     

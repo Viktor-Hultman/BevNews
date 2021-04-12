@@ -15,7 +15,7 @@ const ColorContainer = styled.div`
 `
 
 const ColorSettingsCard = styled.div`
-background-color: #C4C4C4;
+background-color: ${props => props.theme.bg};
 border-radius: 10px;
 padding: 10px;
 margin: 10px;
@@ -35,8 +35,8 @@ cursor: pointer;
 
 const ColorPresets = ({ firebase }) => {
 
-    const [colorValue, setColorValue] = useState("")
-    const [colorName, setColorName] = useState("")
+   // const [colorValue, setColorValue] = useState("")
+   // const [colorName, setColorName] = useState("")
     const [selectedColor, setSelectedColor] = useState("Standard")
     
 
@@ -48,18 +48,17 @@ const ColorPresets = ({ firebase }) => {
     }
 
     const ColorChange = (evt) => {
-        setColorValue(evt.target.value)
-        setColorName(evt.target.options[evt.target.selectedIndex].text)
+       // setColorValue(evt.target.value)
+       // setColorName(evt.target.options[evt.target.selectedIndex].text)
+       if (evt.target.value === "Standard") {
+            setColor("Standard" , "Standard")
+       } else if (evt.target.value === "Amazon") {
+            setColor("Amazon" , "Amazon")
+       } else if (evt.target.value === "Tesla") {
+            setColor("Tesla" , "Tesla")
+       }
     }
 
-    const ColorSaveButton = (evt) => {
-        setColor(colorValue, colorName)
-        evt.preventDefault()
-    }
-
-
-    const isInvalidColor =
-    colorValue === "";
     
 
     useEffect(() => {
@@ -89,24 +88,23 @@ const ColorPresets = ({ firebase }) => {
                 <SelectedColorList>
                     <li>Your selected color preset: {selectedColor}</li>
                 </SelectedColorList>
-                <ColorDropdown isInvalidColor={isInvalidColor} ColorChange={ColorChange} ColorSaveButton={ColorSaveButton} />
+                <ColorDropdown ColorChange={ColorChange}/>
                 <br/>
             </ColorSettingsCard>
         </ColorContainer>
     )
 }
 
-const ColorDropdown = ({ isInvalidColor, ColorChange, ColorSaveButton}) => (
-    <form onSubmit={ColorSaveButton} onChange={ColorChange}>  
+const ColorDropdown = ({ColorChange}) => (
+    <form>  
         <label htmlFor="Color Presets">Select Color</label>
         <br/>
-        <ColorDropDwn defaultValue={'DEFAULT'} name="Color Presets">
+        <ColorDropDwn defaultValue={'DEFAULT'} name="Color Presets" onChange={ColorChange}>
             <option value="DEFAULT" disabled>Select a preset</option>
             <option value="Standard"> Standard </option> 
             <option value="Amazon"> Amazon </option>
             <option value="Tesla"> Tesla </option>
         </ColorDropDwn>
-        <StyledButton type="submit" value="Save" disabled={isInvalidColor}>Save</StyledButton>
     </form>
 )
 

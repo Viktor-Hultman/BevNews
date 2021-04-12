@@ -8,7 +8,7 @@ import SearchWordForm from '../SearchWordForm';
 import ColorPresets from '../ColorPresets';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
-
+import { WebsiteBackground} from "../Home"
 
 
 
@@ -26,13 +26,15 @@ text-align: center;
 const SettingsPage = () => {
 
     return (
-        <>
+        <WebsiteBackground>
+
             <SettingsContainer>
                 <h1>Settings</h1>
                 <SearchWordForm />
                 <ColorPresets />
             </SettingsContainer>
-        </>
+
+        </WebsiteBackground>
     )
 };
 

@@ -11,7 +11,6 @@ import { useOnClickOutside } from "../ClosingMenu";
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 
 const Nav = styled.nav`
-  background: #c4c4c4;
   height: 50px;
   display: flex;
   margin: 0px;
@@ -27,7 +26,7 @@ const NavItem = styled.li`
 `;
 
 const NavLink = styled(Link)`
-  color: #000;
+  color:${props => props.theme.txt};
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -57,10 +56,11 @@ const HamburgerDiv = styled.div`
 `;
 
 const NavContainer = styled.div`
-  background: #c4c4c4;
+  background: ${props => props.theme.bg};
   height: 50px;
   display: flex;
   text-align: center;
+  color: ${props => props.theme.txt};
 `;
 
 const SignedInUserNameDiv = styled.div`
@@ -86,7 +86,6 @@ const Navigation = () => (
         authUser ? (
           <>
             {/* Everything that is placed here will launch if the user is signed in */}
-            <NavigationAuth authUser={authUser} />
             {/* The ThemeHook is placed here to be able to take in the authUser prop */}
             <ThemeProviderHook authUser={authUser} />
           </>
@@ -101,7 +100,7 @@ const Navigation = () => (
   </div>
 );
 
-const NavigationAuth = ({ authUser }) => {
+export const NavigationAuth = ({ authUser }) => {
   const [open, setOpen] = useState(false);
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));

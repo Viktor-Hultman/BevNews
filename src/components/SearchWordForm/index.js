@@ -23,7 +23,8 @@ const UserWords = styled.li`
 
 `
 const DelIcon = styled(FaTimes)`
-    padding-top: 5px;
+    padding-top: 4px;
+    color: ${props => props.theme.txt}
 `
 // ${props => props.theme.bg}; use this syntax to link background color of the element to the theme
 const ChoosenWordsCard = styled.div`
@@ -42,12 +43,11 @@ export const StyledInput = styled.input`
 
 const RemoveBtn = styled.button`
     border:none;
-    background:#C4C4C4;
+    background: ${props => props.theme.bg};
     cursor: pointer;
 `
 
 export const StyledButton = styled.button`
-    cursor: pointer;
     background-color: ${props => props.theme.btnbg};
     border: none;
     color: black;
@@ -57,6 +57,7 @@ export const StyledButton = styled.button`
     border-radius: 5px;
 
     &:disabled {
+        cursor:default;
         background-color: ${props => props.theme.btndis};
       }
 `

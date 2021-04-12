@@ -25,7 +25,7 @@ export const StyledBurger = styled.button`
   div {
     width: 2rem;
     height: 0.25rem;
-    background: ${({ open }) => open ? '#5c5c5c' : 'black'};
+    background: ${props => props.theme.txt};
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;

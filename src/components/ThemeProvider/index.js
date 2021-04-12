@@ -11,7 +11,7 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import SettingsPage from '../Settings';
-
+import { NavigationAuth } from "../Navigation"
 
 // Color themes for the website
 // All themes need to have the same keys to change how the entire site looks
@@ -37,20 +37,26 @@ export const Standard = {
     fg:"green",
     bg:"pink",
     btnbg:"gray",
-    btndis: "red"
+    btndis: "red",
+    websitebg: "white",
+    txt: "#fff"
 }
 export const Amazon = {
     fg: "palevioletred",
-    bg: "purple",
-    btnbg: "orange",
-    btndis: "yellow"
+    bg: "#232f3e",
+    btnbg: "#ff9900",
+    btndis: "#ffc266",
+    websitebg: "#fff",
+    txt: "#fff"
  };
 
 export const Tesla = {
     fg: "red",
     bg: "yellow",
     btnbg:"blue",
-    btndis: "red"
+    btndis: "red",
+    websitebg: "#818181",
+    txt: "#fff"
 }
 
 
@@ -91,6 +97,7 @@ const ThemeProviderHook = ({firebase, authUser }) => {
     return (
         //The theme provider is surounding the route pages it shhould affect
         <ThemeProvider theme={colorTheme}>
+         <NavigationAuth authUser={authUser} />
             <Route exact path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.ACCOUNT} component={AccountPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />

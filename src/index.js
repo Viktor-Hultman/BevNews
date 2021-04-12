@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import App from './components/App';
 
 import Firebase, { FirebaseContext } from './components/Firebase';
@@ -26,7 +26,6 @@ const GlobalStyle = createGlobalStyle`
   display: none;
 }
 `
-
 
 ReactDOM.render(
   <React.StrictMode>

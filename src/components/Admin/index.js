@@ -7,9 +7,10 @@ import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
+import { WebsiteBackground} from "../Home"
 
 const AdminPage = () => (
-    <div>
+    <WebsiteBackground>
         <h1>Admin</h1>
         <p>The Admin Page is accessible by every signed in admin user.</p>
 
@@ -18,7 +19,7 @@ const AdminPage = () => (
                 <Route exact path={ROUTES.ADMIN} component={UserList} />
             </Switch>
 
-    </div>
+    </WebsiteBackground>
 );
 
 class UserListBase extends Component {

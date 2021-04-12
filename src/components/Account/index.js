@@ -6,6 +6,7 @@ import PasswordChangeForm from '../PasswordChange';
 import { SignUpContainter } from '../SignUp';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
+import {WebsiteBackground} from "../Home"
 
 const AccountContainer = styled(SignUpContainter)`
 `
@@ -29,7 +30,7 @@ const AccountPage = () => {
     const { email } = useContext(AuthUserContext);
 
     return (
-        <>
+        <WebsiteBackground>
 
 
             <AccountContainer>
@@ -38,7 +39,7 @@ const AccountPage = () => {
                 <PasswordChangeForm />
             </AccountContainer>
 
-        </>
+        </WebsiteBackground>
     );
 }
 
