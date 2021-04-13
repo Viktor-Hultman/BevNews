@@ -15,10 +15,11 @@ const ColorContainer = styled.div`
 `
 
 const ColorSettingsCard = styled.div`
-background-color: ${props => props.theme.bg};
+background-color: ${props => props.theme.card};
 border-radius: 10px;
 padding: 10px;
 margin: 10px;
+color: ${props => props.theme.txt};
 `
 const SelectedColorList = styled.div`
 list-style:none;

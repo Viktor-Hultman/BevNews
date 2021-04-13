@@ -8,17 +8,16 @@ import SearchWordForm from '../SearchWordForm';
 import ColorPresets from '../ColorPresets';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
-import { WebsiteBackground} from "../Home"
+import { WebsiteBackground} from "../Home";
+import { PageTitle } from '../Account';
 
 
 
 
 
 const SettingsContainer = styled.div`
-display:flex;
-flex-direction: column;
-align-items: center;
-text-align: center;
+color: ${props => props.theme.txt};
+
 `
 
 
@@ -27,9 +26,8 @@ const SettingsPage = () => {
 
     return (
         <WebsiteBackground>
-
+            <PageTitle>Settings</PageTitle>
             <SettingsContainer>
-                <h1>Settings</h1>
                 <SearchWordForm />
                 <ColorPresets />
             </SettingsContainer>

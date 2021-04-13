@@ -27,11 +27,13 @@ const DelIcon = styled(FaTimes)`
     color: ${props => props.theme.txt}
 `
 // ${props => props.theme.bg}; use this syntax to link background color of the element to the theme
-const ChoosenWordsCard = styled.div`
-    background-color:${props => props.theme.bg};
+export const ChoosenWordsCard = styled.div`
+    color: ${props => props.theme.txt};
+    background-color:${props => props.theme.card};
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
+    min-width: 450px;
 `
 export const StyledInput = styled.input`
     padding: 5px;
@@ -43,14 +45,14 @@ export const StyledInput = styled.input`
 
 const RemoveBtn = styled.button`
     border:none;
-    background: ${props => props.theme.bg};
+    background: ${props => props.theme.card};
     cursor: pointer;
 `
 
 export const StyledButton = styled.button`
     background-color: ${props => props.theme.btnbg};
     border: none;
-    color: black;
+    color: ${props => props.theme.txtInverted};
     padding: 5px;
     margin: 4px 2px;
     cursor: pointer;
@@ -58,6 +60,7 @@ export const StyledButton = styled.button`
 
     &:disabled {
         cursor:default;
+        color: ${props => props.theme.txt};
         background-color: ${props => props.theme.btndis};
       }
 `

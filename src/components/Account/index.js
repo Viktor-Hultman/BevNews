@@ -3,14 +3,17 @@ import React, { useContext } from 'react';
 import { AuthUserContext, withAuthorization } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import { SignUpContainter } from '../SignUp';
+import { ChoosenWordsCard } from '../SearchWordForm';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
 import {WebsiteBackground} from "../Home"
 
-const AccountContainer = styled(SignUpContainter)`
+const AccountContainer = styled(ChoosenWordsCard)`
 `
 
+export const PageTitle = styled.h1`
+    margin-bottom: 15px;
+`
 
 // const OldAccountPage = () => (
 //     <AuthUserContext.Consumer>
@@ -32,9 +35,9 @@ const AccountPage = () => {
     return (
         <WebsiteBackground>
 
-
+            <PageTitle>Account</PageTitle>
             <AccountContainer>
-                <h2>Account: {email}</h2>
+                <h2>{email}</h2>
                 <PasswordForgetForm />
                 <PasswordChangeForm />
             </AccountContainer>

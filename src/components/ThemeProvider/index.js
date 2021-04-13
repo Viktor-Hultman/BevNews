@@ -10,6 +10,7 @@ import * as ROUTES from '../../constants/routes';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import Footer from '../Footer';
 import SettingsPage from '../Settings';
 import { NavigationAuth } from "../Navigation"
 
@@ -35,28 +36,34 @@ import { NavigationAuth } from "../Navigation"
 
 export const Standard = {
     fg:"green",
-    bg:"pink",
-    btnbg:"gray",
-    btndis: "red",
-    websitebg: "white",
-    txt: "#fff"
+    bg:"#263238",
+    btnbg:"#DCE7FA",
+    btndis: "#656970",
+    card: "#185C5E",
+    websitebg: "#DCE7FA",
+    txt: "#fff",
+    txtInverted: "black"
 }
 export const Amazon = {
     fg: "palevioletred",
     bg: "#232f3e",
     btnbg: "#ff9900",
     btndis: "#ffc266",
+    card: "#232f3e",
     websitebg: "#fff",
-    txt: "#fff"
+    txt: "#fff",
+    txtInverted: "black"
  };
 
 export const Tesla = {
     fg: "red",
-    bg: "yellow",
-    btnbg:"blue",
-    btndis: "red",
-    websitebg: "#818181",
-    txt: "#fff"
+    bg: "#fff",
+    btnbg:"red",
+    btndis: "gray",
+    card: "lightgray",
+    websitebg: "#fff",
+    txt: "#000",
+    txtInverted: "#000"
 }
 
 
@@ -97,11 +104,12 @@ const ThemeProviderHook = ({firebase, authUser }) => {
     return (
         //The theme provider is surounding the route pages it shhould affect
         <ThemeProvider theme={colorTheme}>
-         <NavigationAuth authUser={authUser} />
+            <NavigationAuth authUser={authUser} />
             <Route exact path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.ACCOUNT} component={AccountPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
             <Route path={ROUTES.SETTINGS} component={SettingsPage} />
+            <Footer/>
         </ThemeProvider>
     )
 

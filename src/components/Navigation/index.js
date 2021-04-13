@@ -146,27 +146,8 @@ export const NavigationAuth = ({ authUser }) => {
       </HamburgerDiv>
     </NavContainer>
 
-    //     <Nav>
-    //         <NavItem>
-    //             <NavLink to={ROUTES.HOME}>Home</NavLink>
-    //         </NavItem>
-    //         <NavItem>
-    //             <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
-    //         </NavItem>
-    //         <NavItem>
-    //             <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
-    //         </NavItem>
 
-    //         {!!authUser.roles[ROLES.ADMIN] && (
-    //             <NavItem>
-    //                 <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
-    //             </NavItem>
-    //         )}
 
-    //         <NavItem>
-    //             <SignOutButton />
-    //         </NavItem>
-    //     </Nav>
   );
 };
 
@@ -176,6 +157,7 @@ const NavigationNonAuth = () => (
       <NavLink to={ROUTES.LANDING}>Landing</NavLink>
     </NavItem>
   </Nav>
+
 );
 
 export default Navigation;

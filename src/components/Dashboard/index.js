@@ -5,6 +5,10 @@ import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 
 import { Doughnut, Line, Bar } from 'react-chartjs-2';
+
+import styled from 'styled-components';
+
+import { ChoosenWordsCard } from '../SearchWordForm'
 /*
 let dataObj = {
     Amazon: {"Two weeks ago": 45,
@@ -24,6 +28,12 @@ let dataObj = {
  "This week": 3,
 searchWord: "Amazon"}
  */
+
+const GraphDiv = styled(ChoosenWordsCard)`
+width: 600px;
+`
+
+
 
 const DashboardGraph = ( {data} ) => {
     console.log(data.searchWord1Data.currentWeekData1)
@@ -98,15 +108,15 @@ const DashboardGraph = ( {data} ) => {
             pointRadius: 1,
             pointHitRadius: 10,
             data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
-        },
-    ]
-    }
+        }]
+    };
+
+
 
     return (
-        <div>
+        <GraphDiv>
             <Bar data={dataSetsData}/>
-            <h1></h1>
-        </div>
+        </GraphDiv>
     )
 }
 

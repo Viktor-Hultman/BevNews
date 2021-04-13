@@ -8,10 +8,14 @@ import * as ROUTES from '../../constants/routes';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
 import { WebsiteBackground} from "../Home"
+import { PageTitle } from "../Account";
+
+
+
 
 const AdminPage = () => (
     <WebsiteBackground>
-        <h1>Admin</h1>
+        <PageTitle>Admin</PageTitle>
         <p>The Admin Page is accessible by every signed in admin user.</p>
 
             <Switch>

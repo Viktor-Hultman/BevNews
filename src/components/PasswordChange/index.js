@@ -60,7 +60,7 @@ class PasswordChangeForm extends Component {
                 />
 
                 <StyledButton disabled={isInvalid} type="submit">
-                    Reset My Password
+                    Change My Password
                 </StyledButton>
                 {error && <p>{error.message}</p>}
             </ChangePassForm>
