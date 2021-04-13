@@ -57,10 +57,10 @@ export const Amazon = {
 
 export const Tesla = {
     fg: "red",
-    bg: "#fff",
-    btnbg:"red",
-    btndis: "gray",
-    card: "lightgray",
+    bg: "#cc0000",
+    btnbg:"#cc0000",
+    btndis: "#cf5955",
+    card: "#818181",
     websitebg: "#fff",
     txt: "#000",
     txtInverted: "#000"

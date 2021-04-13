@@ -9,6 +9,8 @@ import { Doughnut, Line, Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 
 import { ChoosenWordsCard } from '../SearchWordForm'
+
+import {PageTitle} from '../Account'
 /*
 let dataObj = {
     Amazon: {"Two weeks ago": 45,
@@ -287,7 +289,7 @@ const Dashboard = ({ firebase }) => {
 
     return (
         <>
-            <h1>Dashboard</h1>
+            <PageTitle>Dashboard</PageTitle>
             {/* syntax for conditional rendering: state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
 
             {userWord1 &&
@@ -549,7 +551,7 @@ const GraphData = ( {userWord1,
          twoWeeksAgoData3)
         return (
             <div>
-                <h1>Skickar data till dashboard</h1>
+            
 
                 {dataArr && 
                     <DashboardGraph data={dataObj}/>
