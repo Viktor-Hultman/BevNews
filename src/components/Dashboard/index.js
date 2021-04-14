@@ -50,18 +50,18 @@ const DashboardGraph = ( {data} ) => {
             label: data.titles.searchWord1,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'yellow',
+            borderColor: 'yellow',
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBorderColor: 'yellow',
             pointBackgroundColor: '#fff',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBackgroundColor: 'yellow',
+            pointHoverBorderColor: 'yellow',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
@@ -110,12 +110,61 @@ const DashboardGraph = ( {data} ) => {
             data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
         }]
     };
-
-
-
+    const options = {
+        "legend": {
+            "labels": {
+                "fontColor": "white",
+                "fontSize": 15
+            }
+        },
+        "maintainAspectRatio": true,
+        "scales": {
+          "yAxes": [
+            {
+              "gridLines": {
+                "color": "white",
+                "borderDash": [
+                  0,
+                  0
+                ]
+              },
+              "ticks": {
+                "beginAtZero": true,
+                              "fontColor": 'white'
+                
+              }
+            }
+          ],
+          "xAxes": [
+            {
+              "gridLines": {
+                "color": "#fff",
+                "borderDash": [
+                  0,
+                  0
+                ]
+              },
+              "ticks": {
+                "autoSkip": true,
+                "autoSkipPadding": 40,
+                "maxRotation": 0,
+                "fontColor": 'white'
+              }
+            }
+          ]
+        },
+        "layout": {
+          "padding": 10,
+        },
+        "tooltips": {
+          "enabled": true,
+          "mode": "x",
+          "intersect": true,
+        }
+      };
     return (
         <GraphDiv>
-            <Bar data={dataSetsData}/>
+            <Bar data={dataSetsData} options={options}/>
         </GraphDiv>
     )
 }

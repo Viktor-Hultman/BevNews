@@ -119,7 +119,7 @@ export const NavigationAuth = ({ authUser }) => {
           <h3>{username}</h3>
         </SignedInUserNameDiv>
         <NavItem>
-          <NavLink to={ROUTES.HOME}>Home</NavLink>
+          <NavLink to={ROUTES.HOME}>Dashboard</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>

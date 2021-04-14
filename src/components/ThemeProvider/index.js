@@ -35,7 +35,6 @@ import { NavigationAuth } from "../Navigation"
 // console.log(colorsObj[selected]) -> {fg: ..., bg: ...}
 
 export const Standard = {
-    fg:"green",
     bg:"#263238",
     btnbg:"#DCE7FA",
     btndis: "#656970",
@@ -45,7 +44,6 @@ export const Standard = {
     txtInverted: "black"
 }
 export const Amazon = {
-    fg: "palevioletred",
     bg: "#232f3e",
     btnbg: "#ff9900",
     btndis: "#ffc266",
@@ -56,7 +54,6 @@ export const Amazon = {
  };
 
 export const Tesla = {
-    fg: "red",
     bg: "#fff",
     btnbg:"red",
     btndis: "gray",
