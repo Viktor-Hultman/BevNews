@@ -23,9 +23,7 @@ padding-top: 40px;
 
 const HomePage = () => (
     <WebsiteBackground>
-
-        <PageTitle>Home Page</PageTitle>
-        <p>The Home Page is accessible by every signed in user.</p>
+        
         <Dashboard />
 
     </WebsiteBackground>
