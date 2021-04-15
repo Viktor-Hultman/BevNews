@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AuthUserContext } from "../Session";
@@ -9,6 +9,7 @@ import Burger from "../../components/Burger";
 import Menu from "../../components/BurgerMenu";
 import { useOnClickOutside } from "../ClosingMenu";
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
+import { withFirebase } from '../Firebase';
 
 const Nav = styled.nav`
   background: gray;
@@ -24,9 +25,26 @@ const Nav = styled.nav`
 const NavItem = styled.li`
   list-style: none;
   display: flex;
+  padding: 0 10px 0 10px;
 `;
 
-const NavLink = styled(Link)`
+const SignOutNavBtn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 40px;
+  background-color: ${props => props.theme.btnbg};
+  height:30px;
+  width:120px;
+  color: ${props => props.theme.txtInverted};
+  padding:0 10px 0 10px;
+  border-radius: 50px;
+  @media (max-width: 600px){
+    display:none;
+  }
+`
+
+export const NavLink = styled(Link)`
   color:${props => props.theme.txt};
   display: flex;
   align-items: center;
@@ -38,7 +56,7 @@ const NavLink = styled(Link)`
 const TextNavUl = styled.ul`
   display: flex;
   height: 50px;
-  justify-content: space-around;
+  justify-content: center;
 
   @media (max-width: 600px){
     display: none; 
@@ -61,6 +79,7 @@ const NavContainer = styled.div`
   height: 50px;
   display: flex;
   text-align: center;
+  align-items:center;
   color: ${props => props.theme.txt};
 `;
 
@@ -68,19 +87,20 @@ const SignedInUserNameDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding:0 10px 0 10px;
+  margin-left: 40px;
   @media (max-width: 600px){
     width: 100%; 
+    margin-left: 0;
   }
 `
 
-const SignedInUserNameDivSmallScreen = styled(SignedInUserNameDiv)`
-
-@media (min-width: 601px){
-  display: none; 
-}
+const LogoImg = styled.img`
+  width: 50px;
+  background-color: ${props => props.theme.card};
 `
 
-const Navigation = () => (
+const Navigation = ({firebase}) => (
   <div>
     <AuthUserContext.Consumer>
       {(authUser) =>
@@ -88,7 +108,7 @@ const Navigation = () => (
           <>
             {/* Everything that is placed here will launch if the user is signed in */}
             {/* The ThemeHook is placed here to be able to take in the authUser prop */}
-            <ThemeProviderHook authUser={authUser} />
+            <ThemeProviderHook firebase={firebase} authUser={authUser} />
           </>
         ) : (
           <>
@@ -101,23 +121,43 @@ const Navigation = () => (
   </div>
 );
 
-export const NavigationAuth = ({ authUser }) => {
+export const NavigationAuth = ({ firebase, authUser }) => {
   const [open, setOpen] = useState(false);
+  const [selectedLogo, setSelectedLogo] = useState("Standard")
+
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));
 
   let username = authUser.username;
+  let uid = authUser.uid;
+
+
+
+  useEffect(() => {
+    const unsubscribe = firebase.user(uid).child('settings').child('logoPreset')
+        .on('value', snapshot => {
+            if (snapshot) {
+                const logoObject = snapshot.val();
+                if (logoObject) {
+                    let logoValue = Object.values(logoObject)
+                    setSelectedLogo(logoValue)                        
+                } else {
+                    setSelectedLogo("Standard");
+                }
+            }
+        });
+    return () => {
+        unsubscribe();
+    }
+  
+  }, []);
 
   return (
     <NavContainer>
-        <SignedInUserNameDivSmallScreen>
-          <h3>{username}</h3>
-        </SignedInUserNameDivSmallScreen>
-
-      <TextNavUl>
         <SignedInUserNameDiv>
-          <h3>{username}</h3>
+          <LogoImg src={selectedLogo} />
         </SignedInUserNameDiv>
+      <TextNavUl>
         <NavItem>
           <NavLink to={ROUTES.HOME}>Dashboard</NavLink>
         </NavItem>
@@ -127,17 +167,15 @@ export const NavigationAuth = ({ authUser }) => {
         <NavItem>
           <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
         </NavItem>
-
         {!!authUser.roles[ROLES.ADMIN] && (
           <NavItem>
             <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
           </NavItem>
         )}
-        <NavItem>
-          <SignOutButton />
-        </NavItem>
       </TextNavUl>
-
+      <SignOutNavBtn>
+        <SignOutButton />
+      </SignOutNavBtn>
       <HamburgerDiv>
         <div ref={node}>
           <Burger open={open} setOpen={setOpen} />
@@ -160,4 +198,4 @@ const NavigationNonAuth = () => (
 
 );
 
-export default Navigation;
+export default (withFirebase(Navigation));

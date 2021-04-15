@@ -33,7 +33,8 @@ export const ChoosenWordsCard = styled.div`
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
-    min-width: 450px;
+    min-width: 320px;
+    
 `
 export const StyledInput = styled.input`
     padding: 5px;
@@ -101,6 +102,7 @@ const SearchWordForm = ({ firebase }) => {
 
     const inputChange = (evt) => {
         setInputValue(evt.target.value)
+        setWarningMsg("")
         console.log(inputValue)
     }
 
@@ -183,6 +185,7 @@ const AddWordForm = ({ inputChange, buttonClick, inputValue, warningMsg, addWord
     <>
         <StyledInput name="serchWordInputField" type="text" value={inputValue} placeholder="add keyword" onChange={inputChange}></StyledInput>
         <StyledButton disabled={addWordInvalid} type="submit" onClick={buttonClick} > Add </StyledButton>
+        <br/>
         <WarningMessage>{warningMsg}</WarningMessage>
     </>
 )
