@@ -14,6 +14,8 @@ import {PageTitle} from '../Account'
 
 import { StyledButton } from '../SearchWordForm'
 
+import DashboardGraphs from '../Graphs'
+
 
 /*
 let dataObj = {
@@ -35,214 +37,7 @@ let dataObj = {
 searchWord: "Amazon"}
  */
 
-const GraphDiv = styled(ChoosenWordsCard)`
-    height: 400px;
-    width: 600px;
-    @media(max-width: 320px){
-        max-height: 250px;
-        max-width: 250px;
-    }    
-    @media(min-width: 320px){
-        max-height: 300px;
-        max-width: 300px;
-        
-    }
 
-    @media(min-width: 768px){
-        max-height: 768px;
-        max-width: 768px;
-    }
-    @media(min-width: 1024px){
-        max-height: 1024px;
-        max-width: 1024px;
-    }
-
-    
-`
-
-
-
-const DashboardGraph = ( {firebase, uid, data} ) => {
-    const [barGraph, setBarGraph] = useState(true)
-
-    const setGraph = (value) => { // ['Tesla' , "Apple", "Saab"]
-        firebase.user(uid).child('settings').child('graphSettings')
-            .set({ [value]: true})
-    }
-
-    const onClick = (evt) => {
-        if(evt.target.value == "Bar"){
-            setGraph("Bar")
-            console.log("Bar")
-        } else if (evt.target.value == "Line"){
-            setGraph("Line")
-            console.log("Line")
-        }
-    }
-
-    useEffect(() => {
-        const unsubscribe = firebase.user(uid).child('settings').child('graphSettings')
-            .on('value', snapshot => {
-                if (snapshot) {
-                    const graphObject = snapshot.val();
-                    if (graphObject) {
-                        let graphArray = Object.keys(graphObject)
-                        if(graphArray == "Bar") {
-                            setBarGraph(true)
-                        } else {
-                            setBarGraph(false)
-                        }
-                    } else {
-                        setBarGraph(true);
-                    }
-                }
-            });
-        return () => {
-            unsubscribe();
-        }
-      
-    }, []);
-
-
-    // console.log(data.searchWord1Data.currentWeekData1)
-    const dataSetsData = {
-        labels: [ 
-            // props.dataObj.titles.searchWord1
-            "Two weeks ago",
-            "Last week",
-            "This week"
-        ],
-        datasets: [
-            {
-            label: data.titles.searchWord1,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'yellow',
-            borderColor: 'yellow',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'yellow',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'yellow',
-            pointHoverBorderColor: 'yellow',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
-        },
-        {
-            label: data.titles.searchWord2,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'red',
-            borderColor: 'red',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'red',
-            pointHoverBorderColor: 'darkred',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
-        },
-        {
-            label: data.titles.searchWord3,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'green',
-            borderColor: 'green',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'green',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'green',
-            pointHoverBorderColor: 'darkgreen',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
-        }]
-    };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
-    return (
-        <GraphDiv>
-            
-
-            {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
-            }
-            
-            
-            <button value="Bar" onClick={onClick}>Bar Graph</button>
-            <button value="Line" onClick={onClick}>Line Graph</button>
-        </GraphDiv>
-    )
-}
 
 
 const Dashboard = ({ firebase }) => {
@@ -602,8 +397,19 @@ const GraphData = ( {firebase,
     let oneWeekAgoData3 = searchWord3DataOneWeekBack ? searchWord3DataOneWeekBack.response.total : null
     let twoWeeksAgoData3 = searchWord3DataTwoWeeksBack ? searchWord3DataTwoWeeksBack.response.total : null
 
+    let dataObjsArr = [
+        searchWord1DataCurrenWeek, 
+        searchWord1DataOneWeekBack, 
+        searchWord1DataTwoWeeksBack, 
+        searchWord2DataCurrenWeek, 
+        searchWord2DataOneWeekBack, 
+        searchWord2DataTwoWeeksBack, 
+        searchWord3DataCurrenWeek, 
+        searchWord3DataOneWeekBack, 
+        searchWord3DataTwoWeeksBack
+    ]
 
-    let dataArr = 
+    let dataResultsArr = 
         [currentWeekData1,
          oneWeekAgoData1, 
          twoWeeksAgoData1, 
@@ -616,18 +422,18 @@ const GraphData = ( {firebase,
 
     
 
-    console.log(dataArr[2])
+    console.log(dataResultsArr[2])
         
 
    
-        for (let i = 0; i < dataArr.length; i++){
-            if (dataArr[i] == 0){
-                dataArr[i] = dataArr[i]+1
+        for (let i = 0; i < dataResultsArr.length; i++){
+            if (dataResultsArr[i] == 0){
+                dataResultsArr[i] = dataResultsArr[i]+1
             }
-            console.log(dataArr[i])
+            console.log(dataResultsArr[i])
         }
         
-        console.log(dataArr)
+        console.log(dataResultsArr)
 
     let titles = {
         searchWord1:userWord1,
@@ -651,7 +457,7 @@ const GraphData = ( {firebase,
         twoWeeksAgoData3,
     }
     
-    let dataObj = {
+    let dataObjTotalResults = {
         titles,
         searchWord1Data,
         searchWord2Data,
@@ -681,8 +487,8 @@ const GraphData = ( {firebase,
             <div>
             
 
-                {dataArr && 
-                    <DashboardGraph firebase={firebase} uid={uid} data={dataObj}/>
+                {dataResultsArr && 
+                    <DashboardGraphs firebase={firebase} uid={uid} data={dataObjTotalResults} dataObjsArr={dataObjsArr}/>
                 
                 }
 

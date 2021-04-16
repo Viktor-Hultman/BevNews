@@ -9,13 +9,14 @@ export const StyledBurger = styled.button`
   right: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-around;
-  width: 2rem;
+  width: 40px;
   height: 2rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 0 0 0 5px;
   z-index: 10;
 
   &:focus {

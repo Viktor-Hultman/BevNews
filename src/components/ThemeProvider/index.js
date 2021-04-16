@@ -36,9 +36,9 @@ import { NavigationAuth } from "../Navigation"
 
 export const Standard = {
     bg:"#263238",
-    btnbg:"#DCE7FA",
+    btnbg:"#185C5E",
     btndis: "#656970",
-    card: "#185C5E",
+    card: "#263238",
     websitebg: "#DCE7FA",
     txt: "#fff",
     txtInverted: "black"
@@ -54,12 +54,12 @@ export const Amazon = {
  };
 
 export const Tesla = {
-    bg: "#cc0000",
+    bg: "#212121",
     btnbg:"#cc0000",
     btndis: "#cf5955",
-    card: "#818181",
-    websitebg: "#fff",
-    txt: "#000",
+    card: "#212121",
+    websitebg: "#f2f2f2",
+    txt: "#fff",
     txtInverted: "#000"
 }
 

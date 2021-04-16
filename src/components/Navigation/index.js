@@ -11,17 +11,6 @@ import { useOnClickOutside } from "../ClosingMenu";
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import { withFirebase } from '../Firebase';
 
-const Nav = styled.nav`
-  background: #185C5E;
-  text-color: #fff;
-  height: 50px;
-  display: flex;
-  margin: 0px;
-  padding: 0px;
-  justify-content: space-around;
-  list-style-type: none;
-  overflow: hidden;
-`;
 
 const NavItem = styled.li`
   list-style: none;
@@ -41,6 +30,12 @@ const SignOutNavBtn = styled.div`
   color: ${props => props.theme.txtInverted};
   padding:0 2px 0 2px;
   border-radius: 50px;
+  border: 1px solid ${props => props.theme.btnbg};
+
+  :hover{
+    border-color: ${props => props.theme.txt};
+  }
+
   @media (max-width: 768px){
     display:none;
   }
@@ -61,6 +56,7 @@ export const NavLink = styled(Link)`
     border-bottom: 3px solid ${props => props.theme.btnbg};
     transition: all 0.2s ease-out;
   }
+
 `;
 
 const TextNavUl = styled.ul`
@@ -109,6 +105,29 @@ const LogoImg = styled.img`
   width: 50px;
   background-color: ${props => props.theme.card};
 `
+
+const LandingNav = styled.div`
+  background: #263238;
+  color: #fff;
+  display: flex;
+  height: 50px;
+  text-align: center;
+  justify-content: center;
+`;
+
+const LandingItem = styled(NavItem)`
+`;
+
+const LandingLink = styled(NavLink)`
+  color: #fff;
+  :hover{
+      border-bottom: 3px solid #185C5E;
+      transition: all 0.2s ease-out;
+  }
+`;
+
+
+
 
 const Navigation = ({firebase}) => (
   <div>
@@ -200,11 +219,11 @@ export const NavigationAuth = ({ firebase, authUser }) => {
 };
 
 const NavigationNonAuth = () => (
-  <Nav>
-    <NavItem>
-      <NavLink to={ROUTES.LANDING}>Landing</NavLink>
-    </NavItem>
-  </Nav>
+  <LandingNav>
+    <LandingItem>
+      <LandingLink to={ROUTES.LANDING}>Landing</LandingLink>
+    </LandingItem>
+  </LandingNav>
 
 );
 

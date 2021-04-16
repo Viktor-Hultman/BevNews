@@ -1,17 +1,25 @@
 
-
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import HomeSearch from '../FetchSearch';
+import LandingGraph from '../LandingGraph';
 import * as ROUTES from '../../constants/routes';
 
-
 const SignInButton = styled.button`
-width: 80px;
-height: 35px;
-border-radius: 8px;
-background: #C4C4C4;
-margin: 20px;
+    background-color: #263238;
+    border: 2px solid #263238;
+    color: #fff;
+    padding: 5px;
+    width: 90%;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    :hover{
+        
+    }
+
 `
 
 // const BiggerSignInButton = styled(SignInButton)`
@@ -20,14 +28,17 @@ margin: 20px;
 
 const ButtonLink = styled(Link)`
 text-decoration: none;
-color: black;
+color: #fff;
+width: 
+text-transform: uppercase;
+
 `
 
 const LandingDiv = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-width: 100vw;
+width: 100%;
 height: 100vh;
 text-align: center;
 
@@ -49,7 +60,7 @@ align-items: center;
 justify-content: center;
 width: 100%;
 height: 100%;
-background: #CCCCCC;
+background: #fff;
 
 `
 
@@ -62,7 +73,7 @@ const Landing = () => (
         </p>
         <SignInButton><p><ButtonLink to={ROUTES.SIGN_IN}>Sign In</ButtonLink></p></SignInButton>
         <ExampleGraphDiv>
-            <HomeSearch />
+            <LandingGraph />
         </ExampleGraphDiv>
     </LandingDiv>
 );

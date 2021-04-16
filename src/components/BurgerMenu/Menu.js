@@ -24,20 +24,12 @@ export const NavLink = styled(Link)`
 
 const Menu = ({ open, setOpen, authUser }) => {
 
-  const [click, setClick] = useState(false);
-
-  const handleClick = () => {
-    setClick(!click);
-  }
-  const closeBurger = () => {
-    setClick(false);
-  }
 
   return (
-    <StyledMenu open={open} onClick={handleClick} >
+    <StyledMenu open={open}  >
 
       <NavItem>
-        <NavLink to={ROUTES.HOME} onClick={closeBurger} onClick={() => setOpen(!open)}>Dashboard</NavLink>
+        <NavLink to={ROUTES.HOME}  onClick={() => setOpen(!open)}>Dashboard</NavLink>
       </NavItem>
       <NavItem>
         <NavLink to={ROUTES.ACCOUNT} onClick={() => setOpen(!open)}>Account</NavLink>
