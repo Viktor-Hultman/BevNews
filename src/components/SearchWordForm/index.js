@@ -19,12 +19,16 @@ const UserWordList = styled.ul`
 const UserWords = styled.li`
     display: flex;
     justify-content: center;
-    
+    margin: 10px;
+    cursor: pointer;
+    color: ${props => props.theme.txt};
+    :hover{
+        color: ${props => props.theme.btnbg};
+    }
 
 `
 const DelIcon = styled(FaTimes)`
     padding-top: 4px;
-    color: ${props => props.theme.txt}
 `
 // ${props => props.theme.bg}; use this syntax to link background color of the element to the theme
 export const ChoosenWordsCard = styled.div`
@@ -50,11 +54,11 @@ export const StyledInput = styled.input`
     resize: vertical;
 `
 
-const RemoveBtn = styled.button`
-    border:none;
-    background: ${props => props.theme.card};
-    cursor: pointer;
-`
+// const RemoveBtn = styled.button`
+//     border:none;
+//     background: ${props => props.theme.card};
+//     cursor: pointer;
+// `
 
 export const StyledButton = styled.button`
     background-color: ${props => props.theme.btnbg};
@@ -181,9 +185,9 @@ const SearchWordList = ({ userWordsArr, handleClick }) => (
 );
 
 const SearchWordItem = ({ item, handleClick }) => (
-    <UserWords>
+    <UserWords onClick={() => handleClick(item) }>
         {item}
-        <RemoveBtn onClick={() => handleClick(item) }><DelIcon/></RemoveBtn>
+        <DelIcon/>
     </UserWords>
 );
 
