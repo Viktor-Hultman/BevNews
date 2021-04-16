@@ -15,11 +15,16 @@ const WarningMessage = styled.span`
 `
 const UserWordList = styled.ul`
     list-style:none;
-`
-const UserWords = styled.li`
     display: flex;
     justify-content: center;
-    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+`
+
+const UserWords = styled.li`
+    display: flex;
+    justify-content: center; 
+    margin: 5px;
     cursor: pointer;
     color: ${props => props.theme.txt};
     :hover{

@@ -33,25 +33,6 @@ const Dashboard = ({ firebase }) => {
     const [formatted2WeekAgo, setFormatted2WeekAgo] = useState("")
     const [formatted3WeekAgo, setFormatted3WeekAgo] = useState("")
 
-    //This code snippet is used to assign a new user the "BEV" logo after they have created their account
-    let StandardImg = "https://i.imgur.com/3orcm3Z.png"
-    useEffect(() => {
-        const unsubscribe = firebase.user(uid).child('settings').child('logoPreset')
-        .on('value', snapshot => {
-            if (snapshot) {
-                const logoObject = snapshot.val();
-                //Checks if there is no "logopreset" key in firebase and then runs the code below if thats true
-                if (!logoObject) {                       
-                    firebase.user(uid).child('settings').child('logoPreset')
-                    .set ({ "Standard": StandardImg })
-                }
-            }
-        });
-        return () => {
-            unsubscribe();
-        }
-    }, [])
-
 
     //Here we get the full URL from the user, it contains one search word, a from date, a to date, the selected country and language
     // console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)

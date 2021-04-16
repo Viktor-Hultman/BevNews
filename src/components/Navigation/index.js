@@ -151,7 +151,7 @@ const Navigation = ({firebase}) => (
 
 export const NavigationAuth = ({ firebase, authUser }) => {
   const [open, setOpen] = useState(false);
-  const [selectedLogo, setSelectedLogo] = useState("Standard")
+  const [selectedLogo, setSelectedLogo] = useState("https://i.imgur.com/3orcm3Z.png")
 
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));
@@ -170,7 +170,7 @@ export const NavigationAuth = ({ firebase, authUser }) => {
                     let logoValue = Object.values(logoObject)
                     setSelectedLogo(logoValue)                        
                 } else {
-                    setSelectedLogo("Standard");
+                    setSelectedLogo("https://i.imgur.com/3orcm3Z.png");
                 }
             }
         });
