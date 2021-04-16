@@ -198,7 +198,6 @@ const DashboardGraph = ( {firebase, uid, data} ) => {
               "ticks": {
                 "beginAtZero": true,
                               "fontColor": 'white'
-                
               }
             }
           ],
