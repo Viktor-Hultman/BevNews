@@ -30,6 +30,10 @@ const GitIcon = styled(FaGithub)`
 `
 const GitLink = styled.a`
     color: inherit;
+    :hover {
+        border-bottom: 3px solid ${props => props.theme.btnbg};
+        transition: all 0.2s ease-out;
+      }
 `
 
 export const Footer = () => (

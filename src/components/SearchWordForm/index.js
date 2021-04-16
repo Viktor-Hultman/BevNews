@@ -32,8 +32,14 @@ export const ChoosenWordsCard = styled.div`
     background-color:${props => props.theme.card};
     border-radius: 10px;
     padding: 10px;
-    margin: 10px;
-    min-width: 320px;
+    // @media(min-width: 320px){
+    //     max-width: 1000px;
+        
+    // }
+
+    // @media(min-width: 768px){
+    //     max-width: 768px;
+    // }
     
 `
 export const StyledInput = styled.input`

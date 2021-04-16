@@ -7,7 +7,7 @@ export const StyledMenu = styled.nav`
   align-items: center;
   background: ${props => props.theme.bg};
   height: 400px;
-  
+  padding: 0 10px 0 10px;
   
   text-align: left;
   position: absolute;
@@ -19,13 +19,12 @@ export const StyledMenu = styled.nav`
   @media (max-width: 500px) {
     width: 100%;
   }
-  @media (min-width: 601px){
+  @media (min-width: 769px){
     display: none;
   }
   a {
     font-size: 2rem;
     text-transform: uppercase;
-    padding: 2rem;
     font-weight: bold;
     letter-spacing: 0.5rem;
     color: ${props => props.theme.txt};

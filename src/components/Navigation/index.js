@@ -12,7 +12,8 @@ import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import { withFirebase } from '../Firebase';
 
 const Nav = styled.nav`
-  background: gray;
+  background: #185C5E;
+  text-color: #fff;
   height: 50px;
   display: flex;
   margin: 0px;
@@ -35,11 +36,12 @@ const SignOutNavBtn = styled.div`
   margin-right: 40px;
   background-color: ${props => props.theme.btnbg};
   height:30px;
-  width:120px;
+  width:200px;
+  font-size: 0.5rem;
   color: ${props => props.theme.txtInverted};
-  padding:0 10px 0 10px;
+  padding:0 2px 0 2px;
   border-radius: 50px;
-  @media (max-width: 600px){
+  @media (max-width: 768px){
     display:none;
   }
 `
@@ -51,6 +53,14 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   padding: 0px;
   height: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  :hover {
+    border-bottom: 3px solid ${props => props.theme.btnbg};
+    transition: all 0.2s ease-out;
+  }
 `;
 
 const TextNavUl = styled.ul`
@@ -58,7 +68,7 @@ const TextNavUl = styled.ul`
   height: 50px;
   justify-content: center;
 
-  @media (max-width: 600px){
+  @media (max-width: 768px){
     display: none; 
   }
 
@@ -68,7 +78,7 @@ const TextNavUl = styled.ul`
 `;
 
 const HamburgerDiv = styled.div`
-  @media (min-width: 601px){
+  @media (min-width: 769px){
     display: none; 
   }
 
@@ -89,7 +99,7 @@ const SignedInUserNameDiv = styled.div`
   justify-content: center;
   padding:0 10px 0 10px;
   margin-left: 40px;
-  @media (max-width: 600px){
+  @media (max-width: 768px){
     width: 100%; 
     margin-left: 0;
   }

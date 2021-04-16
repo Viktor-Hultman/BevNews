@@ -6,8 +6,8 @@ import * as ROUTES from '../../constants/routes';
 import { AuthUserContext } from '../Session';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { bool } from 'prop-types';
-
+import { bool, func  } from 'prop-types';
+import {useState} from 'react'
 
 const NavItem = styled.li`
 list-style: none;
@@ -22,26 +22,35 @@ export const NavLink = styled(Link)`
   align-items: center;
 `;
 
-const Menu = ({ open, authUser }) => {
+const Menu = ({ open, setOpen, authUser }) => {
+
+  const [click, setClick] = useState(false);
+
+  const handleClick = () => {
+    setClick(!click);
+  }
+  const closeBurger = () => {
+    setClick(false);
+  }
+
   return (
-    <StyledMenu open={open}>
+    <StyledMenu open={open} onClick={handleClick} >
 
       <NavItem>
-        <NavLink to={ROUTES.HOME}>Home</NavLink>
+        <NavLink to={ROUTES.HOME} onClick={closeBurger} onClick={() => setOpen(!open)}>Dashboard</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to={ROUTES.ACCOUNT}>Account</NavLink>
+        <NavLink to={ROUTES.ACCOUNT} onClick={() => setOpen(!open)}>Account</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink to={ROUTES.SETTINGS}>Settings</NavLink>
+        <NavLink to={ROUTES.SETTINGS} onClick={() => setOpen(!open)}>Settings</NavLink>
       </NavItem>
 
       {!!authUser.roles[ROLES.ADMIN] && (
         <NavItem>
-          <NavLink to={ROUTES.ADMIN}>Admin</NavLink>
+          <NavLink to={ROUTES.ADMIN} onClick={() => setOpen(!open)}>Admin</NavLink>
         </NavItem>
       )}
-
       <NavItem>
         <SignOutButton />
       </NavItem>
@@ -52,6 +61,7 @@ const Menu = ({ open, authUser }) => {
 
 Menu.propTypes = {
   open: bool.isRequired,
+  setOpen: func.isRequired,
 }
 
 export default Menu;

@@ -20,6 +20,7 @@ border-radius: 10px;
 padding: 10px;
 margin: 10px;
 color: ${props => props.theme.txt};
+
 `
 const SelectedColorList = styled.div`
 list-style:none;

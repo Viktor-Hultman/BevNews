@@ -12,6 +12,8 @@ import { ChoosenWordsCard } from '../SearchWordForm'
 
 import {PageTitle} from '../Account'
 
+import { StyledButton } from '../SearchWordForm'
+
 
 /*
 let dataObj = {
@@ -34,7 +36,27 @@ searchWord: "Amazon"}
  */
 
 const GraphDiv = styled(ChoosenWordsCard)`
-    width: 100vw;
+    height: 400px;
+    width: 600px;
+    @media(max-width: 320px){
+        max-height: 250px;
+        max-width: 250px;
+    }    
+    @media(min-width: 320px){
+        max-height: 300px;
+        max-width: 300px;
+        
+    }
+
+    @media(min-width: 768px){
+        max-height: 768px;
+        max-width: 768px;
+    }
+    @media(min-width: 1024px){
+        max-height: 1024px;
+        max-width: 1024px;
+    }
+
     
 `
 
@@ -162,7 +184,7 @@ const DashboardGraph = ( {firebase, uid, data} ) => {
                 "fontSize": 15
             }
         },
-        "maintainAspectRatio": true,
+        "maintainAspectRatio": false,
         "scales": {
           "yAxes": [
             {
