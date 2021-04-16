@@ -5,174 +5,24 @@ import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 
 import { Doughnut, Line, Bar } from 'react-chartjs-2';
-import { useHistory } from 'react-router';
+
+import styled from 'styled-components';
+
+import { ChoosenWordsCard } from '../SearchWordForm'
+
+import { PageTitle } from '../Account'
 
 
-const DashboardGraph = ( {data} ) => {
-    console.log(data.searchWord1Data.currentWeekData1)
-    const dataSetsData = {
-        labels: [ 
-            // props.dataObj.titles.searchWord1
-            1,
-            2,
-            3
-        ],
-        datasets: [
-            
-            {
-            label: data.titles.searchWord1,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord1Data.currentWeekData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.twoWeeksAgoData1]
-        },
-        {
-            label: data.titles.searchWord2,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'red',
-            borderColor: 'red',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'red',
-            pointHoverBorderColor: 'darkred',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord2Data.currentWeekData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.twoWeeksAgoData2]
-        },
-        {
-            label: data.titles.searchWord3,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'green',
-            borderColor: 'green',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'green',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'green',
-            pointHoverBorderColor: 'darkgreen',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [data.searchWord3Data.currentWeekData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.twoWeeksAgoData3]
-        },
-    ]
-    }
-
-    return (
-        <div>
-            <Bar data={dataSetsData}/>
-            <h1></h1>
-        </div>
-    )
-}
-
-
-const Dashboard = ({ firebase }) => {
-    //Several useStates for setting different states we will use later
+const NewDashboard = ({ firebase }) => {
     // const [userWord1, setUserWord1] = useState("")
     // const [userWord2, setUserWord2] = useState("")
     // const [userWord3, setUserWord3] = useState("")
-    const [userWordsArr, setUserWordsArr] = useState([])
-    // const [userCountry, setUserCountry] = useState("")
 
-    // const [userLanguage, setUserLanguage] = useState("")
-
-    const [formattedTodayDate, setFormattedTodayDate] = useState("")
-    const [formatted1WeekAgo, setFormatted1WeekAgo] = useState("")
-    const [formatted2WeekAgo, setFormatted2WeekAgo] = useState("")
-    const [formatted3WeekAgo, setFormatted3WeekAgo] = useState("")
-
-    
-
-    // const searchWordDataArr = [0]
-
-    //Here we get the full URL from the user, it contains one search word, a from date, a to date, the selected country and language
-    // console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)
+    const [userWordsArr, setUserWordsArr] = useState(null)
 
     //Getting the unique id of the signed in user from the context provider
     //so we can use it to link the user to their firebase data profile
     let { uid } = useContext(AuthUserContext);
-
-    //Here we gather the timestap of when the page loads 
-    const timestamp = Date.now()
-    //The other timestamps get greated using 1 week as milliseconds
-    let oneWeekAgoTimestamp = timestamp - 604800000
-    let twoWeeksAgoTimestamp = timestamp - 1209600000
-    let threeWeeksAgoTimestamp = timestamp - 1814400000
-
-    //Creates variable to use later
-    let todayDate
-    let oneWeekAgoDate
-    let twoWeeksAgoDate
-    let threeWeeksAgoDate
-
-
-    //A function that takes a string, the index of where to place the new string, and the new string to add
-    function addStr(str, index, stringToAdd) {
-        return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
-    }
-
-    useEffect(() => {
-        //Places the variable in corresponding order in arrays to cycle through in the for loop below
-        let weekDatesArr = [todayDate, oneWeekAgoDate, twoWeeksAgoDate, threeWeeksAgoDate]
-        let timestampArr = [timestamp, oneWeekAgoTimestamp, twoWeeksAgoTimestamp, threeWeeksAgoTimestamp]
-
-        //For loop that takes the timestamps and recreates them as dates we can use in our fetch
-        for (let i = 0; i < timestampArr.length; i++) {
-            weekDatesArr[i] = new Date(timestampArr[i])
-            weekDatesArr[i] = weekDatesArr[i].getFullYear() + '-' + (weekDatesArr[i].getMonth() + 1) + '-' + weekDatesArr[i].getDate();
-            
-            if (weekDatesArr[i].charAt(5) === 1) {
-                console.log(weekDatesArr[i] + ": " + "this date is correct")
-            } else {
-                weekDatesArr[i] = (addStr(weekDatesArr[i], 5, 0))
-            }
-            console.log(weekDatesArr[i])
-        }
-        //Sets the useStates of the dates that we'll use for fetching 
-        setFormattedTodayDate(weekDatesArr[0])
-        setFormatted1WeekAgo(weekDatesArr[1])
-        setFormatted2WeekAgo(weekDatesArr[2])
-        setFormatted3WeekAgo(weekDatesArr[3])
-    }, []);
-
-
-   
-    // //Big chunk of logging to the console for checking values
-    // console.log(formatted3WeekAgo)
-    // console.log(formatted2WeekAgo)
-    // console.log(formatted1WeekAgo)
-    // console.log(formattedTodayDate)
-    // console.log(userLanguage)
-    // console.log(userCountry)
-    // console.log(userWord1, userWord2, userWord3)
 
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('searchWords')
@@ -186,8 +36,8 @@ const Dashboard = ({ firebase }) => {
                         // setUserWord1(searchWordArray[0])
                         // setUserWord2(searchWordArray[1])
                         // setUserWord3(searchWordArray[2])
-                        setUserWordsArr(searchWordArray) 
-                        console.log("hej från useeffect m weeks")
+                        setUserWordsArr(searchWordArray)
+                        console.log("hej från useeffect som sätter sökorden")
 
                     } else {
                         //Resets the useState variables if something happens to the users words
@@ -202,52 +52,168 @@ const Dashboard = ({ firebase }) => {
             unsubscribe();
         }
 
-    }, []); // här stod tidigare nånting weeks
+    }, []);
+
 
 
     return (
         <>
-            <h1>Dashboard</h1>
-            {/* <span>{userWord1}: {searchWord1DataCurrenWeek.totalArticles}</span> */}
-            {/*state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
-            {       userWordsArr &&
-                    formatted1WeekAgo && 
-                    formatted2WeekAgo &&
-                    formatted3WeekAgo && 
-                    formattedTodayDate && 
-                    
-            <FetchComp 
-                userWordsArr={userWordsArr}
-                formatted1WeekAgo={formatted1WeekAgo}
-                formatted2WeekAgo={formatted2WeekAgo}
-                formatted3WeekAgo={formatted3WeekAgo}
-                formattedTodayDate={formattedTodayDate}
-            />
+            <PageTitle>Dashboard</PageTitle>
+            {userWordsArr &&
+                <DatesComp userWordsArr={userWordsArr} />
+            }
+        </>
+
+    )
+}
+
+
+
+const DatesComp = ({ userWordsArr }) => {
+    //Several useStates for setting different states we will use later
+    const [formattedDatesArr, setFormattedDatesArr] = useState(null);
+
+
+
+
+    //Here we gather the timestap of when the page loads 
+    const today = Date.now()
+    //The other timestamps get greated using 1 week as milliseconds
+    // let oneDayAgo = today - 86400000
+
+    let oneDayAgo
+    let twoDaysAgo
+    let threeDaysAgo
+    let fourDaysAgo
+    let fiveDaysAgo
+    let sixDaysAgo
+    let sevenDaysAgo
+    let eightDaysAgo
+    let nineDaysAgo
+    let tenDaysAgo
+    let elevenDaysAgo
+    let twelveDaysAgo
+    let thirteenDaysAgo
+    let fourteenDaysAgo
+
+    let timestampsArr = [
+        oneDayAgo,
+        twoDaysAgo,
+        threeDaysAgo,
+        fourDaysAgo,
+        fiveDaysAgo,
+        sixDaysAgo,
+        sevenDaysAgo,
+        eightDaysAgo,
+        nineDaysAgo,
+        tenDaysAgo,
+        elevenDaysAgo,
+        twelveDaysAgo,
+        thirteenDaysAgo,
+        fourteenDaysAgo,
+    ]
+
+    useEffect(() => {
+
+        let i, oneDayTimestamp
+        for (i = 0, oneDayTimestamp = 86400000; i < timestampsArr.length; i++) {
+            timestampsArr[i] = today - oneDayTimestamp;
+
+            oneDayTimestamp = oneDayTimestamp + 86400000;
+
+        }
+
+        timestampsArr.unshift(today)
+
+    }, []);
+
+
+    // //Creates variable to use later
+    let todayDate
+    let oneDayAgoDate
+    let twoDaysAgoDate
+    let threeDaysAgoDate
+    let fourDaysAgoDate
+    let fiveDaysAgoDate
+    let sixDaysAgoDate
+    let sevenDaysAgoDate
+    let eightDaysAgoDate
+    let nineDaysAgoDate
+    let tenDaysAgoDate
+    let elevenDaysAgoDate
+    let twelveDaysAgoDate
+    let thirteenDaysAgoDate
+    let fourteenDaysAgoDate
+
+
+    //A function that takes a string, the index of where to place the new string, and the new string to add
+    function addStr(str, index, stringToAdd) {
+        return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+    }
+
+    //Places the variable in corresponding order in arrays to cycle through in the for loop below
+    let datesArr = [
+        todayDate,
+        oneDayAgoDate,
+        twoDaysAgoDate,
+        threeDaysAgoDate,
+        fourDaysAgoDate,
+        fiveDaysAgoDate,
+        sixDaysAgoDate,
+        sevenDaysAgoDate,
+        eightDaysAgoDate,
+        nineDaysAgoDate,
+        tenDaysAgoDate,
+        elevenDaysAgoDate,
+        twelveDaysAgoDate,
+        thirteenDaysAgoDate,
+        fourteenDaysAgoDate
+    ]
+
+    useEffect(() => {
+        //For loop that takes the timestamps and recreates them as dates we can use in our fetch
+        for (let i = 0; i < timestampsArr.length; i++) {
+            datesArr[i] = new Date(timestampsArr[i])
+            datesArr[i] = datesArr[i].getFullYear() + '-' + (datesArr[i].getMonth() + 1) + '-' + datesArr[i].getDate();
+
+
+            if (datesArr[i].charAt(5) == 1 && datesArr[i].charAt(6) == 0 || datesArr[i].charAt(6) == 1 || datesArr[i].charAt(6) == 2) {
+                console.log(datesArr[i] + ": " + "this date is correct")
+            } else {
+                datesArr[i] = (addStr(datesArr[i], 5, 0))
+            }
+            // console.log(datesArr[i])
+
+        }
+        console.log(datesArr)
+        setFormattedDatesArr(datesArr)
+
+    }, []);
+
+
+    return (
+        <>
+
+            {/* syntax for conditional rendering: state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
+
+            {
+                formattedDatesArr &&
+
+                <UrlComp
+                    userWordsArr={userWordsArr}
+                    formattedDatesArr={formattedDatesArr}
+                />
             }
         </>
     )
 
 }
 
-const FetchComp = ( {
-                    userWordsArr, 
-                    formatted1WeekAgo, 
-                    formatted2WeekAgo, 
-                    formatted3WeekAgo, 
-                    formattedTodayDate, 
-                    } ) => {
-        
-    const [searchWord1DataCurrenWeek, setSearchWord1DataCurrentWeek] = useState("")
-    const [searchWord1DataOneWeekBack, setSearchWord1DataOneWeekBack] = useState("")
-    const [searchWord1DataTwoWeeksBack, setSearchWord1DataTwoWeeksBack] = useState("")
-
-    const [searchWord2DataCurrenWeek, setSearchWord2DataCurrentWeek] = useState("")
-    const [searchWord2DataOneWeekBack, setSearchWord2DataOneWeekBack] = useState("")
-    const [searchWord2DataTwoWeeksBack, setSearchWord2DataTwoWeeksBack] = useState("")
-
-    const [searchWord3DataCurrenWeek, setSearchWord3DataCurrentWeek] = useState("")
-    const [searchWord3DataOneWeekBack, setSearchWord3DataOneWeekBack] = useState("")
-    const [searchWord3DataTwoWeeksBack, setSearchWord3DataTwoWeeksBack] = useState("")
+const UrlComp = ({ userWordsArr, formattedDatesArr }) => {
+    if (!userWordsArr) {
+        console.log("This should never appear")
+    }
+    const [urlsArr, setUrlsArr] = useState(null)
     //Setting some variables that we need for creating the full url we'll use in our api fetches
     const Url = "https://content.guardianapis.com/search?q="
     const Key = "&api-key=5302bcc3-f459-4d4e-93e3-8f8ef66ae980"
@@ -255,278 +221,750 @@ const FetchComp = ( {
     // const Lang = "&lang"
     const From = "&from-date="
     const To = "&to-date="
-    const fetchTargets =[setSearchWord1DataCurrentWeek, setSearchWord1DataOneWeekBack, setSearchWord1DataTwoWeeksBack]                    
-    console.log("Hej från FetchComp")
 
-    // let fullUrlArr = [
-    //     "fullUrlSearchWord1CurrentWeek",
-    //     "fullUrlSearchWord1OneWeekBack",
-    //     "fullUrlSearchWord1TwoWeeksBack",
-    //     "fullUrlSearchWord2CurrentWeek",
-    //     "fullUrlSearchWord2OneWeekBack",
-    //     "fullUrlSearchWord2TwoWeeksBack",
-    //     "fullUrlSearchWord3CurrentWeek",
-    //     "fullUrlSearchWord3OneWeekBack",
-    //     "fullUrlSearchWord3TwoWeeksBack"
-    // ]
+    let urlUserword1Today
+    let urlUserword1OneDayAgo
+    let urlUserword1TwoDaysAgo
+    let urlUserword1ThreeDaysAgo
+    let urlUserword1FourDaysAgo
+    let urlUserword1FiveDaysAgo
+    let urlUserword1SixDaysAgo
+    let urlUserword1SevenDaysAgo
+    let urlUserword1EightDaysAgo
+    let urlUserword1NineDaysAgo
+    let urlUserword1TenDaysAgo
+    let urlUserword1ElevenDaysAgo
+    let urlUserword1TwelveDaysAgo
+    let urlUserword1ThirteenDaysAgo
+    let urlUserword1FourteenDaysAgo
 
-    // for (let i = 0; i < userWordsArr.length; i++){
-    //     let fullUrlArr[i]
-    // }
-/*
-börja med att kolla hur grafen vill ha datan. oftast 2 arrayer?
-*/
-    
-    useEffect(() => {
-        console.log('Hej från FetchComps useEffect')
-        let fullUrlSearchWord1CurrentWeek  
-        let fullUrlSearchWord1OneWeekBack 
-        let fullUrlSearchWord1TwoWeeksBack 
-    
-        let fullUrlSearchWord2CurrentWeek 
-        let fullUrlSearchWord2OneWeekBack 
-        let fullUrlSearchWord2TwoWeeksBack 
-    
-        let fullUrlSearchWord3CurrentWeek 
-        let fullUrlSearchWord3OneWeekBack 
-        let fullUrlSearchWord3TwoWeeksBack  
-    
-        let fullUrlArr = []
-    
-    
-        if (userWordsArr[0]){
-            fullUrlSearchWord1CurrentWeek = Url + userWordsArr[0] + From + formatted1WeekAgo  + To + formattedTodayDate + Key
-            fullUrlSearchWord1OneWeekBack = Url + userWordsArr[0] + From + formatted2WeekAgo  + To + formatted1WeekAgo + Key
-            fullUrlSearchWord1TwoWeeksBack = Url + userWordsArr[0] + From + formatted3WeekAgo  + To + formatted2WeekAgo + Key
-            fullUrlArr.push(fullUrlSearchWord1CurrentWeek, fullUrlSearchWord1OneWeekBack, fullUrlSearchWord1TwoWeeksBack)
-            //console.log(fullUrlArr)
-        }   
-        if (userWordsArr[1]){
-            fullUrlSearchWord2CurrentWeek = Url + userWordsArr[1] + From + formatted1WeekAgo  + To + formattedTodayDate + Key
-            fullUrlSearchWord2OneWeekBack = Url + userWordsArr[1] + From + formatted2WeekAgo  + To + formatted1WeekAgo + Key
-            fullUrlSearchWord2TwoWeeksBack = Url + userWordsArr[1] + From + formatted3WeekAgo  + To + formatted2WeekAgo + Key
-            fullUrlArr.push(fullUrlSearchWord2CurrentWeek, fullUrlSearchWord2OneWeekBack, fullUrlSearchWord2TwoWeeksBack)
-            //console.log(fullUrlArr)
+    let urlUserword2Today
+    let urlUserword2OneDayAgo
+    let urlUserword2TwoDaysAgo
+    let urlUserword2ThreeDaysAgo
+    let urlUserword2FourDaysAgo
+    let urlUserword2FiveDaysAgo
+    let urlUserword2SixDaysAgo
+    let urlUserword2SevenDaysAgo
+    let urlUserword2EightDaysAgo
+    let urlUserword2NineDaysAgo
+    let urlUserword2TenDaysAgo
+    let urlUserword2ElevenDaysAgo
+    let urlUserword2TwelveDaysAgo
+    let urlUserword2ThirteenDaysAgo
+    let urlUserword2FourteenDaysAgo
+
+    let urlUserword3Today
+    let urlUserword3OneDayAgo
+    let urlUserword3TwoDaysAgo
+    let urlUserword3ThreeDaysAgo
+    let urlUserword3FourDaysAgo
+    let urlUserword3FiveDaysAgo
+    let urlUserword3SixDaysAgo
+    let urlUserword3SevenDaysAgo
+    let urlUserword3EightDaysAgo
+    let urlUserword3NineDaysAgo
+    let urlUserword3TenDaysAgo
+    let urlUserword3ElevenDaysAgo
+    let urlUserword3TwelveDaysAgo
+    let urlUserword3ThirteenDaysAgo
+    let urlUserword3FourteenDaysAgo
+
+    let userword1UrlArr = [
+        urlUserword1Today,
+        urlUserword1OneDayAgo,
+        urlUserword1TwoDaysAgo,
+        urlUserword1ThreeDaysAgo,
+        urlUserword1FourDaysAgo,
+        urlUserword1FiveDaysAgo,
+        urlUserword1SixDaysAgo,
+        urlUserword1SevenDaysAgo,
+        urlUserword1EightDaysAgo,
+        urlUserword1NineDaysAgo,
+        urlUserword1TenDaysAgo,
+        urlUserword1ElevenDaysAgo,
+        urlUserword1TwelveDaysAgo,
+        urlUserword1ThirteenDaysAgo,
+        urlUserword1FourteenDaysAgo,
+
+    ]
+    let userword2UrlArr = [
+        urlUserword2Today,
+        urlUserword2OneDayAgo,
+        urlUserword2TwoDaysAgo,
+        urlUserword2ThreeDaysAgo,
+        urlUserword2FourDaysAgo,
+        urlUserword2FiveDaysAgo,
+        urlUserword2SixDaysAgo,
+        urlUserword2SevenDaysAgo,
+        urlUserword2EightDaysAgo,
+        urlUserword2NineDaysAgo,
+        urlUserword2TenDaysAgo,
+        urlUserword2ElevenDaysAgo,
+        urlUserword2TwelveDaysAgo,
+        urlUserword2ThirteenDaysAgo,
+        urlUserword2FourteenDaysAgo,
+    ]
+    let userword3UrlArr = [
+        urlUserword3Today,
+        urlUserword3OneDayAgo,
+        urlUserword3TwoDaysAgo,
+        urlUserword3ThreeDaysAgo,
+        urlUserword3FourDaysAgo,
+        urlUserword3FiveDaysAgo,
+        urlUserword3SixDaysAgo,
+        urlUserword3SevenDaysAgo,
+        urlUserword3EightDaysAgo,
+        urlUserword3NineDaysAgo,
+        urlUserword3TenDaysAgo,
+        urlUserword3ElevenDaysAgo,
+        urlUserword3TwelveDaysAgo,
+        urlUserword3ThirteenDaysAgo,
+        urlUserword3FourteenDaysAgo,
+    ]
+
+    let allUrlsArr = []
+
+    if (!urlsArr) {
+        console.log("Hejsan från urlComp 2")
+
+        if (userWordsArr[0]) {
+            for (let j = 0; j < userword1UrlArr.length; j++) {
+                userword1UrlArr[j] = Url + userWordsArr[0] + From + formattedDatesArr[j] + To + formattedDatesArr[j] + Key
+            }
+            allUrlsArr.push(userword1UrlArr)
         }
-        if (userWordsArr[2]){
-            fullUrlSearchWord3CurrentWeek = Url + userWordsArr[2] + From + formatted1WeekAgo  + To + formattedTodayDate + Key
-            fullUrlSearchWord3OneWeekBack = Url + userWordsArr[2] + From + formatted2WeekAgo  + To + formatted1WeekAgo + Key
-            fullUrlSearchWord3TwoWeeksBack = Url + userWordsArr[2] + From + formatted3WeekAgo  + To + formatted2WeekAgo + Key
-            fullUrlArr.push(fullUrlSearchWord3CurrentWeek, fullUrlSearchWord3OneWeekBack, fullUrlSearchWord3TwoWeeksBack)
-            //console.log(fullUrlArr)
+
+        if (userWordsArr[1]) {
+            for (let j = 0; j < userword2UrlArr.length; j++) {
+                userword2UrlArr[j] = Url + userWordsArr[1] + From + formattedDatesArr[j] + To + formattedDatesArr[j] + Key
+            }
+            allUrlsArr.push(userword2UrlArr)
         }
-      
-        console.log(fullUrlArr)
-      
-    }, []);
 
-  
+        if (userWordsArr[2]) {
+            for (let j = 0; j < userword3UrlArr.length; j++) {
+                userword3UrlArr[j] = Url + userWordsArr[2] + From + formattedDatesArr[j] + To + formattedDatesArr[j] + Key
+            }
+            allUrlsArr.push(userword3UrlArr)
+        }
 
-    // console.log(fullUrlArr)
-//     useEffect(() => {
-//         // förslag todo: bryt ut i separat komponent
-//         function bigFetch() {
+        setUrlsArr(allUrlsArr)
 
-//         setTimeout(function(){fetch(fullUrlSearchWord1CurrentWeek)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord1DataCurrentWeek(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},100)
+        // console.log(userword1UrlArr)
+        // console.log(userword2UrlArr)
+        // console.log(userword3UrlArr)
 
-//         setTimeout(function(){fetch(fullUrlSearchWord1OneWeekBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord1DataOneWeekBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},200)
+    } else {
+        console.log("urlsArr unset")
+    }
 
-//         setTimeout(function(){fetch(fullUrlSearchWord1TwoWeeksBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord1DataTwoWeeksBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},300)
+    console.log(urlsArr)
 
-//         setTimeout(function(){fetch(fullUrlSearchWord2CurrentWeek)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord2DataCurrentWeek(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},400)
+    console.log("Hejsan från UrlComp");
 
-//         setTimeout(function(){fetch(fullUrlSearchWord2OneWeekBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord2DataOneWeekBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},500)
-
-//         setTimeout(function(){fetch(fullUrlSearchWord2TwoWeeksBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord2DataTwoWeeksBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},600)
-
-//         setTimeout(function(){fetch(fullUrlSearchWord3CurrentWeek)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord3DataCurrentWeek(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},700)
-
-//         setTimeout(function(){fetch(fullUrlSearchWord3OneWeekBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord3DataOneWeekBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},800)
-
-//         setTimeout(function(){fetch(fullUrlSearchWord3TwoWeeksBack)
-//         .then(response => {return response.json();})
-//         .then(data => {setSearchWord3DataTwoWeeksBack(data)}) 
-//         .catch((err)=>{console.log("oops..something went wrong", err)})},900)
-//         }
-
-//         bigFetch()
-
-//         console.log(fullUrlSearchWord1CurrentWeek, fullUrlSearchWord2CurrentWeek, fullUrlSearchWord3CurrentWeek)
-//     }, []);
-
-    
-    return ( 
+    return (
         <>
-            <h1>
-                hej
-            </h1>
-            {/* {       userWord1 &&
-                    userWord2 && 
-                    userWord3 &&
-                    searchWord1DataCurrenWeek && 
-                    searchWord1DataOneWeekBack &&
-                    searchWord1DataTwoWeeksBack&&
-                    searchWord2DataCurrenWeek&&
-                    searchWord2DataOneWeekBack&& 
-                    searchWord2DataTwoWeeksBack&& 
-                    searchWord3DataCurrenWeek&& 
-                    searchWord3DataOneWeekBack&& 
-                    searchWord3DataTwoWeeksBack&&
-                < GraphData    userWord1={userWord1}
-                            userWord2={userWord2} 
-                            userWord3={userWord3} 
-                            searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
-                            searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
-                            searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack} 
-                            searchWord2DataCurrenWeek={searchWord2DataCurrenWeek}
-                            searchWord2DataOneWeekBack={searchWord2DataOneWeekBack}
-                            searchWord2DataTwoWeeksBack={searchWord2DataTwoWeeksBack} 
-                            searchWord3DataCurrenWeek={searchWord3DataCurrenWeek} 
-                            searchWord3DataOneWeekBack={searchWord3DataOneWeekBack}
-                            searchWord3DataTwoWeeksBack={searchWord3DataTwoWeeksBack}
-          />} */}
+            <h1>UrlComp</h1>
+
+            {
+                urlsArr &&
+                <FetchComp
+                    userWordsArr={userWordsArr}
+                    urlsArr={urlsArr} />
+
+            }
         </>
     )
 }
 
+const FetchComp = ({ urlsArr, userWordsArr }) => {
+    if (!urlsArr) {
+        console.log("This should never appear")
+    }
 
-// const GraphData = ( {userWord1,
-//                     userWord2, 
-//                     userWord3, 
-//                     searchWord1DataCurrenWeek, 
-//                     searchWord1DataOneWeekBack, 
-//                     searchWord1DataTwoWeeksBack, 
-//                     searchWord2DataCurrenWeek, 
-//                     searchWord2DataOneWeekBack, 
-//                     searchWord2DataTwoWeeksBack, 
-//                     searchWord3DataCurrenWeek, 
-//                     searchWord3DataOneWeekBack, 
-//                     searchWord3DataTwoWeeksBack} ) => {
+    const [allDataObjs, setAllDataObjs] = useState(null)
+    const [fetchedData1, setFetchedData1] = useState(null)
+    
+
+    //Creating all the variable that will be placed in an array
+    let todayData1 = {},
+        oneDayAgoData1 = {},
+        twoDaysAgoData1 = {},
+        threeDaysAgoData1 = {},
+        fourDaysAgoData1 = {},
+        fiveDaysAgoData1 = {},
+        sixDaysAgoData1 = {},
+        sevenDaysAgoData1 = {},
+        eightDaysAgoData1 = {},
+        nineDaysAgoData1 = {},
+        tenDaysAgoData1 = {},
+        elevenDaysAgoData1 = {},
+        twelveDaysAgoData1 = {},
+        thirteenDaysAgoData1 = {},
+        fourteenDaysAgoData1 = {},
+        todayData2 = {},
+        oneDayAgoData2 = {},
+        twoDaysAgoData2 = {},
+        threeDaysAgoData2 = {},
+        fourDaysAgoData2 = {},
+        fiveDaysAgoData2 = {},
+        sixDaysAgoData2 = {},
+        sevenDaysAgoData2 = {},
+        eightDaysAgoData2 = {},
+        nineDaysAgoData2 = {},
+        tenDaysAgoData2 = {},
+        elevenDaysAgoData2 = {},
+        twelveDaysAgoData2 = {},
+        thirteenDaysAgoData2 = {},
+        fourteenDaysAgoData2 = {},
+        todayData3 = {},
+        oneDayAgoData3 = {},
+        twoDaysAgoData3 = {},
+        threeDaysAgoData3 = {},
+        fourDaysAgoData3 = {},
+        fiveDaysAgoData3 = {},
+        sixDaysAgoData3 = {},
+        sevenDaysAgoData3 = {},
+        eightDaysAgoData3 = {},
+        nineDaysAgoData3 = {},
+        tenDaysAgoData3 = {},
+        elevenDaysAgoData3 = {},
+        twelveDaysAgoData3 = {},
+        thirteenDaysAgoData3 = {},
+        fourteenDaysAgoData3 = {}
 
 
-     
-//     let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
-//     let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
-//     let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
+    //Placing all the variables in an array so we can loop through them later on
+    let fetchedDataArr1 = [
+        todayData1,
+        oneDayAgoData1,
+        twoDaysAgoData1,
+        threeDaysAgoData1,
+        fourDaysAgoData1,
+        fiveDaysAgoData1,
+        sixDaysAgoData1,
+        sevenDaysAgoData1,
+        eightDaysAgoData1,
+        nineDaysAgoData1,
+        tenDaysAgoData1,
+        elevenDaysAgoData1,
+        twelveDaysAgoData1,
+        thirteenDaysAgoData1,
+        fourteenDaysAgoData1
 
-//     let currentWeekData2 = searchWord2DataCurrenWeek ? searchWord2DataCurrenWeek.response.total : null
-//     let oneWeekAgoData2 = searchWord2DataOneWeekBack ? searchWord2DataOneWeekBack.response.total : null
-//     let twoWeeksAgoData2 = searchWord2DataTwoWeeksBack ? searchWord2DataTwoWeeksBack.response.total : null
+    ]
 
-//     let currentWeekData3 = searchWord3DataCurrenWeek ? searchWord3DataCurrenWeek.response.total : null
-//     let oneWeekAgoData3 = searchWord3DataOneWeekBack ? searchWord3DataOneWeekBack.response.total : null
-//     let twoWeeksAgoData3 = searchWord3DataTwoWeeksBack ? searchWord3DataTwoWeeksBack.response.total : null
+    let fetchedDataArr2 = [
+        todayData2,
+        oneDayAgoData2,
+        twoDaysAgoData2,
+        threeDaysAgoData2,
+        fourDaysAgoData2,
+        fiveDaysAgoData2,
+        sixDaysAgoData2,
+        sevenDaysAgoData2,
+        eightDaysAgoData2,
+        nineDaysAgoData2,
+        tenDaysAgoData2,
+        elevenDaysAgoData2,
+        twelveDaysAgoData2,
+        thirteenDaysAgoData2,
+        fourteenDaysAgoData2
+    ]
+
+    let fetchedDataArr3 = [
+        todayData3,
+        oneDayAgoData3,
+        twoDaysAgoData3,
+        threeDaysAgoData3,
+        fourDaysAgoData3,
+        fiveDaysAgoData3,
+        sixDaysAgoData3,
+        sevenDaysAgoData3,
+        eightDaysAgoData3,
+        nineDaysAgoData3,
+        tenDaysAgoData3,
+        elevenDaysAgoData3,
+        twelveDaysAgoData3,
+        thirteenDaysAgoData3,
+        fourteenDaysAgoData3,
+    ]
+
+    let allFechedData = []
+
+    let userWord1Urls = urlsArr[0]
+    let userWord2Urls = urlsArr[1]
+    let userWord3Urls = urlsArr[2]
+
+    // if (!allDataObjs) {
+    useEffect(() => {
+        if (urlsArr[0]) {
+            //The following syntax for the loops together with the setTimeout function was sampeled from https://stackoverflow.com/a/24293516
+            console.log("Första for loppen körs");
+            for (let i = 0; i < userWord1Urls.length; i++) {
+                (function (index) {
+                    setTimeout(function () {
+                        fetch(userWord1Urls[i])
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(data => {
+                                fetchedDataArr1[i] = data
+                                
+                            })
+                            .catch((err) => {
+                                console.log("oops..something went wrong", err)
+                            }
+                            )
+
+                    }, 100 + (10 * index));
+                })(i);
+            }
+            setFetchedData1(fetchedDataArr1)
+        };
+
+        if (urlsArr[1]) {
+            console.log("Andra for loppen körs");
+            for (let i = 0; i < userWord2Urls.length; i++) {
+                (function (index) {
+                    setTimeout(function () {
+                        fetch(userWord2Urls[i])
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(data => {
+                                fetchedDataArr2[i] = data
+                            })
+                            .catch((err) => {
+                                console.log("oops..something went wrong", err)
+                            }
+                            )
+
+                    }, 100 + (10 * index));
+                })(i);
+            }
+        }
+
+        if (urlsArr[2]) {
+            console.log("Tredje for loppen körs");
+            for (let i = 0; i < userWord3Urls.length; i++) {
+                (function (index) {
+                    setTimeout(function () {
+                        fetch(userWord3Urls[i])
+                            .then(response => {
+                                return response.json();
+                            })
+                            .then(data => {
+                                fetchedDataArr3[i] = data
+                            })
+                            .catch((err) => {
+                                console.log("oops..something went wrong", err)
+                            }
+                            )
+
+                    }, 100 + (10 * index));
+                })(i);
+            }
+            // allFechedData = {
+            //     fetchedDataArr1: fetchedDataArr1,
+            //     fetchedDataArr2: fetchedDataArr2,
+            //     fetchedDataArr3: fetchedDataArr3
+
+            // }
+            // allFechedData.push(fetchedDataArr1, fetchedDataArr2, fetchedDataArr3)
+            // console.log("ALLDATA", allFechedData)
+        }
+        // setAllDataObjs(allFechedData)
+        
+    }, [])
+    // } else {
+    //     console.log("dataObjs unset")
+    // }
+    if(fetchedData1){
+        console.log(fetchedData1[0].response)
+    }
+    
+    return (
+        <>
+            
+            <h1>FetchComp</h1>
+            {/* {   allDataObjs &&
+                <GraphData allDataObjs={allDataObjs} userWordsArr={userWordsArr}/>
+            } */}
+            
+            
+        </>
+
+    )
+}
 
 
-//     let dataArr = 
-//         [currentWeekData1,
-//          oneWeekAgoData1, 
-//          twoWeeksAgoData1, 
-//          currentWeekData2, 
-//          oneWeekAgoData2, 
-//          twoWeeksAgoData2, 
-//          currentWeekData3, 
-//          oneWeekAgoData3, 
-//          twoWeeksAgoData3]
+const GraphData = ({ allDataObjs, userWordsArr }) => {
+    if (!allDataObjs) {
+        console.log("This should never appear")
+    } 
+    let userWord1Data = allDataObjs[0]
+    // console.log(allDataObjs)
+    let obj1 = {
+        name: {
+            Viktor: "Viktor"
+        }
+    }
+    let obj2 = {
+        name: {
+            Nisse: "Nisse"
+        }
+    }
+    let obj3 = {
+        name: {
+            Albin: "Albin"
+        }
+    }
+
+    let arr = []
+    arr.push(obj1, obj2, obj3)
+
+    console.log("Hej från GraphData!");
+    
+    console.log(userWord1Data[0].response)
+
+    console.log(arr[0].name)
+
+    // console.log(arr[0])
+
+    let todayDataTotalRes1,
+    oneDayAgoDataTotalRes1,
+    twoDaysAgoDataTotalRes1,
+    threeDaysAgoDataTotalRes1,
+    fourDaysAgoDataTotalRes1,
+    fiveDaysAgoDataTotalRes1,
+    sixDaysAgoDataTotalRes1,
+    sevenDaysAgoDataTotalRes1,
+    eightDaysAgoDataTotalRes1,
+    nineDaysAgoDataTotalRes1,
+    tenDaysAgoDataTotalRes1,
+    elevenDaysAgoDataTotalRes1,
+    twelveDaysAgoDataTotalRes1,
+    thirteenDaysAgoDataTotalRes1,
+    fourteenDaysAgoDataTotalRes1,
+    todayDataTotalRes2,
+    oneDayAgoDataTotalRes2,
+    twoDaysAgoDataTotalRes2,
+    threeDaysAgoDataTotalRes2,
+    fourDaysAgoDataTotalRes2,
+    fiveDaysAgoDataTotalRes2,
+    sixDaysAgoDataTotalRes2,
+    sevenDaysAgoDataTotalRes2,
+    eightDaysAgoDataTotalRes2,
+    nineDaysAgoDataTotalRes2,
+    tenDaysAgoDataTotalRes2,
+    elevenDaysAgoDataTotalRes2,
+    twelveDaysAgoDataTotalRes2,
+    thirteenDaysAgoDataTotalRes2,
+    fourteenDaysAgoDataTotalRes2,
+    todayDataTotalRes3,
+    oneDayAgoDataTotalRes3,
+    twoDaysAgoDataTotalRes3,
+    threeDaysAgoDataTotalRes3,
+    fourDaysAgoDataTotalRes3,
+    fiveDaysAgoDataTotalRes3,
+    sixDaysAgoDataTotalRes3,
+    sevenDaysAgoDataTotalRes3,
+    eightDaysAgoDataTotalRes3,
+    nineDaysAgoDataTotalRes3,
+    tenDaysAgoDataTotalRes3,
+    elevenDaysAgoDataTotalRes3,
+    twelveDaysAgoDataTotalRes3,
+    thirteenDaysAgoDataTotalRes3,
+    fourteenDaysAgoDataTotalRes3
+    
+    let totalResultDataArr1 = [
+        todayDataTotalRes1,
+        oneDayAgoDataTotalRes1,
+        twoDaysAgoDataTotalRes1,
+        threeDaysAgoDataTotalRes1,
+        fourDaysAgoDataTotalRes1,
+        fiveDaysAgoDataTotalRes1,
+        sixDaysAgoDataTotalRes1,
+        sevenDaysAgoDataTotalRes1,
+        eightDaysAgoDataTotalRes1,
+        nineDaysAgoDataTotalRes1,
+        tenDaysAgoDataTotalRes1,
+        elevenDaysAgoDataTotalRes1,
+        twelveDaysAgoDataTotalRes1,
+        thirteenDaysAgoDataTotalRes1,
+        fourteenDaysAgoDataTotalRes1
+    ]
+    let totalResultDataArr2 = [
+        todayDataTotalRes2,
+        oneDayAgoDataTotalRes2,
+        twoDaysAgoDataTotalRes2,
+        threeDaysAgoDataTotalRes2,
+        fourDaysAgoDataTotalRes2,
+        fiveDaysAgoDataTotalRes2,
+        sixDaysAgoDataTotalRes2,
+        sevenDaysAgoDataTotalRes2,
+        eightDaysAgoDataTotalRes2,
+        nineDaysAgoDataTotalRes2,
+        tenDaysAgoDataTotalRes2,
+        elevenDaysAgoDataTotalRes2,
+        twelveDaysAgoDataTotalRes2,
+        thirteenDaysAgoDataTotalRes2,
+        fourteenDaysAgoDataTotalRes2
+    ]
+    let totalResultDataArr3 = [
+        todayDataTotalRes3,
+        oneDayAgoDataTotalRes3,
+        twoDaysAgoDataTotalRes3,
+        threeDaysAgoDataTotalRes3,
+        fourDaysAgoDataTotalRes3,
+        fiveDaysAgoDataTotalRes3,
+        sixDaysAgoDataTotalRes3,
+        sevenDaysAgoDataTotalRes3,
+        eightDaysAgoDataTotalRes3,
+        nineDaysAgoDataTotalRes3,
+        tenDaysAgoDataTotalRes3,
+        elevenDaysAgoDataTotalRes3,
+        twelveDaysAgoDataTotalRes3,
+        thirteenDaysAgoDataTotalRes3,
+        fourteenDaysAgoDataTotalRes3
+    ]
 
     
 
-//     console.log(dataArr[2])
-        
+    useEffect(() => {
+        if(userWordsArr[0]){
 
-   
-//         for (let i = 0; i < dataArr.length; i++){
-//             if (dataArr[i] == 0){
-//                 dataArr[i] = dataArr[i]+1
+            
+            for(let i = 0; i < totalResultDataArr1.length; i++){
+                
+                // totalResultDataArr1 = allDataObjs[i].response.total
+                // console.log(totalResultDataArr1)
+            }
+        }
+    }, [])
+
+
+
+    // let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
+    // let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
+    // let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
+
+    // let currentWeekData2 = searchWord2DataCurrenWeek ? searchWord2DataCurrenWeek.response.total : null
+    // let oneWeekAgoData2 = searchWord2DataOneWeekBack ? searchWord2DataOneWeekBack.response.total : null
+    // let twoWeeksAgoData2 = searchWord2DataTwoWeeksBack ? searchWord2DataTwoWeeksBack.response.total : null
+
+    // let currentWeekData3 = searchWord3DataCurrenWeek ? searchWord3DataCurrenWeek.response.total : null
+    // let oneWeekAgoData3 = searchWord3DataOneWeekBack ? searchWord3DataOneWeekBack.response.total : null
+    // let twoWeeksAgoData3 = searchWord3DataTwoWeeksBack ? searchWord3DataTwoWeeksBack.response.total : null
+
+
+    // let dataArr =
+    //     [currentWeekData1,
+    //         oneWeekAgoData1,
+    //         twoWeeksAgoData1,
+    //         currentWeekData2,
+    //         oneWeekAgoData2,
+    //         twoWeeksAgoData2,
+    //         currentWeekData3,
+    //         oneWeekAgoData3,
+    //         twoWeeksAgoData3]
+
+
+
+    // console.log(dataArr[2])
+
+
+
+    // for (let i = 0; i < dataArr.length; i++) {
+    //     if (dataArr[i] == 0) {
+    //         dataArr[i] = dataArr[i] + 1
+    //     }
+    //     console.log(dataArr[i])
+    // }
+
+    // console.log(dataArr)
+
+    // let titles = {
+    //     searchWord1: userWord1,
+    //     searchWord2: userWord2,
+    //     searchWord3: userWord3
+    // }
+
+    // let searchWord1Data = {
+    //     currentWeekData1,
+    //     oneWeekAgoData1,
+    //     twoWeeksAgoData1
+    // }
+    // let searchWord2Data = {
+    //     currentWeekData2,
+    //     oneWeekAgoData2,
+    //     twoWeeksAgoData2,
+    // }
+    // let searchWord3Data = {
+    //     currentWeekData3,
+    //     oneWeekAgoData3,
+    //     twoWeeksAgoData3,
+    // }
+
+    // let dataObj = {
+    //     titles,
+    //     searchWord1Data,
+    //     searchWord2Data,
+    //     searchWord3Data
+    // }
+
+
+    return (
+        <div>
+            <h1>GraphData</h1>
+
+            {/* {dataArr &&
+                <DashboardGraph data={dataObj} />
+            } */}
+
+        </div>
+    )
+}
+
+// const GraphDiv = styled(ChoosenWordsCard)`
+// width: 600px;
+// `
+
+
+
+// const DashboardGraph = ({ data }) => {
+//     console.log(data.searchWord1Data.currentWeekData1)
+//     const dataSetsData = {
+//         labels: [
+//             // props.dataObj.titles.searchWord1
+//             "Two weeks ago",
+//             "Last week",
+//             "This week"
+//         ],
+//         datasets: [
+
+//             {
+//                 label: data.titles.searchWord1,
+//                 fill: false,
+//                 lineTension: 0.1,
+//                 backgroundColor: 'yellow',
+//                 borderColor: 'yellow',
+//                 borderCapStyle: 'butt',
+//                 borderDash: [],
+//                 borderDashOffset: 0.0,
+//                 borderJoinStyle: 'miter',
+//                 pointBorderColor: 'yellow',
+//                 pointBackgroundColor: '#fff',
+//                 pointBorderWidth: 1,
+//                 pointHoverRadius: 5,
+//                 pointHoverBackgroundColor: 'yellow',
+//                 pointHoverBorderColor: 'yellow',
+//                 pointHoverBorderWidth: 2,
+//                 pointRadius: 1,
+//                 pointHitRadius: 10,
+//                 data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+//             },
+//             {
+//                 label: data.titles.searchWord2,
+//                 fill: false,
+//                 lineTension: 0.1,
+//                 backgroundColor: 'red',
+//                 borderColor: 'red',
+//                 borderCapStyle: 'butt',
+//                 borderDash: [],
+//                 borderDashOffset: 0.0,
+//                 borderJoinStyle: 'miter',
+//                 pointBorderColor: 'red',
+//                 pointBackgroundColor: '#fff',
+//                 pointBorderWidth: 1,
+//                 pointHoverRadius: 5,
+//                 pointHoverBackgroundColor: 'red',
+//                 pointHoverBorderColor: 'darkred',
+//                 pointHoverBorderWidth: 2,
+//                 pointRadius: 1,
+//                 pointHitRadius: 10,
+//                 data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+//             },
+//             {
+//                 label: data.titles.searchWord3,
+//                 fill: false,
+//                 lineTension: 0.1,
+//                 backgroundColor: 'green',
+//                 borderColor: 'green',
+//                 borderCapStyle: 'butt',
+//                 borderDash: [],
+//                 borderDashOffset: 0.0,
+//                 borderJoinStyle: 'miter',
+//                 pointBorderColor: 'green',
+//                 pointBackgroundColor: '#fff',
+//                 pointBorderWidth: 1,
+//                 pointHoverRadius: 5,
+//                 pointHoverBackgroundColor: 'green',
+//                 pointHoverBorderColor: 'darkgreen',
+//                 pointHoverBorderWidth: 2,
+//                 pointRadius: 1,
+//                 pointHitRadius: 10,
+//                 data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
+//             }]
+//     };
+//     const options = {
+//         "legend": {
+//             "labels": {
+//                 "fontColor": "white",
+//                 "fontSize": 15
 //             }
-//             console.log(dataArr[i])
-//         }
-        
-//         console.log(dataArr)
-
-//     let titles = {
-//         searchWord1:userWord1,
-//         searchWord2:userWord2,
-//         searchWord3:userWord3
-//     }
-
-//     let searchWord1Data = {
-//         currentWeekData1,
-//         oneWeekAgoData1,
-//         twoWeeksAgoData1
-//     }
-//     let searchWord2Data = {
-//         currentWeekData2,
-//         oneWeekAgoData2,
-//         twoWeeksAgoData2,
-//     }
-//     let searchWord3Data = {
-//         currentWeekData3,
-//         oneWeekAgoData3,
-//         twoWeeksAgoData3,
-//     }
-    
-//     let dataObj = {
-//         titles,
-//         searchWord1Data,
-//         searchWord2Data,
-//         searchWord3Data
-//     }
-
-//     // let dataObj = {
-//     //     titles: {...titles},
-//     //     searchWord1Data: {...searchWord1Data},
-//     //     searchWord2Data: {...searchWord2Data},
-//     //     searchWord3Data: {...searchWord3Data}
-//     // }
-
-//     console.log(userWord1,
-//         userWord2, 
-//         userWord3, 
-//         currentWeekData1,
-//          oneWeekAgoData1, 
-//          twoWeeksAgoData1, 
-//          currentWeekData2, 
-//          oneWeekAgoData2, 
-//          twoWeeksAgoData2, 
-//          currentWeekData3, 
-//          oneWeekAgoData3, 
-//          twoWeeksAgoData3)
-//         return (
-//             <div>
-//                 <h1>skickar data till dashboard</h1>
-
-//                 {   dataArr && 
-//                     <DashboardGraph data={dataObj}/>
-
+//         },
+//         "maintainAspectRatio": true,
+//         "scales": {
+//             "yAxes": [
+//                 {
+//                     "gridLines": {
+//                         "color": "white",
+//                         "borderDash": [
+//                             0,
+//                             0
+//                         ]
+//                     },
+//                     "ticks": {
+//                         "beginAtZero": true,
+//                         "fontColor": 'white'
+//                     }
 //                 }
-//             </div>
-//         )
-//     }
+//             ],
+//             "xAxes": [
+//                 {
+//                     "gridLines": {
+//                         "color": "#fff",
+//                         "borderDash": [
+//                             0,
+//                             0
+//                         ]
+//                     },
+//                     "ticks": {
+//                         "autoSkip": true,
+//                         "autoSkipPadding": 40,
+//                         "maxRotation": 0,
+//                         "fontColor": 'white'
+//                     }
+//                 }
+//             ]
+//         },
+//         "layout": {
+//             "padding": 10,
+//         },
+//         "tooltips": {
+//             "enabled": true,
+//             "mode": "x",
+//             "intersect": true,
+//         }
+//     };
+//     return (
+//         <GraphDiv>
+//             <Bar data={dataSetsData} options={options} />
+//         </GraphDiv>
+//     )
+// }
 
-
-export default (withFirebase(Dashboard));
+export default (withFirebase(NewDashboard));

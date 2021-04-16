@@ -133,7 +133,6 @@ const DashboardGraph = ( {data} ) => {
               "ticks": {
                 "beginAtZero": true,
                               "fontColor": 'white'
-                
               }
             }
           ],
@@ -602,8 +601,12 @@ const GraphData = ( {userWord1,
             <div>
             
 
-                {dataArr && 
-                    <DashboardGraph data={dataObj}/>
+                {dataObj && 
+                    <div>
+                        <DashboardGraph data={dataObj}/>
+
+                    </div>
+                
                 }
 
             </div>
