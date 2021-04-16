@@ -12,11 +12,13 @@ const SignOutNavLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   padding: 0px;
-  height: 100%;
   font-size: 1rem;
   font-weight: bold;
   letter-spacing: 3px;
   text-transform: uppercase;
+  @media (min-width: 769px){
+    height: 100%;
+  }
 `
 
 const StyledGoSignOut = styled(GoSignOut)`

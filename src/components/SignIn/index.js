@@ -13,7 +13,8 @@ const SignInContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 60vh;
+    height: 100vh;
+    background:#DCE7FA;
 
 `
 const StyledSignInForm = styled.form`
@@ -21,6 +22,7 @@ const StyledSignInForm = styled.form`
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    margin-top: -200px;
 
 `
 const SignInButton = styled(StyledButton)`
@@ -29,7 +31,6 @@ background-color: #c4c4c4;
 
 const SignInPage = () => (
     <SignInContainer>
-        <h1>SignIn</h1>
         <SignInForm />
         <PasswordForgetLink />
         <SignUpLink />
@@ -70,6 +71,7 @@ class SignInFormBase extends Component {
 
         return (
                 <StyledSignInForm onSubmit={this.onSubmit}>
+                    <h1>SignIn</h1>
                     <StyledInput
                         name="email"
                         value={email}

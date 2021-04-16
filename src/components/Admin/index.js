@@ -11,7 +11,39 @@ import { WebsiteBackground} from "../Home"
 import { PageTitle } from "../Account";
 
 
+const UsersListContainer = styled.div`
+    background-color: ${props => props.theme.card};
+    color: ${props => props.theme.txt};
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+    align-content: center;
+    margin: 30px 10px 30px 10px;
 
+    @media (max-width: 500px) {
+        width: 300px;
+    }
+`
+
+const IndividualUser = styled.li`
+    padding: 10px 20px 10px 20px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 500px) {
+        max-width: 250px;
+    }
+`
+
+const SubTitel = styled.h2`
+    padding: 10px
+`
+
+const StyledSpan = styled.span`
+    word-wrap: break-word;
+`
 
 const AdminPage = () => (
     <WebsiteBackground>
@@ -57,25 +89,25 @@ class UserListBase extends Component {
         const { users, loading } = this.state;
 
         return (
-            <div>
-                <h2>Users</h2>
+            <UsersListContainer>
+                <SubTitel>Users</SubTitel>
                 {loading && <div>Loading ...</div>}
                 <ul>
                     {users.map(user => (
-                        <li key={user.uid}>
-                            <span>
+                        <IndividualUser key={user.uid}>
+                            <StyledSpan>
                                 <strong>ID:</strong> {user.uid}
-                            </span>
-                            <span>
+                            </StyledSpan>
+                            <StyledSpan>
                                 <strong>E-Mail:</strong> {user.email}
-                            </span>
-                            <span>
+                            </StyledSpan>
+                            <StyledSpan>
                                 <strong>Username:</strong> {user.username}
-                            </span>
-                            <span>
+                            </StyledSpan>
+                            <StyledSpan>
                                 <strong>{user.roles && user.roles[ROLES.ADMIN]}</strong>
-                            </span>
-                            <span>
+                            </StyledSpan>
+                            <StyledSpan>
                                 <Link
                                     to={{
                                         pathname: `${ROUTES.ADMIN}/${user.uid}`,
@@ -84,11 +116,11 @@ class UserListBase extends Component {
                                 >
                                     Details
                                 </Link>
-                            </span>
-                        </li>
+                            </StyledSpan>
+                        </IndividualUser>
                     ))}
                 </ul>
-            </div>
+            </UsersListContainer>
         );
 
     }

@@ -5,6 +5,10 @@ import { withFirebase } from '../Firebase';
 
 import { Bar } from 'react-chartjs-2';
 
+import { GraphDiv } from '../Graphs'
+
+
+
 const LandingGraph= ({ firebase }) => {
     const [W9Apple, setW9Apple] = useState(null)
     const [W9Tesla, setW9Tesla] = useState(null)
@@ -217,12 +221,63 @@ const SearchGraph = (props) => {
             }
         ]
     };
+    const options = {
+        "legend": {
+            "labels": {
+                "fontColor": "white",
+                "fontSize": 15
+            }
+        },
+        "maintainAspectRatio": false,
+        "scales": {
+          "yAxes": [
+            {
+              "gridLines": {
+                "color": "white",
+                "borderDash": [
+                  0,
+                  0
+                ]
+              },
+              "ticks": {
+                "beginAtZero": true,
+                              "fontColor": 'white'
+              }
+            }
+          ],
+          "xAxes": [
+            {
+              "gridLines": {
+                "color": "#fff",
+                "borderDash": [
+                  0,
+                  0
+                ]
+              },
+              "ticks": {
+                "autoSkip": true,
+                "autoSkipPadding": 40,
+                "maxRotation": 0,
+                "fontColor": 'white'
+              }
+            }
+          ]
+        },
+        "layout": {
+          "padding": 10,
+        },
+        "tooltips": {
+          "enabled": true,
+          "mode": "x",
+          "intersect": true,
+        }
+      };
 
     return (
-        <div>
+        <GraphDiv>
             <h3>A comparison between {props.data.titels.Apple} and {props.data.titels.Tesla} between week 7, 8 and 9.</h3>
-            <Bar data={data} />
-        </div>
+            <Bar options={options} data={data} />
+        </GraphDiv>
     );
 };
 

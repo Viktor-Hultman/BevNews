@@ -12,6 +12,8 @@ export const SignUpContainter = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background:#DCE7FA;
+    height:100vh;
     
 `
 export const SignUpFormContainer = styled.form `
@@ -27,7 +29,6 @@ background-color: #c4c4c4;
 
 const SignUpPage = () => (
     <SignUpContainter>
-        <h1>SignUp</h1>
         <SignUpForm />
     </SignUpContainter>
 );
@@ -128,6 +129,7 @@ class SignUpFormBase extends Component {
 
         return (
             <SignUpFormContainer onSubmit={this.onSubmit}>
+                <h1>SignUp</h1>
                 <StyledInput
                     name="username"
                     value={username}

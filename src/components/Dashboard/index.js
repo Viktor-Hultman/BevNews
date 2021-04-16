@@ -17,28 +17,6 @@ import { StyledButton } from '../SearchWordForm'
 import DashboardGraphs from '../Graphs'
 
 
-/*
-let dataObj = {
-    Amazon: {"Two weeks ago": 45,
- "Last week": 30,
- "This week": 3},
-  Tesla: 
-
-
- Object.keys(dataObj) -> ["Amazon", "...", "..."]
- Object.values(dataObj) -> [{"Two weeks ago": 45,
- "Last week": 30,
- "This week": 3}, {...}]
-
- let dataArr = Object.keys(dataObj).map(searchWord => ({...dataObj[searchWord], searchWord: searchWord})
-    [{"Two weeks ago": 45,
- "Last week": 30,
- "This week": 3,
-searchWord: "Amazon"}
- */
-
-
-
 
 const Dashboard = ({ firebase }) => {
     //Several useStates for setting different states we will use later
@@ -55,8 +33,25 @@ const Dashboard = ({ firebase }) => {
     const [formatted2WeekAgo, setFormatted2WeekAgo] = useState("")
     const [formatted3WeekAgo, setFormatted3WeekAgo] = useState("")
 
+    //This code snippet is used to assign a new user the "BEV" logo after they have created their account
+    let StandardImg = "https://i.imgur.com/3orcm3Z.png"
+    useEffect(() => {
+        const unsubscribe = firebase.user(uid).child('settings').child('logoPreset')
+        .on('value', snapshot => {
+            if (snapshot) {
+                const logoObject = snapshot.val();
+                //Checks if there is no "logopreset" key in firebase and then runs the code below if thats true
+                if (!logoObject) {                       
+                    firebase.user(uid).child('settings').child('logoPreset')
+                    .set ({ "Standard": StandardImg })
+                }
+            }
+        });
+        return () => {
+            unsubscribe();
+        }
+    }, [])
 
-    const searchWordDataArr = [0]
 
     //Here we get the full URL from the user, it contains one search word, a from date, a to date, the selected country and language
     // console.log(Url + userWord1 + From + formatted1WeekAgo + Time + To + formattedTodayDate + Time + Country + userCountry + Lang + userLanguage + Key)
@@ -149,58 +144,6 @@ const Dashboard = ({ firebase }) => {
 
     }, []); // här stod tidigare nånting weeks
 
-    //In the two useEffects below we do the same with the users selected country and language
-    // useEffect(() => {
-    //     const unsubscribe = firebase.user(uid).child('settings').child('country')
-    //         .on('value', snapshot => {
-    //             if (snapshot) {
-    //                 const countryObj = snapshot.val();
-    //                 if (countryObj) {
-    //                     let userCountry = Object.keys(countryObj)
-    //                     setUserCountry(userCountry[0])
-
-    //                 } else {
-    //                     setUserCountry("")
-    //                 }
-    //             }
-    //         });
-    //     return () => {
-    //         unsubscribe();
-    //     }
-
-    // }, []); // här stod userwords
-
-    // useEffect(() => {
-    //     const unsubscribe = firebase.user(uid).child('settings').child('language')
-    //         .on('value', snapshot => {
-    //             if (snapshot) {
-    //                 const languageObject = snapshot.val();
-    //                 if (languageObject) {
-    //                     let userLanguageArr = Object.keys(languageObject)
-    //                     setUserLanguage(userLanguageArr[0])
-    //                     let trigger = 1
-
-    //                 } else {
-    //                     setUserLanguage("")
-    //                 }
-    //             }
-    //         });
-    //     return () => {
-    //         unsubscribe();
-    //     }
-
-    // }, []); // här stod userwords
-
-    // useEffect (() => {
-    //     console.log(userWordsArr);
-    //     console.log(userWord1,userWord2,userWord3)
-    //     console.log(searchWord1DataCurrenWeek)
-    //     console.log(searchWord2DataCurrenWeek)
-    //     console.log(searchWord3DataCurrenWeek)
-    // }, [searchWord3DataTwoWeeksBack] ) 
-
-
-  
 
     return (
         <>

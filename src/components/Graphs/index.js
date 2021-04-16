@@ -29,7 +29,7 @@ export const GraphDiv = styled(ChoosenWordsCard)`
     height: 400px;
     width: 600px;
     margin: 20px;
-    padding: 0 0 35px 0;
+    padding: 0 10px 35px 10px;
     @media(max-width: 320px){
         max-height: 250px;
         max-width: 250px;
@@ -57,18 +57,21 @@ const GraphsContainer = styled.div`
 
 
 const DashboardGraphs = ({firebase, uid, data, dataObjsArr}) => {
-    console.log(dataObjsArr)
-    console.log(dataObjsArr[0].response.results[0].webTitle)
+    if(dataObjsArr[0].response.results[0]){
+        console.log(dataObjsArr[0].response.results[0].webTitle)
+    }
+    
     return(
         <GraphsContainer>
             <SummaryGraph firebase={firebase} uid={uid} data={data}/>
             <UserWord1Graph firebase={firebase} uid={uid} data={data}/>
             <UserWord2Graph firebase={firebase} uid={uid} data={data}/>
+            {dataObjsArr[0].response.results[0] &&
+                <HeadLineList firebase={firebase} uid={uid} data={data} dataObjsArr={dataObjsArr}/>
+            }
         </GraphsContainer>
     )
 }
-
-
 
 const SummaryGraph = ( {firebase, uid, data} ) => {
     const [barGraph, setBarGraph] = useState(true)
@@ -379,7 +382,6 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
     return (
         <GraphDiv>
             
-
             {barGraph
             ? <Bar data={dataSetsData} options={options}/>
             : <Line data={dataSetsData} options={options}/>
@@ -525,11 +527,32 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             : <Line data={dataSetsData} options={options}/>
             }
             
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
     )
 }
+
+const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
+    if(!dataObjsArr[0].response.results[0]){
+        console.log("This text should never bee seen in the console")
+    }
+ 
+    console.log(dataObjsArr[1].response.results[0].webTitle)
+    // const HeadLineArr = []
+  
+    return (
+
+            <ChoosenWordsCard>
+                <ul> 
+
+                    {dataObjsArr.map((item) => {
+                        return <li key={item.response.results[0].webUrl}><a href={item.response.results[0].webUrl}>{item.response.results[0].webTitle}</a></li>
+                    })}
+                </ul>
+            </ChoosenWordsCard>
+    
+    )
+  }
 
 export default (withFirebase(DashboardGraphs));

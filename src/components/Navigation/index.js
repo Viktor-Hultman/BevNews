@@ -56,7 +56,6 @@ export const NavLink = styled(Link)`
     border-bottom: 3px solid ${props => props.theme.btnbg};
     transition: all 0.2s ease-out;
   }
-
 `;
 
 const TextNavUl = styled.ul`

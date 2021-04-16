@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyledMenu } from './Menu.styled';
 import SignOutButton from '../SignOut';
 import * as ROLES from '../../constants/roles';
@@ -7,7 +7,6 @@ import { AuthUserContext } from '../Session';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { bool, func  } from 'prop-types';
-import {useState} from 'react'
 
 const NavItem = styled.li`
 list-style: none;
@@ -21,6 +20,8 @@ export const NavLink = styled(Link)`
   display: flex;
   align-items: center;
 `;
+
+
 
 const Menu = ({ open, setOpen, authUser }) => {
 
@@ -44,7 +45,7 @@ const Menu = ({ open, setOpen, authUser }) => {
         </NavItem>
       )}
       <NavItem>
-        <SignOutButton />
+          <SignOutButton />
       </NavItem>
 
     </StyledMenu>
