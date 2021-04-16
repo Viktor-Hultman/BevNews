@@ -39,7 +39,13 @@ const ColorPresets = ({ firebase }) => {
    // const [colorValue, setColorValue] = useState("")
    // const [colorName, setColorName] = useState("")
     const [selectedColor, setSelectedColor] = useState("Standard")
+
+    let imgs = [
+        "https://s3.amazonaws.com/cdn.designcrowd.com/blog/100-Famous-Brand%20Logos-From-The-Most-Valuable-Companies-of-2020/amazon-logo.png",
+        "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png",
+        "https://i.imgur.com/3orcm3Z.png"
     
+      ];
 
     let { uid } = useContext(AuthUserContext);
 
@@ -48,19 +54,30 @@ const ColorPresets = ({ firebase }) => {
             .set({ [value]: name })
     }
 
+
+    const setLogo = (value, url) => {
+        firebase.user(uid).child('settings').child('logoPreset')
+            .set ({ [value]: url })
+    }
+    
+
     const ColorChange = (evt) => {
        // setColorValue(evt.target.value)
        // setColorName(evt.target.options[evt.target.selectedIndex].text)
        if (evt.target.value === "Standard") {
             setColor("Standard" , "Standard")
+            setLogo("Standard", imgs[2])
        } else if (evt.target.value === "Amazon") {
             setColor("Amazon" , "Amazon")
+            setLogo("AmazonLogo", imgs[0])
        } else if (evt.target.value === "Tesla") {
             setColor("Tesla" , "Tesla")
+            setLogo("TeslaLogo", imgs[1])
        }
     }
 
-    
+
+
 
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('colorPreset')

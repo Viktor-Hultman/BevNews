@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import { ChoosenWordsCard } from '../SearchWordForm'
 
 import {PageTitle} from '../Account'
+
+
 /*
 let dataObj = {
     Amazon: {"Two weeks ago": 45,
@@ -32,13 +34,55 @@ searchWord: "Amazon"}
  */
 
 const GraphDiv = styled(ChoosenWordsCard)`
-width: 600px;
+    width: 100vw;
+    
 `
 
 
 
-const DashboardGraph = ( {data} ) => {
-    console.log(data.searchWord1Data.currentWeekData1)
+const DashboardGraph = ( {firebase, uid, data} ) => {
+    const [barGraph, setBarGraph] = useState(true)
+
+    const setGraph = (value) => { // ['Tesla' , "Apple", "Saab"]
+        firebase.user(uid).child('settings').child('graphSettings')
+            .set({ [value]: true})
+    }
+
+    const onClick = (evt) => {
+        if(evt.target.value == "Bar"){
+            setGraph("Bar")
+            console.log("Bar")
+        } else if (evt.target.value == "Line"){
+            setGraph("Line")
+            console.log("Line")
+        }
+    }
+
+    useEffect(() => {
+        const unsubscribe = firebase.user(uid).child('settings').child('graphSettings')
+            .on('value', snapshot => {
+                if (snapshot) {
+                    const graphObject = snapshot.val();
+                    if (graphObject) {
+                        let graphArray = Object.keys(graphObject)
+                        if(graphArray == "Bar") {
+                            setBarGraph(true)
+                        } else {
+                            setBarGraph(false)
+                        }
+                    } else {
+                        setBarGraph(true);
+                    }
+                }
+            });
+        return () => {
+            unsubscribe();
+        }
+      
+    }, []);
+
+
+    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
             // props.dataObj.titles.searchWord1
@@ -47,7 +91,6 @@ const DashboardGraph = ( {data} ) => {
             "This week"
         ],
         datasets: [
-            
             {
             label: data.titles.searchWord1,
             fill: false,
@@ -165,7 +208,16 @@ const DashboardGraph = ( {data} ) => {
       };
     return (
         <GraphDiv>
-            <Bar data={dataSetsData} options={options}/>
+            
+
+            {barGraph
+            ? <Bar data={dataSetsData} options={options}/>
+            : <Line data={dataSetsData} options={options}/>
+            }
+            
+            
+            <button value="Bar" onClick={onClick}>Bar Graph</button>
+            <button value="Line" onClick={onClick}>Line Graph</button>
         </GraphDiv>
     )
 }
@@ -186,7 +238,6 @@ const Dashboard = ({ firebase }) => {
     const [formatted2WeekAgo, setFormatted2WeekAgo] = useState("")
     const [formatted3WeekAgo, setFormatted3WeekAgo] = useState("")
 
-    
 
     const searchWordDataArr = [0]
 
@@ -246,8 +297,7 @@ const Dashboard = ({ firebase }) => {
     // //Big chunk of logging to the console for checking values
     // console.log(formatted3WeekAgo)
     // console.log(formatted2WeekAgo)
-    // console.log(formatted1WeekAgo)
-    // console.log(formattedTodayDate)
+    // console.log(formatted1WeeayDate)
     // console.log(userLanguage)
     // console.log(userCountry)
     // console.log(userWord1, userWord2, userWord3)
@@ -348,6 +398,8 @@ const Dashboard = ({ firebase }) => {
             formatted3WeekAgo && 
             formattedTodayDate && 
             <FetchComp 
+                firebase={firebase}
+                uid={uid}
                 userWord1={userWord1}
                 userWord2={userWord2}
                 userWord3={userWord3}
@@ -362,7 +414,9 @@ const Dashboard = ({ firebase }) => {
 
 }
 
-const FetchComp = ( {userWord1,
+const FetchComp = ( {firebase,
+                    uid,
+                    userWord1,
                     userWord2, 
                     userWord3, 
                     formatted1WeekAgo, 
@@ -475,7 +529,9 @@ const FetchComp = ( {userWord1,
             searchWord3DataCurrenWeek&& 
             searchWord3DataOneWeekBack&& 
             searchWord3DataTwoWeeksBack&&
-            <GraphData  
+            <GraphData 
+                firebase={firebase}
+                uid={uid}
                 userWord1={userWord1}
                 userWord2={userWord2} 
                 userWord3={userWord3} 
@@ -495,7 +551,9 @@ const FetchComp = ( {userWord1,
 }
 
 
-const GraphData = ( {userWord1,
+const GraphData = ( {firebase,
+                    uid,
+                    userWord1,
                     userWord2, 
                     userWord3, 
                     searchWord1DataCurrenWeek, 
@@ -601,11 +659,8 @@ const GraphData = ( {userWord1,
             <div>
             
 
-                {dataObj && 
-                    <div>
-                        <DashboardGraph data={dataObj}/>
-
-                    </div>
+                {dataArr && 
+                    <DashboardGraph firebase={firebase} uid={uid} data={dataObj}/>
                 
                 }
 

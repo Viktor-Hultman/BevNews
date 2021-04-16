@@ -14,7 +14,6 @@ list-style: none;
 height: 80px;
 display: flex;
 align-items: center;
-width: 
 `
 
 export const NavLink = styled(Link)`

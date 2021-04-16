@@ -54,7 +54,6 @@ export const Amazon = {
  };
 
 export const Tesla = {
-    fg: "red",
     bg: "#cc0000",
     btnbg:"#cc0000",
     btndis: "#cf5955",
@@ -102,7 +101,7 @@ const ThemeProviderHook = ({firebase, authUser }) => {
     return (
         //The theme provider is surounding the route pages it shhould affect
         <ThemeProvider theme={colorTheme}>
-            <NavigationAuth authUser={authUser} />
+            <NavigationAuth firebase={firebase} authUser={authUser} />
             <Route exact path={ROUTES.HOME} component={HomePage} />
             <Route path={ROUTES.ACCOUNT} component={AccountPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} />
