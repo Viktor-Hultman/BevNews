@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
+import { GraphButton } from '../Graphs'
 import { withFirebase } from '../Firebase';
 import { withAuthorization } from '../Session';
 import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
-import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
-import styled, { ThemeProvider } from 'styled-components';
-import { WebsiteBackground} from "../Home"
+import styled from 'styled-components';
+import { WebsiteBackground } from "../Home"
 import { PageTitle } from "../Account";
 
 
@@ -21,6 +21,7 @@ const UsersListContainer = styled.div`
     text-align: center;
     align-content: center;
     margin: 30px 10px 30px 10px;
+    border-radius: 10px;
 
     @media (max-width: 500px) {
         width: 300px;
@@ -43,6 +44,20 @@ const SubTitel = styled.h2`
 
 const StyledSpan = styled.span`
     word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+`
+
+const DetailsButton = styled(GraphButton)`
+    margin-top: 2px;
+    margin-bottom: 5px;
+    max-width: 180px;
+`
+
+const DetailsLink = styled(Link)`
+    text-decoration: none;
+    color: ${props => props.theme.txt};
+    padding: 6px 0px 6px 0px;
 `
 
 const AdminPage = () => (
@@ -50,10 +65,10 @@ const AdminPage = () => (
         <PageTitle>Admin</PageTitle>
         <p>The Admin Page is accessible by every signed in admin user.</p>
 
-            <Switch>
-                <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
-                <Route exact path={ROUTES.ADMIN} component={UserList} />
-            </Switch>
+        <Switch>
+            <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+            <Route exact path={ROUTES.ADMIN} component={UserList} />
+        </Switch>
 
     </WebsiteBackground>
 );
@@ -85,6 +100,9 @@ class UserListBase extends Component {
     componentWillUnmount() {
         this.props.firebase.users().off();
     }
+
+
+
     render() {
         const { users, loading } = this.state;
 
@@ -105,17 +123,23 @@ class UserListBase extends Component {
                                 <strong>Username:</strong> {user.username}
                             </StyledSpan>
                             <StyledSpan>
-                                <strong>{user.roles && user.roles[ROLES.ADMIN]}</strong>
+                                <strong>Admin:
+                                    {(user.roles && 
+                                         ' Yes'
+                                    ) || ' No'} 
+                                </strong>
                             </StyledSpan>
                             <StyledSpan>
-                                <Link
-                                    to={{
-                                        pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                                        state: { user },
-                                    }}
-                                >
-                                    Details
-                                </Link>
+                                <DetailsButton >
+                                    <DetailsLink
+                                        to={{
+                                            pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                                            state: { user },
+                                        }}
+                                    >
+                                        Details
+                                    </DetailsLink>
+                                </DetailsButton>
                             </StyledSpan>
                         </IndividualUser>
                     ))}
@@ -165,7 +189,7 @@ class UserItemBase extends Component {
     };
 
     //This function creates the selected user admin
-    handleClick(evt) {
+    handleClick() {
         console.log('made admin')
         this.props.firebase.user(this.props.match.params.id)
             .child('roles')
@@ -176,34 +200,37 @@ class UserItemBase extends Component {
         const { user, loading } = this.state;
 
         return (
-            <div>
-                <h2>User ({this.props.match.params.id})</h2>
+            <UsersListContainer>
+                <SubTitel>User ({this.props.match.params.id})</SubTitel>
                 {loading && <div>Loading ...</div>}
                 {user && (
-                    <div>
-                        <span>
+                    <IndividualUser>
+                        <StyledSpan>
                             <strong>ID:</strong> {user.uid}
-                        </span>
-                        <span>
+                        </StyledSpan>
+                        <StyledSpan>
                             <strong>E-Mail:</strong> {user.email}
-                        </span>
-                        <span>
+                        </StyledSpan>
+                        <StyledSpan>
                             <strong>Username:</strong> {user.username}
-                        </span>
-                        <span>
-                            <button
+                        </StyledSpan>
+                        <StyledSpan>
+                            <DetailsButton
                                 type="button"
                                 onClick={this.onSendPasswordResetEmail}
                             >
                                 Send Password Reset
-                            </button>
-                        </span>
-                        <button onClick={this.handleClick}>
-                            Make admin
-                        </button>
-                    </div>
+                            </DetailsButton>
+                        </StyledSpan>
+                        <StyledSpan>
+                            <DetailsButton onClick={this.handleClick}>
+                                Make admin
+                            </DetailsButton>
+                        </StyledSpan>
+                        
+                    </IndividualUser>
                 )}
-            </div>
+            </UsersListContainer>
         );
     }
 }

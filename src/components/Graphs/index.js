@@ -14,7 +14,7 @@ import {PageTitle} from '../Account'
 
 import { StyledButton } from '../SearchWordForm'
 
-const GraphButton = styled(StyledButton)`
+export const GraphButton = styled(StyledButton)`
 background-color: ${props => props.theme.btnbg};
 color: ${props => props.theme.txt};
 margin: -10px 2px 0 2px;
