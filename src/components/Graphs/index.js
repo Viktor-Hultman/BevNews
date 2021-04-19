@@ -104,6 +104,7 @@ const DashboardGraphs = ({firebase, uid, data, dataObjsArr}) => {
     
     return(
         <GraphsContainer>
+
             <SummaryGraph firebase={firebase} uid={uid} data={data}/>
             <UserWord1Graph firebase={firebase} uid={uid} data={data}/>
             <UserWord2Graph firebase={firebase} uid={uid} data={data}/>

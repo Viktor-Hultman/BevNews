@@ -415,8 +415,6 @@ const GraphData = ({ firebase,
 
     return (
         <div>
-
-
             {dataResultsArr &&
                 <DashboardGraphs firebase={firebase} uid={uid} data={dataObjTotalResults} dataObjsArr={dataObjsArr} />
 

@@ -385,7 +385,13 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
 
     const [allDataObjs, setAllDataObjs] = useState(null)
     const [fetchedData1, setFetchedData1] = useState(null)
-    
+    useEffect(() => {
+        console.log("hej från useeffect FC")
+        fetchedDataArr1 =[];
+        if(fetchedData1){
+            console.log(fetchedData1[0])
+        }
+    }, [fetchedData1])
 
     //Creating all the variable that will be placed in an array
     let todayData1 = {},
@@ -436,6 +442,7 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
 
 
     //Placing all the variables in an array so we can loop through them later on
+    /*
     let fetchedDataArr1 = [
         todayData1,
         oneDayAgoData1,
@@ -452,8 +459,10 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
         twelveDaysAgoData1,
         thirteenDaysAgoData1,
         fourteenDaysAgoData1
-
     ]
+    */
+   console.log("Nu ryker fetcheddataarr1")
+    let fetchedDataArr1;
 
     let fetchedDataArr2 = [
         todayData2,
@@ -503,15 +512,18 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
             //The following syntax for the loops together with the setTimeout function was sampeled from https://stackoverflow.com/a/24293516
             console.log("Första for loppen körs");
             for (let i = 0; i < userWord1Urls.length; i++) {
-                (function (index) {
+                ((index) => {
+                    console.log("index: " + index)
                     setTimeout(function () {
                         fetch(userWord1Urls[i])
                             .then(response => {
                                 return response.json();
                             })
                             .then(data => {
-                                fetchedDataArr1[i] = data
-                                
+                                fetchedDataArr1.push(JSON.parse(JSON.stringify(data))); 
+                                //console.log(data)
+                                //fetchedDataArr1[i] = JSON.parse(JSON.stringify(data));   
+                                console.log(fetchedDataArr1)
                             })
                             .catch((err) => {
                                 console.log("oops..something went wrong", err)
@@ -521,6 +533,7 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
                     }, 100 + (10 * index));
                 })(i);
             }
+            //console.log(fetchedDataArr1)
             setFetchedData1(fetchedDataArr1)
         };
 
@@ -549,7 +562,7 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
         if (urlsArr[2]) {
             console.log("Tredje for loppen körs");
             for (let i = 0; i < userWord3Urls.length; i++) {
-                (function (index) {
+                ((index) => {
                     setTimeout(function () {
                         fetch(userWord3Urls[i])
                             .then(response => {
@@ -578,13 +591,16 @@ const FetchComp = ({ urlsArr, userWordsArr }) => {
         // setAllDataObjs(allFechedData)
         
     }, [])
+
+ 
     // } else {
     //     console.log("dataObjs unset")
     // }
-    if(fetchedData1){
-        console.log(fetchedData1[0].response)
-    }
+    // if(fetchedData1){
+    //     console.log(fetchedData1[0])
+    // }
     
+
     return (
         <>
             
@@ -604,6 +620,7 @@ const GraphData = ({ allDataObjs, userWordsArr }) => {
     if (!allDataObjs) {
         console.log("This should never appear")
     } 
+    
     let userWord1Data = allDataObjs[0]
     // console.log(allDataObjs)
     let obj1 = {
