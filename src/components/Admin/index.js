@@ -24,7 +24,8 @@ const UsersListContainer = styled.div`
     border-radius: 10px;
 
     @media (max-width: 500px) {
-        width: 300px;
+        width: 310px;
+        margin: 0 0 10px 0;
     }
 `
 
@@ -34,7 +35,8 @@ const IndividualUser = styled.li`
     display: flex;
     flex-direction: column;
     @media (max-width: 500px) {
-        max-width: 250px;
+        max-width: 300px;
+        padding: 0;
     }
 `
 
@@ -42,9 +44,10 @@ const SubTitel = styled.h2`
     padding: 10px
 `
 
-const StyledSpan = styled.span`
-    word-wrap: break-word;
+const StyledSpan = styled.p`
     display: flex;
+    flex-wrap: wrap;
+    
     justify-content: center;
 `
 
@@ -93,7 +96,6 @@ class UserListBase extends Component {
                 users: usersList,
                 loading: false,
             });
-            console.log(usersList)
         });
 
     }
@@ -114,13 +116,13 @@ class UserListBase extends Component {
                     {users.map(user => (
                         <IndividualUser key={user.uid}>
                             <StyledSpan>
-                                <strong>ID:</strong> {user.uid}
+                                <strong>ID: </strong> {user.uid}
                             </StyledSpan>
                             <StyledSpan>
-                                <strong>E-Mail:</strong> {user.email}
+                                <strong>E-Mail: </strong> {user.email}
                             </StyledSpan>
                             <StyledSpan>
-                                <strong>Username:</strong> {user.username}
+                                <strong>Username: </strong> {user.username} 
                             </StyledSpan>
                             <StyledSpan>
                                 <strong>Admin:
@@ -190,7 +192,6 @@ class UserItemBase extends Component {
 
     //This function creates the selected user admin
     handleClick() {
-        console.log('made admin')
         this.props.firebase.user(this.props.match.params.id)
             .child('roles')
             .set({ ADMIN: 'ADMIN' })
@@ -201,7 +202,6 @@ class UserItemBase extends Component {
 
         return (
             <UsersListContainer>
-                <SubTitel>User ({this.props.match.params.id})</SubTitel>
                 {loading && <div>Loading ...</div>}
                 {user && (
                     <IndividualUser>

@@ -7,26 +7,29 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
+import styled from 'styled-components';
 
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
-
+const RootDiv = styled.div`
+    height: 100vh;
+`
 
 const App = () => {
 
 
     return (
         
-        <Router>
-            <Navigation />
-            <Route path={ROUTES.LANDING} component={LandingPage} />
-            <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-            <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            <Router>
+                <Navigation />
+                <Route path={ROUTES.LANDING} component={LandingPage} />
+                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            </Router>
 
-        </Router>
 
 
     );

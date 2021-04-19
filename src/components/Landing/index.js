@@ -5,8 +5,8 @@ import LandingGraph from '../LandingGraph';
 import * as ROUTES from '../../constants/routes';
 
 const SignInButton = styled.button`
-    background-color: #263238;
-    border: 2px solid #263238;
+    background-color: #185C5E;
+    border: 2px solid #185C5E;
     color: #fff;
     padding: 5px;
     width: 200px;
@@ -17,6 +17,10 @@ const SignInButton = styled.button`
     font-size: 1rem;
     font-weight: bold;
     letter-spacing: 3px;
+    color: #fff;
+    :hover {
+      border  
+    }
 `
 
 // const BiggerSignInButton = styled(SignInButton)`
@@ -36,7 +40,7 @@ flex-direction: column;
 background: #DCE7FA;
 align-items: center;
 width: 100%;
-height: 100vh;
+height: 100%;
 text-align: center;
 
 // By using the ">" symbol, only the direct children instead
@@ -56,7 +60,7 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 width: 100%;
-height: 100%;
+height: 100vh;
 background: #DCE7FA;
 `
 

@@ -41,7 +41,7 @@ export const Standard = {
     card: "#263238",
     websitebg: "#DCE7FA",
     txt: "#fff",
-    txtInverted: "black"
+    txtInverted: "#000"
 }
 export const Amazon = {
     bg: "#232f3e",
@@ -50,7 +50,7 @@ export const Amazon = {
     card: "#232f3e",
     websitebg: "#fff",
     txt: "#fff",
-    txtInverted: "black"
+    txtInverted: "#000"
  };
 
 export const Tesla = {
@@ -90,7 +90,6 @@ const ThemeProviderHook = ({firebase, authUser }) => {
                     }
                     
                 }
-                console.log(colorTheme)
             });
         return () => {
             unsubscribe();

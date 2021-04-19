@@ -26,7 +26,14 @@ const StyledSignInForm = styled.form`
 
 `
 const SignInButton = styled(StyledButton)`
-background-color: #c4c4c4;
+color: #fff;
+background-color: #185C5E;
+
+&:disabled {
+    cursor:default;
+    color: #000;
+    background-color: #656970;
+  }
 `
 
 const SignInPage = () => (

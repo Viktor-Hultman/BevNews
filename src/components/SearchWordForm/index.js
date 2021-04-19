@@ -118,7 +118,7 @@ const SearchWordForm = ({ firebase }) => {
     const inputChange = (evt) => {
         setInputValue(evt.target.value)
         setWarningMsg("")
-        console.log(inputValue)
+        
     }
 
     const addWordInvalid = 
@@ -145,7 +145,7 @@ const SearchWordForm = ({ firebase }) => {
         
     }
 
-    console.log(userWordsArr);
+    
 
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('searchWords')

@@ -4,17 +4,30 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import styled from 'styled-components';
-import {SignUpFormContainer} from '../SignUp';
+import {SignUpFormContainer, SignUpContainter} from '../SignUp';
 import { StyledInput, StyledButton } from '../SearchWordForm';
 
-const PassForgetForm = styled(SignUpFormContainer)`
+const PassForgetForm = styled(SignUpFormContainer)` 
+`
+
+const PasswordForgetButton = styled(StyledButton)`
+    color: #fff;
+    background-color: #185C5E;
+
+    &:disabled {
+        cursor:default;
+        color: #000;
+        background-color: #656970;
+      }
+`
+const PasswordForgetPageDiv = styled(SignUpContainter)`
 `
 
 const PasswordForgetPage = () => (
-    <div>
+    <PasswordForgetPageDiv>
         <h1>PasswordForget</h1>
         <PasswordForgetForm />
-    </div>
+    </PasswordForgetPageDiv>
 );
 
 const INITIAL_STATE = {
@@ -58,9 +71,9 @@ class PasswordForgetFormBase extends Component {
                     type="text"
                     placeholder="Email Address"
                 />
-                <StyledButton disabled={isInvalid} type="submit">
+                <PasswordForgetButton disabled={isInvalid} type="submit">
                     Reset My Password
-                </StyledButton>
+                </PasswordForgetButton>
                 {error && <p>{error.message}</p>}
             </PassForgetForm>
         );
