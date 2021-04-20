@@ -865,15 +865,17 @@ const optionsPolarChart = {
       }
   },
   "maintainAspectRatio": false,
+  
 //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
   "scale": {
     "gridLines": {
       "color": "white",
-      "borderDash": [
+      "borderDash": [ 
         0,
         0
       ] 
     }
+    
   } 
 };
 
@@ -892,7 +894,11 @@ const SummaryGraphPolar1Words = ( {data} ) => {
           'rgb(236, 78, 32, 0.7)',
           'rgb(67, 170, 139, 0.7)'
         ],
-        
+        hoverBackgroundColor: [
+          'rgb(243, 222, 44, 0.9)',
+          'rgb(236, 78, 32, 0.9)',
+          'rgb(67, 170, 139, 0.9)'
+        ],
         hoverOffset: 4,
         data: [searchWord1]
         }
@@ -924,6 +930,11 @@ const SummaryGraphPolar2Words = ( {data} ) => {
           'rgb(243, 222, 44, 0.7)',
           'rgb(236, 78, 32, 0.7)',
           'rgb(67, 170, 139, 0.7)'
+        ],
+        hoverBackgroundColor: [
+          'rgb(243, 222, 44, 0.9)',
+          'rgb(236, 78, 32, 0.9)',
+          'rgb(67, 170, 139, 0.9)'
         ],
         
         hoverOffset: 4,
@@ -958,6 +969,11 @@ const SummaryGraphPolar3Words = ( {data} ) => {
           'rgb(243, 222, 44, 0.7)',
           'rgb(236, 78, 32, 0.7)',
           'rgb(67, 170, 139, 0.7)'
+        ],
+        hoverBackgroundColor: [
+          'rgb(243, 222, 44, 0.9)',
+          'rgb(236, 78, 32, 0.9)',
+          'rgb(67, 170, 139, 0.9)'
         ],
         
         hoverOffset: 4,

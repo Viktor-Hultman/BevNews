@@ -9,6 +9,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import {WebsiteBackground} from "../Home"
 
 const AccountContainer = styled(ChoosenWordsCard)`
+min-width: 320px;
 `
 
 export const PageTitle = styled.h1`
