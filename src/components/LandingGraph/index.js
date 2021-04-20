@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+import styled from 'styled-components';
 
 import { withFirebase } from '../Firebase';
 
 import { Bar } from 'react-chartjs-2';
 import { GraphDiv } from '../Graphs'
 
+const LandingGraphDiv = styled(GraphDiv)`
+    color: #fff;
+    background-color: #263238;
+`
 
 const LandingGraph= ({ firebase }) => {
     const [W9Apple, setW9Apple] = useState(null)
@@ -221,10 +226,10 @@ const SearchGraph = (props) => {
       };
 
     return (
-        <GraphDiv>
+        <LandingGraphDiv>
             <h3>A comparison between {props.data.titels.Apple} and {props.data.titels.Tesla} between week 7, 8 and 9.</h3>
             <Bar options={options} data={data} />
-        </GraphDiv>
+        </LandingGraphDiv>
     );
 };
 

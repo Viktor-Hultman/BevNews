@@ -1,34 +1,22 @@
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LandingGraph from '../LandingGraph';
 import * as ROUTES from '../../constants/routes';
+import {StyledButton} from '../SearchWordForm';
 
-const SignInButton = styled.button`
+const SignInButton = styled(StyledButton)`
     background-color: #185C5E;
     border: 2px solid #185C5E;
     color: #fff;
-    padding: 5px;
-    width: 200px;
-    height: 100px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 5px;
     font-size: 1rem;
     font-weight: bold;
     letter-spacing: 3px;
-    color: #fff;
+    padding: 20px;
+    margin: 20px;
+
     :hover {
-      border  
+      border-color: #fff;  
     }
-`
-
-
-const ButtonLink = styled(Link)`
-text-decoration: none;
-color: #fff;
-text-transform: uppercase;
-width: 100%;
 `
 
 const LandingDiv = styled.div`
@@ -57,8 +45,15 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 width: 100%;
-height: 100vh;
 background: #DCE7FA;
+`
+
+const InfoBox = styled.div`
+width: 300px;
+padding: 20px;
+color: #fff;
+background-color: #263238;
+border-radius: 5px;
 `
 
 const Landing = (props) => {
@@ -71,12 +66,15 @@ const Landing = (props) => {
 
     return(
         <LandingDiv>
-            <h1>Landing</h1>
             <h1>BEV</h1>
+            <InfoBox>
+                <p>This is a app where you as a user can choose up to 3 words to "Follow" and compare the number of times those words are mentioned in "The Guardian" Newspaper!</p>
+            </InfoBox>
             <SignInButton onClick={SignInFunc}>
                 SIGN IN
             </SignInButton>
             <ExampleGraphDiv>
+                <h2>Example of how our graphs are struckured</h2>
                 <LandingGraph />
             </ExampleGraphDiv>
         </LandingDiv>
