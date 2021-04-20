@@ -40,7 +40,7 @@ const Dashboard = ({ firebase }) => {
     //Getting the unique id of the signed in user from the context provider
     //so we can use it to link the user to their firebase data profile
     let { uid } = useContext(AuthUserContext);
-    
+
 
     //Here we gather the timestap of when the page loads 
     const timestamp = Date.now()
@@ -72,11 +72,11 @@ const Dashboard = ({ firebase }) => {
             weekDatesArr[i] = weekDatesArr[i].getFullYear() + '-' + (weekDatesArr[i].getMonth() + 1) + '-' + weekDatesArr[i].getDate();
 
             if (weekDatesArr[i].charAt(5) === 1) {
-                
+
             } else {
                 weekDatesArr[i] = (addStr(weekDatesArr[i], 5, 0))
             }
-            
+
         }
         //Sets the useStates of the dates that we'll use for fetching 
         setFormattedTodayDate(weekDatesArr[0])
@@ -108,7 +108,7 @@ const Dashboard = ({ firebase }) => {
                         setUserWord2(searchWordArray[1])
                         setUserWord3(searchWordArray[2])
                         setUserWordsArr(searchWordArray)
-                        
+
 
                     } else {
                         //Resets the useState variables if something happens to the users words
@@ -131,35 +131,259 @@ const Dashboard = ({ firebase }) => {
             <PageTitle>Dashboard</PageTitle>
             {/* syntax for conditional rendering: state1 && state2 && state3 && <FetchComp states={[state1,state2,state3]} />*/}
 
-            {userWord1 &&
-                userWord2 &&
-                userWord3 &&
+            {userWordsArr[0] &&
+                !userWordsArr[1] &&
                 formatted1WeekAgo &&
                 formatted2WeekAgo &&
                 formatted3WeekAgo &&
                 formattedTodayDate &&
-                <FetchComp
+                <FetchComp1Words
                     firebase={firebase}
                     uid={uid}
-                    userWord1={userWord1}
-                    userWord2={userWord2}
-                    userWord3={userWord3}
+                    userWordsArr={userWordsArr}
                     formatted1WeekAgo={formatted1WeekAgo}
                     formatted2WeekAgo={formatted2WeekAgo}
                     formatted3WeekAgo={formatted3WeekAgo}
                     formattedTodayDate={formattedTodayDate}
                 />
             }
+
+            {userWordsArr[1] &&
+                !userWordsArr[2] &&
+                formatted1WeekAgo &&
+                formatted2WeekAgo &&
+                formatted3WeekAgo &&
+                formattedTodayDate &&
+                <FetchComp2Words
+                    firebase={firebase}
+                    uid={uid}
+                    userWordsArr={userWordsArr}
+                    formatted1WeekAgo={formatted1WeekAgo}
+                    formatted2WeekAgo={formatted2WeekAgo}
+                    formatted3WeekAgo={formatted3WeekAgo}
+                    formattedTodayDate={formattedTodayDate}
+                />
+            }
+
+            {userWordsArr[2] &&
+                formatted1WeekAgo &&
+                formatted2WeekAgo &&
+                formatted3WeekAgo &&
+                formattedTodayDate &&
+                <FetchComp3Words
+                    firebase={firebase}
+                    uid={uid}
+                    userWordsArr={userWordsArr}
+                    formatted1WeekAgo={formatted1WeekAgo}
+                    formatted2WeekAgo={formatted2WeekAgo}
+                    formatted3WeekAgo={formatted3WeekAgo}
+                    formattedTodayDate={formattedTodayDate}
+                />
+            }
+
         </>
     )
 
 }
 
-const FetchComp = ({ firebase,
+const FetchComp1Words = ({ firebase,
     uid,
-    userWord1,
-    userWord2,
-    userWord3,
+    userWordsArr,
+    formatted1WeekAgo,
+    formatted2WeekAgo,
+    formatted3WeekAgo,
+    formattedTodayDate,
+}) => {
+
+    const [searchWord1DataCurrenWeek, setSearchWord1DataCurrentWeek] = useState("")
+    const [searchWord1DataOneWeekBack, setSearchWord1DataOneWeekBack] = useState("")
+    const [searchWord1DataTwoWeeksBack, setSearchWord1DataTwoWeeksBack] = useState("")
+
+
+    //Setting some variables that we need for creating the full url we'll use in our api fetches
+    const Url = "https://content.guardianapis.com/search?q="
+    const Key = "&api-key=5302bcc3-f459-4d4e-93e3-8f8ef66ae980"
+    const From = "&from-date="
+    const To = "&to-date="
+
+
+
+    let fullUrlSearchWord1CurrentWeek = Url + userWordsArr[0] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord1OneWeekBack = Url + userWordsArr[0] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord1TwoWeeksBack = Url + userWordsArr[0] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+
+
+    useEffect(() => {
+        // förslag todo: bryt ut i separat komponent
+        function bigFetch() {
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1CurrentWeek)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 100)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1OneWeekBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 110)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1TwoWeeksBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 120)
+        }
+
+        bigFetch()
+
+    }, []);
+
+
+    return (
+        <>
+            {
+                searchWord1DataCurrenWeek &&
+                searchWord1DataOneWeekBack &&
+                searchWord1DataTwoWeeksBack &&
+                <GraphData1Words
+                    firebase={firebase}
+                    uid={uid}
+                    userWordsArr={userWordsArr}
+                    searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
+                    searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
+                    searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack}
+
+                />
+            }
+        </>
+    )
+}
+
+const FetchComp2Words = ({ firebase,
+    uid,
+    userWordsArr,
+    formatted1WeekAgo,
+    formatted2WeekAgo,
+    formatted3WeekAgo,
+    formattedTodayDate,
+}) => {
+
+    const [searchWord1DataCurrenWeek, setSearchWord1DataCurrentWeek] = useState("")
+    const [searchWord1DataOneWeekBack, setSearchWord1DataOneWeekBack] = useState("")
+    const [searchWord1DataTwoWeeksBack, setSearchWord1DataTwoWeeksBack] = useState("")
+
+    const [searchWord2DataCurrenWeek, setSearchWord2DataCurrentWeek] = useState("")
+    const [searchWord2DataOneWeekBack, setSearchWord2DataOneWeekBack] = useState("")
+    const [searchWord2DataTwoWeeksBack, setSearchWord2DataTwoWeeksBack] = useState("")
+
+
+    //Setting some variables that we need for creating the full url we'll use in our api fetches
+    const Url = "https://content.guardianapis.com/search?q="
+    const Key = "&api-key=5302bcc3-f459-4d4e-93e3-8f8ef66ae980"
+    const From = "&from-date="
+    const To = "&to-date="
+
+
+
+    let fullUrlSearchWord1CurrentWeek = Url + userWordsArr[0] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord1OneWeekBack = Url + userWordsArr[0] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord1TwoWeeksBack = Url + userWordsArr[0] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+
+    let fullUrlSearchWord2CurrentWeek = Url + userWordsArr[1] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord2OneWeekBack = Url + userWordsArr[1] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord2TwoWeeksBack = Url + userWordsArr[1] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+
+
+
+    useEffect(() => {
+        // förslag todo: bryt ut i separat komponent
+        function bigFetch() {
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1CurrentWeek)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 100)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1OneWeekBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 110)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord1TwoWeeksBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 120)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord2CurrentWeek)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 130)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord2OneWeekBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 140)
+
+            setTimeout(function () {
+                fetch(fullUrlSearchWord2TwoWeeksBack)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 150)
+
+        }
+
+        bigFetch()
+
+
+    }, []);
+
+
+    return (
+        <>
+            {
+                searchWord1DataCurrenWeek &&
+                searchWord1DataOneWeekBack &&
+                searchWord1DataTwoWeeksBack &&
+                searchWord2DataCurrenWeek &&
+                searchWord2DataOneWeekBack &&
+                searchWord2DataTwoWeeksBack &&
+                <GraphData2Words
+                    firebase={firebase}
+                    uid={uid}
+                    userWordsArr={userWordsArr}
+                    searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
+                    searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
+                    searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack}
+                    searchWord2DataCurrenWeek={searchWord2DataCurrenWeek}
+                    searchWord2DataOneWeekBack={searchWord2DataOneWeekBack}
+                    searchWord2DataTwoWeeksBack={searchWord2DataTwoWeeksBack}
+
+                />
+            }
+        </>
+    )
+}
+
+
+const FetchComp3Words = ({ firebase,
+    uid,
+    userWordsArr,
     formatted1WeekAgo,
     formatted2WeekAgo,
     formatted3WeekAgo,
@@ -180,24 +404,23 @@ const FetchComp = ({ firebase,
     //Setting some variables that we need for creating the full url we'll use in our api fetches
     const Url = "https://content.guardianapis.com/search?q="
     const Key = "&api-key=5302bcc3-f459-4d4e-93e3-8f8ef66ae980"
-    // const Country = "&country"
-    // const Lang = "&lang"
+
     const From = "&from-date="
     const To = "&to-date="
 
-    
 
-    let fullUrlSearchWord1CurrentWeek = Url + userWord1 + From + formatted1WeekAgo + To + formattedTodayDate + Key
-    let fullUrlSearchWord1OneWeekBack = Url + userWord1 + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
-    let fullUrlSearchWord1TwoWeeksBack = Url + userWord1 + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
 
-    let fullUrlSearchWord2CurrentWeek = Url + userWord2 + From + formatted1WeekAgo + To + formattedTodayDate + Key
-    let fullUrlSearchWord2OneWeekBack = Url + userWord2 + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
-    let fullUrlSearchWord2TwoWeeksBack = Url + userWord2 + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+    let fullUrlSearchWord1CurrentWeek = Url + userWordsArr[0] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord1OneWeekBack = Url + userWordsArr[0] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord1TwoWeeksBack = Url + userWordsArr[0] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
 
-    let fullUrlSearchWord3CurrentWeek = Url + userWord3 + From + formatted1WeekAgo + To + formattedTodayDate + Key
-    let fullUrlSearchWord3OneWeekBack = Url + userWord3 + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
-    let fullUrlSearchWord3TwoWeeksBack = Url + userWord3 + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+    let fullUrlSearchWord2CurrentWeek = Url + userWordsArr[1] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord2OneWeekBack = Url + userWordsArr[1] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord2TwoWeeksBack = Url + userWordsArr[1] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
+
+    let fullUrlSearchWord3CurrentWeek = Url + userWordsArr[2] + From + formatted1WeekAgo + To + formattedTodayDate + Key
+    let fullUrlSearchWord3OneWeekBack = Url + userWordsArr[2] + From + formatted2WeekAgo + To + formatted1WeekAgo + Key
+    let fullUrlSearchWord3TwoWeeksBack = Url + userWordsArr[2] + From + formatted3WeekAgo + To + formatted2WeekAgo + Key
 
 
     useEffect(() => {
@@ -206,66 +429,66 @@ const FetchComp = ({ firebase,
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord1CurrentWeek)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord1DataCurrentWeek(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
             }, 100)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord1OneWeekBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord1DataOneWeekBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 200)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 110)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord1TwoWeeksBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord1DataTwoWeeksBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 300)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord1DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 120)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord2CurrentWeek)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord2DataCurrentWeek(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 400)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 130)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord2OneWeekBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord2DataOneWeekBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 500)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 140)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord2TwoWeeksBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord2DataTwoWeeksBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 600)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord2DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 150)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord3CurrentWeek)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord3DataCurrentWeek(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 700)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord3DataCurrentWeek(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 160)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord3OneWeekBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord3DataOneWeekBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 800)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord3DataOneWeekBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 170)
 
             setTimeout(function () {
                 fetch(fullUrlSearchWord3TwoWeeksBack)
-                .then(response => { return response.json(); })
-                .then(data => { setSearchWord3DataTwoWeeksBack(data) })
-                .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 900)
+                    .then(response => { return response.json(); })
+                    .then(data => { setSearchWord3DataTwoWeeksBack(data) })
+                    .catch((err) => { console.log("oops..something went wrong", err) })
+            }, 180)
         }
 
         bigFetch()
@@ -276,9 +499,7 @@ const FetchComp = ({ firebase,
 
     return (
         <>
-            {userWord1 &&
-                userWord2 &&
-                userWord3 &&
+            {
                 searchWord1DataCurrenWeek &&
                 searchWord1DataOneWeekBack &&
                 searchWord1DataTwoWeeksBack &&
@@ -288,12 +509,10 @@ const FetchComp = ({ firebase,
                 searchWord3DataCurrenWeek &&
                 searchWord3DataOneWeekBack &&
                 searchWord3DataTwoWeeksBack &&
-                <GraphData
+                <GraphData3Words
                     firebase={firebase}
                     uid={uid}
-                    userWord1={userWord1}
-                    userWord2={userWord2}
-                    userWord3={userWord3}
+                    userWordsArr={userWordsArr}
                     searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
                     searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
                     searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack}
@@ -310,11 +529,161 @@ const FetchComp = ({ firebase,
 }
 
 
-const GraphData = ({ firebase,
+const GraphData1Words = ({ firebase,
     uid,
-    userWord1,
-    userWord2,
-    userWord3,
+    userWordsArr,
+    searchWord1DataCurrenWeek,
+    searchWord1DataOneWeekBack,
+    searchWord1DataTwoWeeksBack
+    }) => {
+
+    let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
+    let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
+    let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
+
+
+    let dataObjsArr = [
+        searchWord1DataCurrenWeek,
+        searchWord1DataOneWeekBack,
+        searchWord1DataTwoWeeksBack,
+    ]
+
+    let dataResultsArr =
+        [currentWeekData1,
+            oneWeekAgoData1,
+            twoWeeksAgoData1
+        ]
+
+
+    for (let i = 0; i < dataResultsArr.length; i++) {
+        if (dataResultsArr[i] == 0) {
+            dataResultsArr[i] = dataResultsArr[i] + 1
+        }
+
+    }
+
+
+    let titles = {
+        searchWord1: userWordsArr[0]
+
+    }
+
+    let searchWord1Data = {
+        currentWeekData1,
+        oneWeekAgoData1,
+        twoWeeksAgoData1
+    }
+
+
+
+    let dataObjTotalResults = {
+        titles,
+        searchWord1Data
+    }
+
+    return (
+        <div>
+            {dataResultsArr &&
+                <DashboardGraphs firebase={firebase} uid={uid} userWordsArr={userWordsArr} data={dataObjTotalResults} dataObjsArr={dataObjsArr} />
+            }
+        </div>
+    )
+}
+
+
+const GraphData2Words = ({ firebase,
+    uid,
+    userWordsArr,
+    searchWord1DataCurrenWeek,
+    searchWord1DataOneWeekBack,
+    searchWord1DataTwoWeeksBack,
+    searchWord2DataCurrenWeek,
+    searchWord2DataOneWeekBack,
+    searchWord2DataTwoWeeksBack }) => {
+
+
+
+    let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
+    let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
+    let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
+
+    let currentWeekData2 = searchWord2DataCurrenWeek ? searchWord2DataCurrenWeek.response.total : null
+    let oneWeekAgoData2 = searchWord2DataOneWeekBack ? searchWord2DataOneWeekBack.response.total : null
+    let twoWeeksAgoData2 = searchWord2DataTwoWeeksBack ? searchWord2DataTwoWeeksBack.response.total : null
+
+
+    let dataObjsArr = [
+        searchWord1DataCurrenWeek,
+        searchWord1DataOneWeekBack,
+        searchWord1DataTwoWeeksBack,
+        searchWord2DataCurrenWeek,
+        searchWord2DataOneWeekBack,
+        searchWord2DataTwoWeeksBack,
+
+    ]
+
+    let dataResultsArr =
+        [currentWeekData1,
+            oneWeekAgoData1,
+            twoWeeksAgoData1,
+            currentWeekData2,
+            oneWeekAgoData2,
+            twoWeeksAgoData2]
+
+
+    for (let i = 0; i < dataResultsArr.length; i++) {
+        if (dataResultsArr[i] == 0) {
+            dataResultsArr[i] = dataResultsArr[i] + 1
+        }
+
+    }
+
+
+    let titles = {
+        searchWord1: userWordsArr[0],
+        searchWord2: userWordsArr[1]
+    }
+
+    let searchWord1Data = {
+        currentWeekData1,
+        oneWeekAgoData1,
+        twoWeeksAgoData1
+    }
+    let searchWord2Data = {
+        currentWeekData2,
+        oneWeekAgoData2,
+        twoWeeksAgoData2,
+    }
+
+
+    let dataObjTotalResults = {
+        titles,
+        searchWord1Data,
+        searchWord2Data
+    }
+
+    // let dataObj = {
+    //     titles: {...titles},
+    //     searchWord1Data: {...searchWord1Data},
+    //     searchWord2Data: {...searchWord2Data},
+    //     searchWord3Data: {...searchWord3Data}
+    // }
+
+    return (
+        <div>
+            {dataResultsArr &&
+                <DashboardGraphs firebase={firebase} uid={uid} userWordsArr={userWordsArr} data={dataObjTotalResults} dataObjsArr={dataObjsArr} />
+
+            }
+
+        </div>
+    )
+}
+
+
+const GraphData3Words = ({ firebase,
+    uid,
+    userWordsArr,
     searchWord1DataCurrenWeek,
     searchWord1DataOneWeekBack,
     searchWord1DataTwoWeeksBack,
@@ -363,24 +732,18 @@ const GraphData = ({ firebase,
             twoWeeksAgoData3]
 
 
-
-
-
-
-
     for (let i = 0; i < dataResultsArr.length; i++) {
         if (dataResultsArr[i] == 0) {
             dataResultsArr[i] = dataResultsArr[i] + 1
         }
-        
+
     }
 
 
-
     let titles = {
-        searchWord1: userWord1,
-        searchWord2: userWord2,
-        searchWord3: userWord3
+        searchWord1: userWordsArr[0],
+        searchWord2: userWordsArr[1],
+        searchWord3: userWordsArr[2]
     }
 
     let searchWord1Data = {
@@ -416,7 +779,7 @@ const GraphData = ({ firebase,
     return (
         <div>
             {dataResultsArr &&
-                <DashboardGraphs firebase={firebase} uid={uid} data={dataObjTotalResults} dataObjsArr={dataObjsArr} />
+                <DashboardGraphs firebase={firebase} uid={uid} userWordsArr={userWordsArr} data={dataObjTotalResults} dataObjsArr={dataObjsArr} />
 
             }
 
