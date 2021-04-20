@@ -40,7 +40,7 @@ const IndividualUser = styled.li`
     }
 `
 
-const SubTitel = styled.h2`
+export const SubTitel = styled.h2`
     padding: 10px
 `
 

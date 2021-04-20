@@ -7,9 +7,26 @@ import { ChoosenWordsCard } from '../SearchWordForm';
 import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
 import styled, { ThemeProvider } from 'styled-components';
 import {WebsiteBackground} from "../Home"
+import {SubTitel} from "../Admin"
 
 const AccountContainer = styled(ChoosenWordsCard)`
-min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (min-width: 320px) {
+        width: 10px;
+    }
+
+    @media (min-width: 320px) {
+        width: 300px;
+    }
+
+    @media (min-width: 500px) {
+        height: 200px;
+        width: 400px;
+    }
+
 `
 
 export const PageTitle = styled.h1`
@@ -23,7 +40,7 @@ const AccountPage = () => {
         <WebsiteBackground>
             <PageTitle>Account</PageTitle>
             <AccountContainer>
-                <h2>{email}</h2>
+                <SubTitel>{email}</SubTitel>
                 <PasswordChangeForm />
             </AccountContainer>
 
