@@ -1112,9 +1112,9 @@ const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
     datasets: [
         {
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
+          'rgb(67, 170, 139)',
+          'rgb(236, 78, 32)',
+          'rgb(243, 222, 44)'
         ],
         hoverOffset: 4,
         data: [searchWord1Procent, searchWord2Procent, searchWord3Procent]
@@ -1210,9 +1210,9 @@ const SummaryGraphPolar2Words = ( {data} ) => {
         {
         borderWidth: 0,
         backgroundColor: [
-          'rgb(255, 99, 132, 0.6)',
-          'rgb(54, 162, 235, 0.6)',
-          'rgb(255, 205, 86, 0.6)'
+          'rgb(67, 170, 139)',
+          'rgb(236, 78, 32)',
+          'rgb(255, 149, 5)'
         ],
         
         hoverOffset: 4,
@@ -1265,9 +1265,9 @@ const SummaryGraphPolar3Words = ( {data} ) => {
         {
         borderWidth: 0,
         backgroundColor: [
-          'rgb(255, 99, 132, 0.6)',
-          'rgb(54, 162, 235, 0.6)',
-          'rgb(255, 205, 86, 0.6)'
+          'rgb(67, 170, 139, 0.6)',
+          'rgb(236, 78, 32, 0.6)',
+          'rgb(255, 149, 5, 0.6)'
         ],
         
         hoverOffset: 4,
