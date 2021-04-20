@@ -417,6 +417,8 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
 
     const dataSetsData = {
         labels: [ 
+            "Four weeks ago",
+            "Three weeks ago",
             "Two weeks ago",
             "Last week",
             "This week"
@@ -442,7 +444,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+            data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
         },
         {
             label: data.titles.searchWord2,
@@ -464,7 +466,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+            data: [data.searchWord2Data.fourWeeksAgoData2, data.searchWord2Data.threeWeeksAgoData2, data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
         },
         {
             label: data.titles.searchWord3,
@@ -486,7 +488,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
+            data: [data.searchWord3Data.fourWeeksAgoData3, data.searchWord3Data.threeWeeksAgoData3, data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
         }]
     };
 
@@ -744,7 +746,7 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
+          data: [data.searchWord3Data.fourWeeksAgoData3, data.searchWord3Data.threeWeeksAgoData3, data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
       }]
   };
 
@@ -816,9 +818,9 @@ const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
 
 
 const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
-  const searchWord3 = data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord3 = data.searchWord3Data.fourWeeksAgoData3 + data.searchWord3Data.threeWeeksAgoData3 + data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
   const TotalProcent = searchWord1 + searchWord2 + searchWord3
   
   //Remaking the numbers of total results from each word and converting them to the procentage of the total number
@@ -939,9 +941,9 @@ const SummaryGraphPolar2Words = ( {data} ) => {
 
 
 const SummaryGraphPolar3Words = ( {data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
-  const searchWord3 = data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord3 = data.searchWord3Data.fourWeeksAgoData3 + data.searchWord3Data.threeWeeksAgoData3 + data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
   const dataSetsData = {
     labels: [ 
         // props.dataObj.titles.searchWord1

@@ -550,35 +550,34 @@ const FetchComp3Words = ({ firebase,
                     .then(response => { return response.json(); })
                     .then(data => { setSearchWord3DataCurrentWeek(data) })
                     .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 300)
+            }, 200)
             setTimeout(function () {
                 fetch(fullUrlSearchWord3OneWeekBack)
                     .then(response => { return response.json(); })
                     .then(data => { setSearchWord3DataOneWeekBack(data) })
                     .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 310)
+            }, 210)
             setTimeout(function () {
                 fetch(fullUrlSearchWord3TwoWeeksBack)
                     .then(response => { return response.json(); })
                     .then(data => { setSearchWord3DataTwoWeeksBack(data) })
                     .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 330)
+            }, 230)
             setTimeout(function () {
                 fetch(fullUrlSearchWord3ThreeWeeksBack)
                     .then(response => { return response.json(); })
                     .then(data => { setSearchWord3DataThreeWeeksBack(data) })
                     .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 330)
+            }, 230)
             setTimeout(function () {
                 fetch(fullUrlSearchWord3FourWeeksBack)
                     .then(response => { return response.json(); })
                     .then(data => { setSearchWord3DataFourWeeksBack(data) })
                     .catch((err) => { console.log("oops..something went wrong", err) })
-            }, 340)
+            }, 240)
         }
 
         bigFetch()
-
 
     }, []);
 
@@ -608,7 +607,7 @@ const FetchComp3Words = ({ firebase,
                     searchWord1DataCurrenWeek={searchWord1DataCurrenWeek}
                     searchWord1DataOneWeekBack={searchWord1DataOneWeekBack}
                     searchWord1DataTwoWeeksBack={searchWord1DataTwoWeeksBack}
-                    searchWord1DataThreeWeekskBack={searchWord1DataThreeWeekskBack}
+                    searchWord1DataThreeWeeksBack={searchWord1DataThreeWeeksBack}
                     searchWord1DataFourWeeksBack={searchWord1DataFourWeeksBack}
                     searchWord2DataCurrenWeek={searchWord2DataCurrenWeek}
                     searchWord2DataOneWeekBack={searchWord2DataOneWeekBack}
@@ -783,56 +782,55 @@ const GraphData3Words = ({ firebase,
     searchWord1DataCurrenWeek,
     searchWord1DataOneWeekBack,
     searchWord1DataTwoWeeksBack,
+    searchWord1DataThreeWeeksBack,
+    searchWord1DataFourWeeksBack,
     searchWord2DataCurrenWeek,
     searchWord2DataOneWeekBack,
     searchWord2DataTwoWeeksBack,
+    searchWord2DataThreeWeeksBack,
+    searchWord2DataFourWeeksBack,
     searchWord3DataCurrenWeek,
     searchWord3DataOneWeekBack,
-    searchWord3DataTwoWeeksBack }) => {
+    searchWord3DataTwoWeeksBack,
+    searchWord3DataThreeWeeksBack,
+    searchWord3DataFourWeeksBack, }) => {
 
 
     let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
     let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
     let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
+    let threeWeeksAgoData1 = searchWord1DataThreeWeeksBack ? searchWord1DataThreeWeeksBack.response.total : null
+    let fourWeeksAgoData1 = searchWord1DataFourWeeksBack ? searchWord1DataFourWeeksBack.response.total : null
 
     let currentWeekData2 = searchWord2DataCurrenWeek ? searchWord2DataCurrenWeek.response.total : null
     let oneWeekAgoData2 = searchWord2DataOneWeekBack ? searchWord2DataOneWeekBack.response.total : null
     let twoWeeksAgoData2 = searchWord2DataTwoWeeksBack ? searchWord2DataTwoWeeksBack.response.total : null
+    let threeWeeksAgoData2 = searchWord2DataThreeWeeksBack ? searchWord2DataThreeWeeksBack.response.total : null
+    let fourWeeksAgoData2 = searchWord2DataFourWeeksBack ? searchWord2DataFourWeeksBack.response.total : null
 
     let currentWeekData3 = searchWord3DataCurrenWeek ? searchWord3DataCurrenWeek.response.total : null
     let oneWeekAgoData3 = searchWord3DataOneWeekBack ? searchWord3DataOneWeekBack.response.total : null
     let twoWeeksAgoData3 = searchWord3DataTwoWeeksBack ? searchWord3DataTwoWeeksBack.response.total : null
+    let threeWeeksAgoData3 = searchWord3DataThreeWeeksBack ? searchWord3DataThreeWeeksBack.response.total : null
+    let fourWeeksAgoData3 = searchWord3DataFourWeeksBack ? searchWord3DataFourWeeksBack.response.total : null
 
     let dataObjsArr = [
         searchWord1DataCurrenWeek,
         searchWord1DataOneWeekBack,
         searchWord1DataTwoWeeksBack,
+        searchWord1DataThreeWeeksBack,
+        searchWord1DataFourWeeksBack,
         searchWord2DataCurrenWeek,
         searchWord2DataOneWeekBack,
         searchWord2DataTwoWeeksBack,
+        searchWord2DataThreeWeeksBack,
+        searchWord2DataFourWeeksBack,
         searchWord3DataCurrenWeek,
         searchWord3DataOneWeekBack,
-        searchWord3DataTwoWeeksBack
+        searchWord3DataTwoWeeksBack,
+        searchWord3DataThreeWeeksBack,
+        searchWord3DataFourWeeksBack,
     ]
-
-    // let dataResultsArr =[
-    //         currentWeekData1,
-    //         oneWeekAgoData1,
-    //         twoWeeksAgoData1,
-    //         currentWeekData2,
-    //         oneWeekAgoData2,
-    //         twoWeeksAgoData2,
-    //         currentWeekData3,
-    //         oneWeekAgoData3,
-    //         twoWeeksAgoData3
-    //     ]
-
-    // for (let i = 0; i < dataResultsArr.length; i++) {
-    //     if (dataResultsArr[i] == 0) {
-    //         dataResultsArr[i] = dataResultsArr[i] + 1
-    //     }
-    // }
-
 
     let titles = {
         searchWord1: userWordsArr[0],
@@ -843,17 +841,23 @@ const GraphData3Words = ({ firebase,
     let searchWord1Data = {
         currentWeekData1,
         oneWeekAgoData1,
-        twoWeeksAgoData1
+        twoWeeksAgoData1,
+        threeWeeksAgoData1,
+        fourWeeksAgoData1
     }
     let searchWord2Data = {
         currentWeekData2,
         oneWeekAgoData2,
         twoWeeksAgoData2,
+        threeWeeksAgoData2,
+        fourWeeksAgoData2
     }
     let searchWord3Data = {
         currentWeekData3,
         oneWeekAgoData3,
         twoWeeksAgoData3,
+        threeWeeksAgoData3,
+        fourWeeksAgoData3
     }
 
     let dataObjTotalResults = {
