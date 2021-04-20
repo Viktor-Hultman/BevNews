@@ -99,26 +99,348 @@ const NewsLinks = styled.a`
     }
 `
 
-const DashboardGraphs = ({firebase, uid, data, dataObjsArr}) => {
+const DashboardGraphs = ({firebase, uid, data, dataObjsArr, userWordsArr}) => {
 
     
     return(
-        <GraphsContainer>
+      <>
+          {userWordsArr[0] &&
+            !userWordsArr[1] &&
+              <GraphsContainer>
+                  <SummaryGraph1Words firebase={firebase} uid={uid} data={data}/>
+                  <SummaryGraphPolar1Words firebase={firebase} uid={uid} data={data}/>
+                  <HeadLineList firebase={firebase} uid={uid} data={data} dataObjsArr={dataObjsArr}/>
+              </GraphsContainer>
+          }
 
-            <SummaryGraph firebase={firebase} uid={uid} data={data}/>
-            <UserWord1Graph firebase={firebase} uid={uid} data={data}/>
-            <UserWord2Graph firebase={firebase} uid={uid} data={data}/>
-            <UserWord3Graph firebase={firebase} uid={uid} data={data}/>
-            <SummaryGraphPie firebase={firebase} uid={uid} data={data}/>
-            <SummaryGraphPolar firebase={firebase} uid={uid} data={data}/>
-            {dataObjsArr &&
-                <HeadLineList firebase={firebase} uid={uid} data={data} dataObjsArr={dataObjsArr}/>
-            }
-        </GraphsContainer>
+          {userWordsArr[1] &&
+            !userWordsArr[2] &&
+              <GraphsContainer>
+                  <SummaryGraph2Words firebase={firebase} uid={uid} data={data}/>
+                  <UserWord1Graph firebase={firebase} uid={uid} data={data}/>
+                  <UserWord2Graph firebase={firebase} uid={uid} data={data}/>
+                  <SummaryGraphPie2Words firebase={firebase} uid={uid} data={data}/>
+                  <SummaryGraphPolar2Words firebase={firebase} uid={uid} data={data}/>
+                  <HeadLineList firebase={firebase} uid={uid} data={data} dataObjsArr={dataObjsArr}/>
+              </GraphsContainer>
+          }
+
+          {userWordsArr[2] &&
+              <GraphsContainer>
+                  <SummaryGraph3Words firebase={firebase} uid={uid} data={data}/>
+                  <UserWord1Graph firebase={firebase} uid={uid} data={data}/>
+                  <UserWord2Graph firebase={firebase} uid={uid} data={data}/>
+                  <UserWord3Graph firebase={firebase} uid={uid} data={data}/>
+                  <SummaryGraphPie3Words firebase={firebase} uid={uid} data={data}/>
+                  <SummaryGraphPolar3Words firebase={firebase} uid={uid} data={data}/>
+                  <HeadLineList firebase={firebase} uid={uid} data={data} dataObjsArr={dataObjsArr}/>
+              </GraphsContainer>
+          }
+      </>
     )
 }
 
-const SummaryGraph = ( {firebase, uid, data} ) => {
+const SummaryGraph1Words = ( {firebase, uid, data} ) => {
+  const [barGraph, setBarGraph] = useState(true)
+
+  const setGraph = (value) => { // ['Tesla' , "Apple", "Saab"]
+      firebase.user(uid).child('settings').child('graphSettings').child('summaryGraph')
+          .set({ [value]: true})
+  }
+
+  const onClick = (evt) => {
+      if(evt.target.value == "Bar"){
+          setGraph("Bar")
+          
+      } else if (evt.target.value == "Line"){
+          setGraph("Line")
+          
+      }
+  }
+
+  useEffect(() => {
+      const unsubscribe = firebase.user(uid).child('settings').child('graphSettings').child('summaryGraph')
+          .on('value', snapshot => {
+              if (snapshot) {
+                  const graphObject = snapshot.val();
+                  if (graphObject) {
+                      let graphArray = Object.keys(graphObject)
+                      if(graphArray == "Bar") {
+                          setBarGraph(true)
+                      } else {
+                          setBarGraph(false)
+                      }
+                  } else {
+                      setBarGraph(true);
+                  }
+              }
+          });
+      return () => {
+          unsubscribe();
+      }
+    
+  }, []);
+
+  const dataSetsData = {
+      labels: [ 
+          // props.dataObj.titles.searchWord1
+          "Two weeks ago",
+          "Last week",
+          "This week"
+      ],
+      datasets: [
+          {
+          label: data.titles.searchWord1,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'yellow',
+          borderColor: 'yellow',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'yellow',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'yellow',
+          pointHoverBorderColor: 'yellow',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+      }]
+  };
+
+  const options = {
+      "legend": {
+          "labels": {
+              "fontColor": "white",
+              "fontSize": 15
+          }
+      },
+      "maintainAspectRatio": false,
+      "scales": {
+        "yAxes": [
+          {
+            "gridLines": {
+              "color": "white",
+              "borderDash": [
+                0,
+                0
+              ]
+            },
+            "ticks": {
+              "beginAtZero": true,
+                            "fontColor": 'white'
+            }
+          }
+        ],
+        "xAxes": [
+          {
+            "gridLines": {
+              "color": "#fff",
+              "borderDash": [
+                0,
+                0
+              ]
+            },
+            "ticks": {
+              "autoSkip": true,
+              "autoSkipPadding": 40,
+              "maxRotation": 0,
+              "fontColor": 'white'
+            }
+          }
+        ]
+      },
+      "layout": {
+        "padding": 10,
+      },
+      "tooltips": {
+        "enabled": true,
+        "mode": "x",
+        "intersect": true,
+      }
+    };
+  return (
+      <GraphDiv>
+          
+
+          {barGraph
+          ? <Bar data={dataSetsData} options={options}/>
+          : <Line data={dataSetsData} options={options}/>
+          }
+          
+          
+          <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
+          <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
+      </GraphDiv>
+  )
+}
+
+const SummaryGraph2Words = ( {firebase, uid, data} ) => {
+  const [barGraph, setBarGraph] = useState(true)
+
+  const setGraph = (value) => { // ['Tesla' , "Apple", "Saab"]
+      firebase.user(uid).child('settings').child('graphSettings').child('summaryGraph')
+          .set({ [value]: true})
+  }
+
+  const onClick = (evt) => {
+      if(evt.target.value == "Bar"){
+          setGraph("Bar")
+          
+      } else if (evt.target.value == "Line"){
+          setGraph("Line")
+          
+      }
+  }
+
+  useEffect(() => {
+      const unsubscribe = firebase.user(uid).child('settings').child('graphSettings').child('summaryGraph')
+          .on('value', snapshot => {
+              if (snapshot) {
+                  const graphObject = snapshot.val();
+                  if (graphObject) {
+                      let graphArray = Object.keys(graphObject)
+                      if(graphArray == "Bar") {
+                          setBarGraph(true)
+                      } else {
+                          setBarGraph(false)
+                      }
+                  } else {
+                      setBarGraph(true);
+                  }
+              }
+          });
+      return () => {
+          unsubscribe();
+      }
+    
+  }, []);
+
+
+  // console.log(data.searchWord1Data.currentWeekData1)
+  const dataSetsData = {
+      labels: [ 
+          // props.dataObj.titles.searchWord1
+          "Two weeks ago",
+          "Last week",
+          "This week"
+      ],
+      datasets: [
+          {
+          label: data.titles.searchWord1,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'yellow',
+          borderColor: 'yellow',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'yellow',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'yellow',
+          pointHoverBorderColor: 'yellow',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+      },
+      {
+          label: data.titles.searchWord2,
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'red',
+          borderColor: 'red',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'red',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'red',
+          pointHoverBorderColor: 'darkred',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+      }]
+  };
+  const options = {
+      "legend": {
+          "labels": {
+              "fontColor": "white",
+              "fontSize": 15
+          }
+      },
+      "maintainAspectRatio": false,
+      "scales": {
+        "yAxes": [
+          {
+            "gridLines": {
+              "color": "white",
+              "borderDash": [
+                0,
+                0
+              ]
+            },
+            "ticks": {
+              "beginAtZero": true,
+                            "fontColor": 'white'
+            }
+          }
+        ],
+        "xAxes": [
+          {
+            "gridLines": {
+              "color": "#fff",
+              "borderDash": [
+                0,
+                0
+              ]
+            },
+            "ticks": {
+              "autoSkip": true,
+              "autoSkipPadding": 40,
+              "maxRotation": 0,
+              "fontColor": 'white'
+            }
+          }
+        ]
+      },
+      "layout": {
+        "padding": 10,
+      },
+      "tooltips": {
+        "enabled": true,
+        "mode": "x",
+        "intersect": true,
+      }
+    };
+  return (
+      <GraphDiv>
+          
+
+          {barGraph
+          ? <Bar data={dataSetsData} options={options}/>
+          : <Line data={dataSetsData} options={options}/>
+          }
+          
+          
+          <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
+          <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
+      </GraphDiv>
+  )
+}
+
+const SummaryGraph3Words = ( {firebase, uid, data} ) => {
     const [barGraph, setBarGraph] = useState(true)
 
     const setGraph = (value) => { // ['Tesla' , "Apple", "Saab"]
@@ -717,7 +1039,60 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
   )
 };
 
-const SummaryGraphPie = ( {firebase, uid, data} ) => {
+
+const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
+  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+
+  const TotalProcent = searchWord1 + searchWord2
+  
+  //Remaking the numbers of total results from each word and converting them to the procentage of the total number
+  let searchWord1Procent = Math.round(searchWord1/TotalProcent * 100);
+  let searchWord2Procent = Math.round(searchWord2/TotalProcent * 100);
+ 
+
+  const dataSetsData = {
+    labels: [ 
+        data.titles.searchWord1,
+        data.titles.searchWord2,
+
+    ],
+    datasets: [
+        {
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4,
+        data: [searchWord1Procent, searchWord2Procent]
+        }
+    ]
+    };
+    
+    const options = {
+      "legend": {
+          "labels": {
+              "fontColor": "white",
+              "fontSize": 15
+          }
+          
+          
+      },
+      "maintainAspectRatio": false,
+      
+      
+    };
+    return (
+      <GraphDiv>
+        <h3>Here is the total procentage of your words compared to each other</h3>
+        <Pie data={dataSetsData} options={options}/>
+      </GraphDiv>
+  )
+};
+
+
+const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
   const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
   const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
   const searchWord3 = data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
@@ -768,7 +1143,113 @@ const SummaryGraphPie = ( {firebase, uid, data} ) => {
   )
 };
 
-const SummaryGraphPolar = ( {data} ) => {
+const SummaryGraphPolar1Words = ( {data} ) => {
+  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+
+  const dataSetsData = {
+    labels: [ 
+     
+        data.titles.searchWord1,
+
+
+    ],
+    datasets: [
+        {
+        borderWidth: 0,
+        backgroundColor: [
+          'rgb(255, 99, 132, 0.6)',
+          'rgb(54, 162, 235, 0.6)',
+          'rgb(255, 205, 86, 0.6)'
+        ],
+        
+        hoverOffset: 4,
+        data: [searchWord1]
+        }
+    ]
+    };
+    const options = {
+      "legend": {
+          "labels": {
+              "fontColor": "white",
+              "fontSize": 15
+          }
+      },
+      "maintainAspectRatio": false,
+    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
+      "scale": {
+        "gridLines": {
+          "color": "white",
+          "borderDash": [
+            0,
+            0
+          ] 
+        }
+      } 
+              
+      
+    };
+    return (
+      <GraphDiv>
+        <Polar data={dataSetsData} options={options}/>
+      </GraphDiv>
+  )
+};
+
+const SummaryGraphPolar2Words = ( {data} ) => {
+  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+
+  const dataSetsData = {
+    labels: [ 
+        // props.dataObj.titles.searchWord1
+        data.titles.searchWord1,
+        data.titles.searchWord2,
+
+    ],
+    datasets: [
+        {
+        borderWidth: 0,
+        backgroundColor: [
+          'rgb(255, 99, 132, 0.6)',
+          'rgb(54, 162, 235, 0.6)',
+          'rgb(255, 205, 86, 0.6)'
+        ],
+        
+        hoverOffset: 4,
+        data: [searchWord1, searchWord2]
+        }
+    ]
+    };
+    const options = {
+      "legend": {
+          "labels": {
+              "fontColor": "white",
+              "fontSize": 15
+          }
+      },
+      "maintainAspectRatio": false,
+    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
+      "scale": {
+        "gridLines": {
+          "color": "white",
+          "borderDash": [
+            0,
+            0
+          ] 
+        }
+      } 
+              
+      
+    };
+    return (
+      <GraphDiv>
+        <Polar data={dataSetsData} options={options}/>
+      </GraphDiv>
+  )
+};
+
+
+const SummaryGraphPolar3Words = ( {data} ) => {
   const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
   const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
   const searchWord3 = data.searchWord3Data.twoWeeksAgoData3 + data.searchWord3Data.oneWeekAgoData3 + data.searchWord3Data.currentWeekData3;
@@ -812,12 +1293,7 @@ const SummaryGraphPolar = ( {data} ) => {
           ] 
         }
       } 
-              
-              
-          
-        
-      
-      
+
     };
     return (
       <GraphDiv>
