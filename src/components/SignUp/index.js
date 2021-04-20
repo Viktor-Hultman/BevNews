@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
 import styled from 'styled-components';
 import { StyledInput, StyledButton } from '../SearchWordForm';
 
@@ -59,10 +58,9 @@ class SignUpFormBase extends Component {
 
         if (searchWords) {
         let searchWordList = searchWords.split(',');
-        // "hej,alla,glada".split(',') -> ['hej', 'alla', 'glada']
+        
         let searchWordsArr = searchWordList.map(item => ({ [item]: true })); 
     
-        // [{google: true},{apple: true}] -> {apple: true, google: true}
         let searchWordsObject = Object.assign(...searchWordsArr)
         console.log(searchWordsObject)
         settings.searchWords = searchWordsObject
@@ -71,7 +69,7 @@ class SignUpFormBase extends Component {
         this.props.firebase
             .doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(authUser => {
-                // Create a user in your Firebase realtime database
+                // Creates a user in your Firebase realtime database
                 return this.props.firebase
                 .user(authUser.user.uid)
                 .set({
@@ -99,7 +97,7 @@ class SignUpFormBase extends Component {
         this.setState({ [event.target.name]: event.target.checked });
     };
 
-    onClick = event => {
+    onClick = () => {
         const {searchWords, searchWord1, searchWord2, searchWord3} = this.state;
         this.setState({searchWords: searchWord1 + ',' + searchWord2 + ',' + searchWord3})
         console.log(searchWords)
@@ -189,9 +187,9 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => (
-<p>
-    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-  </p>
+
+<p>Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link></p>
+
 );
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));

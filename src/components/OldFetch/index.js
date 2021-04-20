@@ -1,4 +1,4 @@
-// import React from 'react';
+//This was the oldest and first version of how we fetched data
 
 
 // class HomeSearch extends React.Component {

@@ -1,18 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
-
-import { withFirebase } from '../Firebase';
-
-import { AuthUserContext } from '../Session';
+import React, { useState, useEffect } from 'react';
 
 import { Doughnut, Line, Bar, Radar, Pie, Polar } from 'react-chartjs-2';
-
 import styled from 'styled-components';
 
+import { withFirebase } from '../Firebase';
 import { ChoosenWordsCard } from '../SearchWordForm'
-
-import {PageTitle} from '../Account'
-
 import { StyledButton } from '../SearchWordForm'
+
 
 export const GraphButton = styled(StyledButton)`
 background-color: ${props => props.theme.btnbg};
@@ -24,8 +18,6 @@ border: 1px solid ${props => props.theme.btnbg};
     border-color: ${props => props.theme.txt};
   }
 `
-
-
 
 export const GraphDiv = styled(ChoosenWordsCard)`
     height: 400px;
@@ -140,6 +132,58 @@ const DashboardGraphs = ({firebase, uid, data, dataObjsArr, userWordsArr}) => {
     )
 }
 
+//Global options for Bar and Line charts
+const optionsBarCharts = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
+  "scales": {
+    "yAxes": [
+      {"gridLines": {
+          "color": "white",
+          "borderDash": [
+            0,
+            0
+          ]
+        },
+        "ticks": {
+          "beginAtZero": true,
+                        "fontColor": 'white'
+        }
+      }
+    ],
+    "xAxes": [
+      {
+        "gridLines": {
+          "color": "#fff",
+          "borderDash": [
+            0,
+            0
+          ]
+        },
+        "ticks": {
+          "autoSkip": true,
+          "autoSkipPadding": 40,
+          "maxRotation": 0,
+          "fontColor": 'white'
+        }
+      }
+    ]
+  },
+  "layout": {
+    "padding": 10,
+  },
+  "tooltips": {
+    "enabled": true,
+    "mode": "x",
+    "intersect": true,
+  }
+};
+
 const SummaryGraph1Words = ( {firebase, uid, data} ) => {
   const [barGraph, setBarGraph] = useState(true)
 
@@ -154,7 +198,6 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           
       } else if (evt.target.value == "Line"){
           setGraph("Line")
-          
       }
   }
 
@@ -178,12 +221,10 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
       return () => {
           unsubscribe();
       }
-    
   }, []);
 
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
           "Two weeks ago",
           "Last week",
           "This week"
@@ -211,68 +252,13 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
       }]
   };
-
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+  
   return (
       <GraphDiv>
-          
-
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
-          
-          
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
           <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
       </GraphDiv>
@@ -293,7 +279,6 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           
       } else if (evt.target.value == "Line"){
           setGraph("Line")
-          
       }
   }
 
@@ -320,11 +305,8 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
     
   }, []);
 
-
-  // console.log(data.searchWord1Data.currentWeekData1)
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
           "Two weeks ago",
           "Last week",
           "This week"
@@ -373,67 +355,13 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
       }]
   };
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+
   return (
       <GraphDiv>
-          
-
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
-          
-          
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
           <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
       </GraphDiv>
@@ -454,7 +382,6 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             
         } else if (evt.target.value == "Line"){
             setGraph("Line")
-            
         }
     }
 
@@ -481,11 +408,8 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
             "Two weeks ago",
             "Last week",
             "This week"
@@ -555,67 +479,13 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
-            
-
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -663,11 +533,8 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
             "Two weeks ago",
             "Last week",
             "This week"
@@ -695,66 +562,14 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
             data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
             
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -802,11 +617,8 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
             "Two weeks ago",
             "Last week",
             "This week"
@@ -834,66 +646,13 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
-            
-
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -913,8 +672,7 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           setGraph("Bar")
           
       } else if (evt.target.value == "Line"){
-          setGraph("Line")
-          
+          setGraph("Line")  
       }
   }
 
@@ -941,11 +699,8 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
     
   }, []);
 
-
-  // console.log(data.searchWord1Data.currentWeekData1)
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
           "Two weeks ago",
           "Last week",
           "This week"
@@ -973,70 +728,31 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
       }]
   };
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+
   return (
       <GraphDiv>
           
 
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
           
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
           <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
       </GraphDiv>
   )
+};
+
+//Global Pie chart options
+const optionsPieChart = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
 };
 
 
@@ -1070,23 +786,11 @@ const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
     ]
     };
     
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-          
-          
-      },
-      "maintainAspectRatio": false,
-      
-      
-    };
+
     return (
       <GraphDiv>
         <h3>Here is the total procentage of your words compared to each other</h3>
-        <Pie data={dataSetsData} options={options}/>
+        <Pie data={dataSetsData} options={optionsPieChart}/>
       </GraphDiv>
   )
 };
@@ -1122,25 +826,34 @@ const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
     ]
     };
     
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-          
-          
-      },
-      "maintainAspectRatio": false,
-      
-      
-    };
+
     return (
       <GraphDiv>
         <h3>Here is the total procentage of your words compared to each other</h3>
-        <Pie data={dataSetsData} options={options}/>
+        <Pie data={dataSetsData} options={optionsPieChart}/>
       </GraphDiv>
   )
+};
+
+//Global Polar chart options
+const optionsPolarChart = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
+//"scale" instead of "scales" when changing the options of the gridlines of radial charts 
+  "scale": {
+    "gridLines": {
+      "color": "white",
+      "borderDash": [
+        0,
+        0
+      ] 
+    }
+  } 
 };
 
 const SummaryGraphPolar1Words = ( {data} ) => {
@@ -1148,10 +861,7 @@ const SummaryGraphPolar1Words = ( {data} ) => {
 
   const dataSetsData = {
     labels: [ 
-     
         data.titles.searchWord1,
-
-
     ],
     datasets: [
         {
@@ -1167,33 +877,14 @@ const SummaryGraphPolar1Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
-              
-      
-    };
+
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
+
 
 const SummaryGraphPolar2Words = ( {data} ) => {
   const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
@@ -1204,7 +895,6 @@ const SummaryGraphPolar2Words = ( {data} ) => {
         // props.dataObj.titles.searchWord1
         data.titles.searchWord1,
         data.titles.searchWord2,
-
     ],
     datasets: [
         {
@@ -1220,30 +910,10 @@ const SummaryGraphPolar2Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
-              
-      
-    };
+
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
@@ -1259,7 +929,6 @@ const SummaryGraphPolar3Words = ( {data} ) => {
         data.titles.searchWord1,
         data.titles.searchWord2,
         data.titles.searchWord3,
-        
     ],
     datasets: [
         {
@@ -1275,33 +944,13 @@ const SummaryGraphPolar3Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
 
-    };
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
-
 
 
 const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
@@ -1318,7 +967,6 @@ const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
         }
     }
     
-  
     return (
 
             <HeadlineListCard>
@@ -1334,10 +982,5 @@ const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
     
     )
 };
-
-
-
-
-  
 
 export default (withFirebase(DashboardGraphs));

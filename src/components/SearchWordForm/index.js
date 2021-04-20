@@ -1,4 +1,4 @@
-// import { render } from '@testing-library/react';
+
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withFirebase } from '../Firebase';
@@ -6,8 +6,6 @@ import { FaTimes } from 'react-icons/fa';
 
 import { AuthUserContext } from '../Session';
 
-// import { withAuthorization } from '../Session';
-// import { withFirebase } from '../Firebase';
 
 const WarningMessage = styled.span`
     background-color: red;
@@ -35,21 +33,15 @@ const UserWords = styled.li`
 const DelIcon = styled(FaTimes)`
     padding-top: 4px;
 `
+
 // ${props => props.theme.bg}; use this syntax to link background color of the element to the theme
+
 export const ChoosenWordsCard = styled.div`
     color: ${props => props.theme.txt};
     background-color:${props => props.theme.card};
     border-radius: 10px;
     padding: 10px;
-    // @media(min-width: 320px){
-    //     max-width: 1000px;
-        
-    // }
 
-    // @media(min-width: 768px){
-    //     max-width: 768px;
-    // }
-    
 `
 export const StyledInput = styled.input`
     padding: 5px;
@@ -59,25 +51,25 @@ export const StyledInput = styled.input`
     resize: vertical;
 `
 
-// const RemoveBtn = styled.button`
-//     border:none;
-//     background: ${props => props.theme.card};
-//     cursor: pointer;
-// `
 
 export const StyledButton = styled.button`
     background-color: ${props => props.theme.btnbg};
-    border: none;
-    color: ${props => props.theme.txtInverted};
+    border: 1px solid ${props => props.theme.btnbg};
+    color: ${props => props.theme.txt};
     padding: 5px;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
 
-    &:disabled {
+    :hover {
+        border-color: #fff;
+    }
+
+    :disabled {
         cursor:default;
-        color: ${props => props.theme.txt};
+        color: ${props => props.theme.txtInverted};
         background-color: ${props => props.theme.btndis};
+        border: 1px solid ${props => props.theme.btndis};
       }
 `
 
@@ -87,23 +79,6 @@ const SearchWordForm = ({ firebase }) => {
     const [warningMsg, setWarningMsg] = useState("")
 
     let { uid } = useContext(AuthUserContext);
-
-    /*const userSearchWords = () => {
-    // https://stackoverflow.com/a/55370253/12683933
-            firebase.user(uid).child('settings').child('searchWords')
-            .once('value')
-            .then(snapshot => {
-                const searchWordsObject = snapshot.val();
-                if (searchWordsObject) {
-                    let searchWordArray = Object.keys(searchWordsObject)
-                    setUserWordsArr(searchWordArray);
-                } else {
-                    setUserWordsArr([]);
-                }
-                
-            });
-       
-    }*/
 
     const removeSearchWord = (name) => {
         firebase.user(uid).child('settings').child('searchWords')
@@ -124,7 +99,7 @@ const SearchWordForm = ({ firebase }) => {
     const addWordInvalid = 
         inputValue === '';
 
-    const buttonClick = (evt) => {
+    const buttonClick = () => {
         //Checking if the input field has any value
         if (inputValue !== "") {
             //Checking if the user has 3 or more searchwords
@@ -136,8 +111,6 @@ const SearchWordForm = ({ firebase }) => {
             addSearchWord(inputValue);
             setInputValue("");
         }
-
-        // evt.preventDefault();
     }
 
     const handleClick = (item) => {

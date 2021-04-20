@@ -37,8 +37,6 @@ cursor: pointer;
 
 const ColorPresets = ({ firebase }) => {
 
-   // const [colorValue, setColorValue] = useState("")
-   // const [colorName, setColorName] = useState("")
     const [selectedColor, setSelectedColor] = useState("Standard")
 
     let imgs = [
@@ -49,35 +47,33 @@ const ColorPresets = ({ firebase }) => {
 
     let { uid } = useContext(AuthUserContext);
 
-    const setColor = (value, name) => { // ['Tesla' , "Apple", "Saab"]
+    //Function for setting the color preset to the users firebase profile
+    const setColor = (value, name) => {
         firebase.user(uid).child('settings').child('colorPreset')
             .set({ [value]: name })
     }
 
-
+    //Function for setting the logo url to the users firebase profile
     const setLogo = (value, url) => {
         firebase.user(uid).child('settings').child('logoPreset')
             .set ({ [value]: url })
     }
         
-    
+    //Function that triggers the above functions and providing parameters depending on what value the user has selected in the drop down menu
     const ColorChange = (evt) => {
-       // setColorValue(evt.target.value)
-       // setColorName(evt.target.options[evt.target.selectedIndex].text)
        if (evt.target.value === "Standard") {
             setColor("Standard" , "Standard")
             setLogo("Standard", imgs[0])
+
        } else if (evt.target.value === "Amazon") {
             setColor("Amazon" , "Amazon")
             setLogo("AmazonLogo", imgs[1])
+
        } else if (evt.target.value === "Tesla") {
             setColor("Tesla" , "Tesla")
             setLogo("TeslaLogo", imgs[2])
        }
     }
-
-
-
 
     useEffect(() => {
         const unsubscribe = firebase.user(uid).child('settings').child('colorPreset')
