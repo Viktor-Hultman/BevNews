@@ -10,9 +10,6 @@ import { StyledButton } from '../SearchWordForm'
 
 
 
-const ColorContainer = styled.div`
-
-`
 
 const ColorSettingsCard = styled.div`
 background-color: ${props => props.theme.card};
@@ -96,7 +93,7 @@ const ColorPresets = ({ firebase }) => {
 
 
     return(
-        <ColorContainer>
+        <div>
             <ColorSettingsCard>
                 <h3> Here you can select prefered color preset</h3>
                 <SelectedColorList>
@@ -105,7 +102,7 @@ const ColorPresets = ({ firebase }) => {
                 <ColorDropdown ColorChange={ColorChange}/>
                 <br/>
             </ColorSettingsCard>
-        </ColorContainer>
+        </div>
     )
 }
 

@@ -225,6 +225,8 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
 
   const dataSetsData = {
       labels: [ 
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -234,6 +236,7 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord1,
           fill: false,
           lineTension: 0.1,
+          borderWidth: 5,
           backgroundColor: 'yellow',
           borderColor: 'yellow',
           borderCapStyle: 'butt',
@@ -241,7 +244,7 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
           pointBorderColor: 'yellow',
-          pointBackgroundColor: '#fff',
+          pointBackgroundColor: 'yellow',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: 'yellow',
@@ -249,7 +252,7 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+          data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
       }]
   };
   
@@ -307,6 +310,8 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
 
   const dataSetsData = {
       labels: [ 
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -316,6 +321,7 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord1,
           fill: false,
           lineTension: 0.1,
+          borderWidth: 5,
           backgroundColor: 'yellow',
           borderColor: 'yellow',
           borderCapStyle: 'butt',
@@ -323,20 +329,21 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
           pointBorderColor: 'yellow',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
+          pointBackgroundColor: 'yellow',
+          pointBorderWidth: 5,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: 'yellow',
           pointHoverBorderColor: 'yellow',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+          data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
       },
       {
           label: data.titles.searchWord2,
           fill: false,
           lineTension: 0.1,
+          borderWidth: 5,
           backgroundColor: 'red',
           borderColor: 'red',
           borderCapStyle: 'butt',
@@ -344,15 +351,15 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
           pointBorderColor: 'red',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
+          pointBackgroundColor: 'red',
+          pointBorderWidth: 5,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: 'red',
           pointHoverBorderColor: 'darkred',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+          data: [data.searchWord2Data.fourWeeksAgoData2, data.searchWord2Data.threeWeeksAgoData2, data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
       }]
   };
 
@@ -419,6 +426,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord1,
             fill: false,
             lineTension: 0.1,
+            borderWidth: 5,
             backgroundColor: 'yellow',
             borderColor: 'yellow',
             borderCapStyle: 'butt',
@@ -426,7 +434,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
             pointBorderColor: 'yellow',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: 'yellow',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'yellow',
@@ -440,6 +448,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord2,
             fill: false,
             lineTension: 0.1,
+            borderWidth: 5,
             backgroundColor: 'red',
             borderColor: 'red',
             borderCapStyle: 'butt',
@@ -447,7 +456,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
             pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: 'red',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'red',
@@ -461,6 +470,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord3,
             fill: false,
             lineTension: 0.1,
+            borderWidth: 5,
             backgroundColor: 'green',
             borderColor: 'green',
             borderCapStyle: 'butt',
@@ -468,7 +478,7 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
             pointBorderColor: 'green',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: 'green',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'green',
@@ -535,6 +545,8 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
 
     const dataSetsData = {
         labels: [ 
+            "Four weeks ago",
+            "Three weeks ago",
             "Two weeks ago",
             "Last week",
             "This week"
@@ -544,6 +556,7 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord1,
             fill: false,
             lineTension: 0.1,
+            borderWidth: 5,
             backgroundColor: 'yellow',
             borderColor: 'yellow',
             borderCapStyle: 'butt',
@@ -551,7 +564,7 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
             pointBorderColor: 'yellow',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: 'yellow',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'yellow',
@@ -559,7 +572,7 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+            data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
         }]
     };
 
@@ -619,6 +632,8 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
 
     const dataSetsData = {
         labels: [ 
+            "Four weeks ago",
+            "Three weeks ago",
             "Two weeks ago",
             "Last week",
             "This week"
@@ -628,6 +643,7 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord2,
             fill: false,
             lineTension: 0.1,
+            borderWidth: 5,
             backgroundColor: 'red',
             borderColor: 'red',
             borderCapStyle: 'butt',
@@ -635,7 +651,7 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
             pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
+            pointBackgroundColor: 'red',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: 'red',
@@ -643,7 +659,7 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+            data: [data.searchWord2Data.fourWeeksAgoData2, data.searchWord2Data.threeWeeksAgoData2, data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
         }]
     };
 
@@ -701,6 +717,8 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
 
   const dataSetsData = {
       labels: [ 
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -710,6 +728,7 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord3,
           fill: false,
           lineTension: 0.1,
+          borderWidth: 5,
           backgroundColor: 'green',
           borderColor: 'green',
           borderCapStyle: 'butt',
@@ -717,7 +736,7 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
           pointBorderColor: 'green',
-          pointBackgroundColor: '#fff',
+          pointBackgroundColor: 'green',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: 'green',
@@ -757,8 +776,8 @@ const optionsPieChart = {
 
 
 const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
 
   const TotalProcent = searchWord1 + searchWord2
   
@@ -857,7 +876,7 @@ const optionsPolarChart = {
 };
 
 const SummaryGraphPolar1Words = ( {data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
 
   const dataSetsData = {
     labels: [ 
@@ -887,12 +906,12 @@ const SummaryGraphPolar1Words = ( {data} ) => {
 
 
 const SummaryGraphPolar2Words = ( {data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
 
   const dataSetsData = {
     labels: [ 
-        // props.dataObj.titles.searchWord1
+  
         data.titles.searchWord1,
         data.titles.searchWord2,
     ],
