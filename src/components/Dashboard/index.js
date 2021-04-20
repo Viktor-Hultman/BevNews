@@ -795,7 +795,7 @@ const GraphData3Words = ({ firebase,
     searchWord3DataThreeWeeksBack,
     searchWord3DataFourWeeksBack, }) => {
 
-
+    //
     let currentWeekData1 = searchWord1DataCurrenWeek ? searchWord1DataCurrenWeek.response.total : null
     let oneWeekAgoData1 = searchWord1DataOneWeekBack ? searchWord1DataOneWeekBack.response.total : null
     let twoWeeksAgoData1 = searchWord1DataTwoWeeksBack ? searchWord1DataTwoWeeksBack.response.total : null
@@ -814,17 +814,20 @@ const GraphData3Words = ({ firebase,
     let threeWeeksAgoData3 = searchWord3DataThreeWeeksBack ? searchWord3DataThreeWeeksBack.response.total : null
     let fourWeeksAgoData3 = searchWord3DataFourWeeksBack ? searchWord3DataFourWeeksBack.response.total : null
 
+    //Here is each data response from the api stored in an array so we can later use it to display the web urls for relevant articles from each word each week
     let dataObjsArr = [
         searchWord1DataCurrenWeek,
         searchWord1DataOneWeekBack,
         searchWord1DataTwoWeeksBack,
         searchWord1DataThreeWeeksBack,
         searchWord1DataFourWeeksBack,
+
         searchWord2DataCurrenWeek,
         searchWord2DataOneWeekBack,
         searchWord2DataTwoWeeksBack,
         searchWord2DataThreeWeeksBack,
         searchWord2DataFourWeeksBack,
+
         searchWord3DataCurrenWeek,
         searchWord3DataOneWeekBack,
         searchWord3DataTwoWeeksBack,
