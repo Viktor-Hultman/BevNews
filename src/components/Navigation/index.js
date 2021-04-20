@@ -92,8 +92,10 @@ const SignedInUserNameDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding:0 10px 0 10px;
-  margin-left: 40px;
+  padding:0 2px 0 2px;
+  margin-left: 20px;
+  width:200px;
+
   @media (max-width: 768px){
     width: 100%; 
     margin-left: 0;

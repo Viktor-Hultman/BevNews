@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { withFirebase } from '../Firebase';
 
 import { Bar } from 'react-chartjs-2';
-
 import { GraphDiv } from '../Graphs'
-
 
 
 const LandingGraph= ({ firebase }) => {
@@ -89,30 +87,23 @@ const LandingGraph= ({ firebase }) => {
         Tesla: "Tesla"
     }
 
-
     let Week7Props = {
         Week7: Week7,
-
         resultAppleW7: resultAppleW7,
-
         resultTeslaW7: resultTeslaW7
 
     }
 
     let Week8Props = {
         Week8: Week8,
-
         resultAppleW8: resultAppleW8,
-
         resultTeslaW8: resultTeslaW8
 
     }
 
     let Week9Props = {
         Week9: Week9,
-
         resultAppleW9: resultAppleW9,
-
         resultTeslaW9: resultTeslaW9
 
     }
@@ -124,15 +115,11 @@ const LandingGraph= ({ firebase }) => {
         Week9Props
     }
 
-
-
     return (
         <div>
             <SearchGraph data={props} />
         </div>
     )
-
-
 }
 
 
