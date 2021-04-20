@@ -23,9 +23,6 @@ const SignInButton = styled.button`
     }
 `
 
-// const BiggerSignInButton = styled(SignInButton)`
-// height: 80px;
-// `
 
 const ButtonLink = styled(Link)`
 text-decoration: none;

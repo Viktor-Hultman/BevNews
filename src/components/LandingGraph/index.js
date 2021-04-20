@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-// import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 
 import { Bar } from 'react-chartjs-2';
-
 import { GraphDiv } from '../Graphs'
-
 
 
 const LandingGraph= ({ firebase }) => {
@@ -17,48 +14,8 @@ const LandingGraph= ({ firebase }) => {
     const [W7Apple, setW7Apple] = useState(null)
     const [W7Tesla, setW7Tesla] = useState(null)
 
-    // let { uid, username} = useContext(AuthUserContext);
-
-    // const addSearchWord = (name) => {
-    //     firebase.user(uid).child('settings').child('searchWords')
-    //         .update({ [name]: true })
-    // }
-
-    // const removeSearchWord = (name) => {
-    //     firebase.user(uid).child('settings').child('searchWords')
-    //         .update({ [name]: null })
-    // }
-
-    // const setSearchWords = (nameArr) => { // ['Tesla' , "Apple", "Saab"]
-    //     firebase.user(uid).child('settings').child('searchWords')
-    //         .set(Object.assign(...nameArr.map(item => ({ [item]: true }))));
-    // }
-
-    // const userSearchWords = () => {
-    //     firebase.user(uid).child('settings').child('searchWords')
-    //         .once('value')
-    //         .then(snapshot => {
-    //             const searchWordsObject = snapshot.val();
-    //             if (searchWordsObject) {
-    //             console.log(searchWordsObject);
-
-    //             let searchWordArray = Object.keys(searchWordsObject)
-    //             console.log(searchWordArray)
-    //             console.log(username);
-    //         }
-    //         });
-
-    //     Object.keys({ 'Tesla': true, 'Volvo': true }) --> ['Tesla', 'Volvo']
-    // }
-    // addSearchWord('Saab')
-    // removeSearchWord('Tesla')
-    // userSearchWords();
-    // setSearchWords(['Tesla' , "Apple", "Saab"])
-    // console.log(searchWord1)
     useEffect(() => {
         
-        
-
         // console.log(user)
         fetch("appleData/03-01To03-08.json")
             .then(response => {
@@ -129,30 +86,23 @@ const LandingGraph= ({ firebase }) => {
         Tesla: "Tesla"
     }
 
-
     let Week7Props = {
         Week7: Week7,
-
         resultAppleW7: resultAppleW7,
-
         resultTeslaW7: resultTeslaW7
 
     }
 
     let Week8Props = {
         Week8: Week8,
-
         resultAppleW8: resultAppleW8,
-
         resultTeslaW8: resultTeslaW8
 
     }
 
     let Week9Props = {
         Week9: Week9,
-
         resultAppleW9: resultAppleW9,
-
         resultTeslaW9: resultTeslaW9
 
     }
@@ -164,15 +114,11 @@ const LandingGraph= ({ firebase }) => {
         Week9Props
     }
 
-
-
     return (
         <div>
             <SearchGraph data={props} />
         </div>
     )
-
-
 }
 
 
