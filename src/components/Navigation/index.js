@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AuthUserContext } from "../Session";
@@ -8,7 +8,7 @@ import * as ROLES from "../../constants/roles";
 import Burger from "../../components/Burger";
 import Menu from "../../components/BurgerMenu";
 import { useOnClickOutside } from "../ClosingMenu";
-import ThemeProviderHook, { OuterColorTheme } from '../ThemeProvider';
+import ThemeProviderHook from '../ThemeProvider';
 import { withFirebase } from '../Firebase';
 
 
@@ -158,7 +158,6 @@ export const NavigationAuth = ({ firebase, authUser }) => {
   const node = useRef();
   useOnClickOutside(node, () => setOpen(false));
 
-  let username = authUser.username;
   let uid = authUser.uid;
 
 

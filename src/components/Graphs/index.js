@@ -1,18 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
-
-import { withFirebase } from '../Firebase';
-
-import { AuthUserContext } from '../Session';
+import React, { useState, useEffect } from 'react';
 
 import { Doughnut, Line, Bar, Radar, Pie, Polar } from 'react-chartjs-2';
-
 import styled from 'styled-components';
 
+import { withFirebase } from '../Firebase';
 import { ChoosenWordsCard } from '../SearchWordForm'
-
-import {PageTitle} from '../Account'
-
 import { StyledButton } from '../SearchWordForm'
+
 
 export const GraphButton = styled(StyledButton)`
 background-color: ${props => props.theme.btnbg};
@@ -24,8 +18,6 @@ border: 1px solid ${props => props.theme.btnbg};
     border-color: ${props => props.theme.txt};
   }
 `
-
-
 
 export const GraphDiv = styled(ChoosenWordsCard)`
     height: 400px;
@@ -140,6 +132,58 @@ const DashboardGraphs = ({firebase, uid, data, dataObjsArr, userWordsArr}) => {
     )
 }
 
+//Global options for Bar and Line charts
+const optionsBarCharts = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
+  "scales": {
+    "yAxes": [
+      {"gridLines": {
+          "color": "white",
+          "borderDash": [
+            0,
+            0
+          ]
+        },
+        "ticks": {
+          "beginAtZero": true,
+                        "fontColor": 'white'
+        }
+      }
+    ],
+    "xAxes": [
+      {
+        "gridLines": {
+          "color": "#fff",
+          "borderDash": [
+            0,
+            0
+          ]
+        },
+        "ticks": {
+          "autoSkip": true,
+          "autoSkipPadding": 40,
+          "maxRotation": 0,
+          "fontColor": 'white'
+        }
+      }
+    ]
+  },
+  "layout": {
+    "padding": 10,
+  },
+  "tooltips": {
+    "enabled": true,
+    "mode": "x",
+    "intersect": true,
+  }
+};
+
 const SummaryGraph1Words = ( {firebase, uid, data} ) => {
   const [barGraph, setBarGraph] = useState(true)
 
@@ -154,7 +198,6 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           
       } else if (evt.target.value == "Line"){
           setGraph("Line")
-          
       }
   }
 
@@ -178,12 +221,12 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
       return () => {
           unsubscribe();
       }
-    
   }, []);
 
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -193,86 +236,32 @@ const SummaryGraph1Words = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord1,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: 'yellow',
-          borderColor: 'yellow',
+          borderWidth: 5,
+          backgroundColor: "rgb(243, 222, 44)",
+          borderColor: "rgb(243, 222, 44)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: 'yellow',
-          pointBackgroundColor: '#fff',
+          pointBorderColor: "rgb(243, 222, 44)",
+          pointBackgroundColor: "rgb(243, 222, 44)",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'yellow',
-          pointHoverBorderColor: 'yellow',
+          pointHoverBackgroundColor: "rgb(243, 222, 44)",
+          pointHoverBorderColor: "rgb(243, 222, 44)",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+          data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
       }]
   };
-
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+  
   return (
       <GraphDiv>
-          
-
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
-          
-          
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
           <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
       </GraphDiv>
@@ -293,7 +282,6 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           
       } else if (evt.target.value == "Line"){
           setGraph("Line")
-          
       }
   }
 
@@ -320,11 +308,10 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
     
   }, []);
 
-
-  // console.log(data.searchWord1Data.currentWeekData1)
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -334,106 +321,54 @@ const SummaryGraph2Words = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord1,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: 'yellow',
-          borderColor: 'yellow',
+          borderWidth: 5,
+          backgroundColor: "rgb(243, 222, 44)",
+          borderColor: "rgb(243, 222, 44)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: 'yellow',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
+          pointBorderColor: "rgb(243, 222, 44)",
+          pointBackgroundColor: "rgb(243, 222, 44)",
+          pointBorderWidth: 5,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'yellow',
-          pointHoverBorderColor: 'yellow',
+          pointHoverBackgroundColor: "rgb(243, 222, 44)",
+          pointHoverBorderColor: "rgb(243, 222, 44)",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+          data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
       },
       {
           label: data.titles.searchWord2,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: 'red',
-          borderColor: 'red',
+          borderWidth: 5,
+          backgroundColor: 'rgb(236, 78, 32)',
+          borderColor: 'rgb(236, 78, 32)',
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: 'red',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
+          pointBorderColor: 'rgb(236, 78, 32)',
+          pointBackgroundColor: 'rgb(236, 78, 32)',
+          pointBorderWidth: 5,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'red',
+          pointHoverBackgroundColor: 'rgb(236, 78, 32)',
           pointHoverBorderColor: 'darkred',
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+          data: [data.searchWord2Data.fourWeeksAgoData2, data.searchWord2Data.threeWeeksAgoData2, data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
       }]
   };
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+
   return (
       <GraphDiv>
-          
-
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
-          
-          
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
           <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
       </GraphDiv>
@@ -454,7 +389,6 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             
         } else if (evt.target.value == "Line"){
             setGraph("Line")
-            
         }
     }
 
@@ -481,11 +415,8 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
             "Two weeks ago",
             "Last week",
             "This week"
@@ -495,18 +426,19 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord1,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'yellow',
-            borderColor: 'yellow',
+            borderWidth: 5,
+            backgroundColor: "rgb(243, 222, 44)",
+            borderColor: "rgb(243, 222, 44)",
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'yellow',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: "rgb(243, 222, 44)",
+            pointBackgroundColor: "rgb(243, 222, 44)",
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'yellow',
-            pointHoverBorderColor: 'yellow',
+            pointHoverBackgroundColor: "rgb(243, 222, 44)",
+            pointHoverBorderColor: "rgb(243, 222, 44)",
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
@@ -516,17 +448,18 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord2,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'red',
-            borderColor: 'red',
+            borderWidth: 5,
+            backgroundColor: 'rgb(236, 78, 32)',
+            borderColor: 'rgb(236, 78, 32)',
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: 'rgb(236, 78, 32)',
+            pointBackgroundColor: 'rgb(236, 78, 32)',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'red',
+            pointHoverBackgroundColor: 'rgb(236, 78, 32)',
             pointHoverBorderColor: 'darkred',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
@@ -537,17 +470,18 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord3,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'green',
-            borderColor: 'green',
+            borderWidth: 5,
+            backgroundColor: "rgb(67, 170, 139)",
+            borderColor: "rgb(67, 170, 139)",
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'green',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: "rgb(67, 170, 139)",
+            pointBackgroundColor: "rgb(67, 170, 139)",
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'green',
+            pointHoverBackgroundColor: "rgb(67, 170, 139)",
             pointHoverBorderColor: 'darkgreen',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
@@ -555,67 +489,13 @@ const SummaryGraph3Words = ( {firebase, uid, data} ) => {
             data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
-            
-
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -663,11 +543,10 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
+            "Four weeks ago",
+            "Three weeks ago",
             "Two weeks ago",
             "Last week",
             "This week"
@@ -677,84 +556,33 @@ const UserWord1Graph = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord1,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'yellow',
-            borderColor: 'yellow',
+            borderWidth: 5,
+            backgroundColor: "rgb(243, 222, 44)",
+            borderColor: "rgb(243, 222, 44)",
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'yellow',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: "rgb(243, 222, 44)",
+            pointBackgroundColor: "rgb(243, 222, 44)",
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'yellow',
-            pointHoverBorderColor: 'yellow',
+            pointHoverBackgroundColor: "rgb(243, 222, 44)",
+            pointHoverBorderColor: "rgb(243, 222, 44)",
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
+            data: [data.searchWord1Data.fourWeeksAgoData1, data.searchWord1Data.threeWeeksAgoData1, data.searchWord1Data.twoWeeksAgoData1, data.searchWord1Data.oneWeekAgoData1, data.searchWord1Data.currentWeekData1]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
             
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -802,11 +630,10 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
       
     }, []);
 
-
-    // console.log(data.searchWord1Data.currentWeekData1)
     const dataSetsData = {
         labels: [ 
-            // props.dataObj.titles.searchWord1
+            "Four weeks ago",
+            "Three weeks ago",
             "Two weeks ago",
             "Last week",
             "This week"
@@ -816,84 +643,32 @@ const UserWord2Graph = ( {firebase, uid, data} ) => {
             label: data.titles.searchWord2,
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'red',
-            borderColor: 'red',
+            borderWidth: 5,
+            backgroundColor: 'rgb(236, 78, 32)',
+            borderColor: 'rgb(236, 78, 32)',
             borderCapStyle: 'butt',
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: 'miter',
-            pointBorderColor: 'red',
-            pointBackgroundColor: '#fff',
+            pointBorderColor: 'rgb(236, 78, 32)',
+            pointBackgroundColor: 'rgb(236, 78, 32)',
             pointBorderWidth: 1,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'red',
-            pointHoverBorderColor: 'red',
+            pointHoverBackgroundColor: 'rgb(236, 78, 32)',
+            pointHoverBorderColor: 'rgb(236, 78, 32)',
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
+            data: [data.searchWord2Data.fourWeeksAgoData2, data.searchWord2Data.threeWeeksAgoData2, data.searchWord2Data.twoWeeksAgoData2, data.searchWord2Data.oneWeekAgoData2, data.searchWord2Data.currentWeekData2]
         }]
     };
-    const options = {
-        "legend": {
-            "labels": {
-                "fontColor": "white",
-                "fontSize": 15
-            }
-        },
-        "maintainAspectRatio": false,
-        "scales": {
-          "yAxes": [
-            {
-              "gridLines": {
-                "color": "white",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "beginAtZero": true,
-                              "fontColor": 'white'
-              }
-            }
-          ],
-          "xAxes": [
-            {
-              "gridLines": {
-                "color": "#fff",
-                "borderDash": [
-                  0,
-                  0
-                ]
-              },
-              "ticks": {
-                "autoSkip": true,
-                "autoSkipPadding": 40,
-                "maxRotation": 0,
-                "fontColor": 'white'
-              }
-            }
-          ]
-        },
-        "layout": {
-          "padding": 10,
-        },
-        "tooltips": {
-          "enabled": true,
-          "mode": "x",
-          "intersect": true,
-        }
-      };
+
     return (
         <GraphDiv>
-            
-
             {barGraph
-            ? <Bar data={dataSetsData} options={options}/>
-            : <Line data={dataSetsData} options={options}/>
+            ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+            : <Line data={dataSetsData} options={optionsBarCharts}/>
             }
-            
             <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
             <GraphButton value="Line" onClick={onClick}>Line Graph</GraphButton>
         </GraphDiv>
@@ -913,8 +688,7 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           setGraph("Bar")
           
       } else if (evt.target.value == "Line"){
-          setGraph("Line")
-          
+          setGraph("Line")  
       }
   }
 
@@ -941,11 +715,10 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
     
   }, []);
 
-
-  // console.log(data.searchWord1Data.currentWeekData1)
   const dataSetsData = {
       labels: [ 
-          // props.dataObj.titles.searchWord1
+          "Four weeks ago",
+          "Three weeks ago",
           "Two weeks ago",
           "Last week",
           "This week"
@@ -955,82 +728,33 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
           label: data.titles.searchWord3,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: 'green',
-          borderColor: 'green',
+          borderWidth: 5,
+          backgroundColor: "rgb(67, 170, 139)",
+          borderColor: "rgb(67, 170, 139)",
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: 'green',
-          pointBackgroundColor: '#fff',
+          pointBorderColor: "rgb(67, 170, 139)",
+          pointBackgroundColor: "rgb(67, 170, 139)",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'green',
-          pointHoverBorderColor: 'green',
+          pointHoverBackgroundColor: "rgb(67, 170, 139)",
+          pointHoverBorderColor: "rgb(67, 170, 139)",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
           data: [data.searchWord3Data.twoWeeksAgoData3, data.searchWord3Data.oneWeekAgoData3, data.searchWord3Data.currentWeekData3]
       }]
   };
-  const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-      "scales": {
-        "yAxes": [
-          {
-            "gridLines": {
-              "color": "white",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "beginAtZero": true,
-                            "fontColor": 'white'
-            }
-          }
-        ],
-        "xAxes": [
-          {
-            "gridLines": {
-              "color": "#fff",
-              "borderDash": [
-                0,
-                0
-              ]
-            },
-            "ticks": {
-              "autoSkip": true,
-              "autoSkipPadding": 40,
-              "maxRotation": 0,
-              "fontColor": 'white'
-            }
-          }
-        ]
-      },
-      "layout": {
-        "padding": 10,
-      },
-      "tooltips": {
-        "enabled": true,
-        "mode": "x",
-        "intersect": true,
-      }
-    };
+
   return (
       <GraphDiv>
           
 
           {barGraph
-          ? <Bar data={dataSetsData} options={options}/>
-          : <Line data={dataSetsData} options={options}/>
+          ? <Bar data={dataSetsData} options={optionsBarCharts}/>
+          : <Line data={dataSetsData} options={optionsBarCharts}/>
           }
           
           <GraphButton value="Bar" onClick={onClick}>Bar Graph</GraphButton>
@@ -1039,10 +763,21 @@ const UserWord3Graph = ( {firebase, uid, data} ) => {
   )
 };
 
+//Global Pie chart options
+const optionsPieChart = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
+};
+
 
 const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
 
   const TotalProcent = searchWord1 + searchWord2
   
@@ -1060,9 +795,9 @@ const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
     datasets: [
         {
         backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
+          'rgb(243, 222, 44)',
+          'rgb(236, 78, 32)',
+          'rgb(67, 170, 139)'
         ],
         hoverOffset: 4,
         data: [searchWord1Procent, searchWord2Procent]
@@ -1070,23 +805,11 @@ const SummaryGraphPie2Words = ( {firebase, uid, data} ) => {
     ]
     };
     
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-          
-          
-      },
-      "maintainAspectRatio": false,
-      
-      
-    };
+
     return (
       <GraphDiv>
         <h3>Here is the total procentage of your words compared to each other</h3>
-        <Pie data={dataSetsData} options={options}/>
+        <Pie data={dataSetsData} options={optionsPieChart}/>
       </GraphDiv>
   )
 };
@@ -1112,9 +835,9 @@ const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
     datasets: [
         {
         backgroundColor: [
-          'rgb(67, 170, 139)',
+          'rgb(243, 222, 44)',
           'rgb(236, 78, 32)',
-          'rgb(243, 222, 44)'
+          'rgb(67, 170, 139)'
         ],
         hoverOffset: 4,
         data: [searchWord1Procent, searchWord2Procent, searchWord3Procent]
@@ -1122,44 +845,50 @@ const SummaryGraphPie3Words = ( {firebase, uid, data} ) => {
     ]
     };
     
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-          
-          
-      },
-      "maintainAspectRatio": false,
-      
-      
-    };
+
     return (
       <GraphDiv>
         <h3>Here is the total procentage of your words compared to each other</h3>
-        <Pie data={dataSetsData} options={options}/>
+        <Pie data={dataSetsData} options={optionsPieChart}/>
       </GraphDiv>
   )
 };
 
+//Global Polar chart options
+const optionsPolarChart = {
+  "legend": {
+      "labels": {
+          "fontColor": "white",
+          "fontSize": 15
+      }
+  },
+  "maintainAspectRatio": false,
+//"scale" instead of "scales" when changing the options of the gridlines of radial charts 
+  "scale": {
+    "gridLines": {
+      "color": "white",
+      "borderDash": [
+        0,
+        0
+      ] 
+    }
+  } 
+};
+
 const SummaryGraphPolar1Words = ( {data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
 
   const dataSetsData = {
     labels: [ 
-     
         data.titles.searchWord1,
-
-
     ],
     datasets: [
         {
         borderWidth: 0,
         backgroundColor: [
-          'rgb(255, 99, 132, 0.6)',
-          'rgb(54, 162, 235, 0.6)',
-          'rgb(255, 205, 86, 0.6)'
+          'rgb(243, 222, 44, 0.7)',
+          'rgb(236, 78, 32, 0.7)',
+          'rgb(67, 170, 139, 0.7)'
         ],
         
         hoverOffset: 4,
@@ -1167,52 +896,32 @@ const SummaryGraphPolar1Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
-              
-      
-    };
+
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
 
+
 const SummaryGraphPolar2Words = ( {data} ) => {
-  const searchWord1 = data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
-  const searchWord2 = data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
+  const searchWord1 = data.searchWord1Data.fourWeeksAgoData1 + data.searchWord1Data.threeWeeksAgoData1 + data.searchWord1Data.twoWeeksAgoData1 + data.searchWord1Data.oneWeekAgoData1 + data.searchWord1Data.currentWeekData1;
+  const searchWord2 = data.searchWord2Data.fourWeeksAgoData2 + data.searchWord2Data.threeWeeksAgoData2 + data.searchWord2Data.twoWeeksAgoData2 + data.searchWord2Data.oneWeekAgoData2 + data.searchWord2Data.currentWeekData2;
 
   const dataSetsData = {
     labels: [ 
-        // props.dataObj.titles.searchWord1
+  
         data.titles.searchWord1,
         data.titles.searchWord2,
-
     ],
     datasets: [
         {
         borderWidth: 0,
         backgroundColor: [
-          'rgb(67, 170, 139)',
-          'rgb(236, 78, 32)',
-          'rgb(255, 149, 5)'
+          'rgb(243, 222, 44, 0.7)',
+          'rgb(236, 78, 32, 0.7)',
+          'rgb(67, 170, 139, 0.7)'
         ],
         
         hoverOffset: 4,
@@ -1220,30 +929,10 @@ const SummaryGraphPolar2Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
-              
-      
-    };
+
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
@@ -1259,15 +948,14 @@ const SummaryGraphPolar3Words = ( {data} ) => {
         data.titles.searchWord1,
         data.titles.searchWord2,
         data.titles.searchWord3,
-        
     ],
     datasets: [
         {
         borderWidth: 0,
         backgroundColor: [
-          'rgb(67, 170, 139, 0.6)',
-          'rgb(236, 78, 32, 0.6)',
-          'rgb(255, 149, 5, 0.6)'
+          'rgb(243, 222, 44, 0.7)',
+          'rgb(236, 78, 32, 0.7)',
+          'rgb(67, 170, 139, 0.7)'
         ],
         
         hoverOffset: 4,
@@ -1275,33 +963,13 @@ const SummaryGraphPolar3Words = ( {data} ) => {
         }
     ]
     };
-    const options = {
-      "legend": {
-          "labels": {
-              "fontColor": "white",
-              "fontSize": 15
-          }
-      },
-      "maintainAspectRatio": false,
-    //"scale" instead of "scales" when changing the options of the gridlines of radial charts 
-      "scale": {
-        "gridLines": {
-          "color": "white",
-          "borderDash": [
-            0,
-            0
-          ] 
-        }
-      } 
 
-    };
     return (
       <GraphDiv>
-        <Polar data={dataSetsData} options={options}/>
+        <Polar data={dataSetsData} options={optionsPolarChart}/>
       </GraphDiv>
   )
 };
-
 
 
 const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
@@ -1318,7 +986,6 @@ const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
         }
     }
     
-  
     return (
 
             <HeadlineListCard>
@@ -1334,10 +1001,5 @@ const HeadLineList = ( {firebase, uid, data, dataObjsArr} ) => {
     
     )
 };
-
-
-
-
-  
 
 export default (withFirebase(DashboardGraphs));

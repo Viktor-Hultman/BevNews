@@ -20,11 +20,9 @@ const AccountPage = () => {
 
     return (
         <WebsiteBackground>
-
             <PageTitle>Account</PageTitle>
             <AccountContainer>
                 <h2>{email}</h2>
-                <PasswordForgetForm />
                 <PasswordChangeForm />
             </AccountContainer>
 

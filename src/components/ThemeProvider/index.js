@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 
 import { withAuthentication } from '../Session';
 import { withFirebase} from '../Firebase';
-import { AuthUserContext } from '../Session';
+
 import * as ROUTES from '../../constants/routes';
 
 import HomePage from '../Home';
@@ -14,25 +14,6 @@ import Footer from '../Footer';
 import SettingsPage from '../Settings';
 import { NavigationAuth } from "../Navigation"
 
-// Color themes for the website
-// All themes need to have the same keys to change how the entire site looks
-/*const colorsObj = {
-    Standard: {
-        fg:"green",
-        bg:"pink",
-        btnbg:"gray",
-        btndis: "red"
-    },
-    Amazon: {
-        fg: "palevioletred",
-        bg: "purple",
-        btnbg: "orange",
-        btndis: "yellow"
-     }
-};*/
-// Object.keys(colorsObj) -> ['Standard', 'Amazon']
-// let selected = 'Amazon'
-// console.log(colorsObj[selected]) -> {fg: ..., bg: ...}
 
 export const Standard = {
     bg:"#263238",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 import { withFirebase } from '../Firebase';
 
 import { Bar } from 'react-chartjs-2';
@@ -14,9 +15,9 @@ const LandingGraph= ({ firebase }) => {
     const [W7Apple, setW7Apple] = useState(null)
     const [W7Tesla, setW7Tesla] = useState(null)
 
+
     useEffect(() => {
-        
-        // console.log(user)
+
         fetch("appleData/03-01To03-08.json")
             .then(response => {
                 return response.json();

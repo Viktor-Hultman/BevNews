@@ -190,7 +190,7 @@ class UserItemBase extends Component {
         this.props.firebase.doPasswordReset(this.state.user.email);
     };
 
-    //This function creates the selected user admin
+    //This function gives the selected user admin privilages
     handleClick() {
         this.props.firebase.user(this.props.match.params.id)
             .child('roles')
