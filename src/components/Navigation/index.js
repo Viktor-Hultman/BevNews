@@ -161,7 +161,7 @@ export const NavigationAuth = ({ firebase, authUser }) => {
   let uid = authUser.uid;
 
 
-
+//This useEffect runs a function which automatically sets the logo of the user to our "Bev" logo if they do not allready have a logo (for ex. when a user create a account)
   useEffect(() => {
     const unsubscribe = firebase.user(uid).child('settings').child('logoPreset')
         .on('value', snapshot => {
