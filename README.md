@@ -1,5 +1,5 @@
 # BevNews - News hits website
-(Add surge link here)
+Here you can find the [BevNews Website](http://bevnews.surge.sh/landing)
 
 ## Created by: 
 - [Albin Ryberg](https://github.com/AlbinR)
