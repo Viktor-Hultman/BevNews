@@ -6,8 +6,6 @@ import { AuthUserContext } from '../Session';
 
 import styled from 'styled-components';
 
-import { StyledButton } from '../SearchWordForm'
-
 
 
 
@@ -40,7 +38,7 @@ const ColorPresets = ({ firebase }) => {
         "https://i.imgur.com/3orcm3Z.png",
         "https://s3.amazonaws.com/cdn.designcrowd.com/blog/100-Famous-Brand%20Logos-From-The-Most-Valuable-Companies-of-2020/amazon-logo.png",
         "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png"
-      ];
+    ];
 
     let { uid } = useContext(AuthUserContext);
 
