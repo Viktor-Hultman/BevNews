@@ -68,13 +68,13 @@ const Landing = (props) => {
         <LandingDiv>
             <h1>BEV</h1>
             <InfoBox>
-                <p>This is a app where you as a user can choose up to 3 words to "Follow" and compare the number of times those words are mentioned in "The Guardian" Newspaper!</p>
+                <p>This is an app where you as a user can choose up to 3 words to "Follow" and compare the number of times those words are mentioned in "The Guardian" Newspaper!</p>
             </InfoBox>
             <SignInButton onClick={SignInFunc}>
                 SIGN IN
             </SignInButton>
             <ExampleGraphDiv>
-                <h2>Example of how our graphs are struckured</h2>
+                <h2>Example of how our graphs are structured</h2>
                 <LandingGraph />
             </ExampleGraphDiv>
         </LandingDiv>
