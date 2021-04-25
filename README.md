@@ -11,6 +11,8 @@ Here you can find the [BevNews Website](http://bevnews.surge.sh/landing)
 ## What is the project?
 With Bev you as a user can follow up to three keywords that are compared in your dashboard by how many times they have been mentioned in ["The Guardian"](https://www.theguardian.com/international)
 
+This is a project that was made using React.js
+
 If you want to know more about how this project was made, check out our [Trello document](https://trello.com/b/4f9jQr7A/fe20tp2bev9)
 
 ## Features
