@@ -14,7 +14,7 @@ With Bev you as a user can follow up to three keywords that are compared in your
 If you want to know more about how this project was made, check out our [Trello document](https://trello.com/b/4f9jQr7A/fe20tp2bev9)
 
 ## Features
-- Compare your keywords in your dashboard
+- Compare your keywords in your dashboard 
 <img src="https://github.com/Viktor-Hultman/BevNews/blob/master/public/readmegifs/graph%20showcase%20gif.gif" width="400" height="360" />
 - Go to the most relevant news links for your keywords
 <img src="https://github.com/Viktor-Hultman/fe20tp2_bev_9/blob/master/public/readmegifs/clickable%20top%20headlines%20gif.gif" width="400" height="380" /> 
@@ -22,3 +22,5 @@ If you want to know more about how this project was made, check out our [Trello 
 <img src="https://github.com/Viktor-Hultman/BevNews/blob/master/public/readmegifs/theme%20and%20search%20change.gif" width="300" height="440" />
 - A hamburger menu for smaller/ mobile screens
 <img src="https://github.com/Viktor-Hultman/fe20tp2_bev_9/blob/master/public/readmegifs/mobile%20hamburger%20gif.gif" width="300" height="400" />  
+
+- Sign-up, sign-in and sign-out functionality via ["Firebase"](https://firebase.google.com/)
